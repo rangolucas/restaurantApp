@@ -20,7 +20,7 @@
     },
     "forwardPorts": ["3000:3000"],
     "runArgs": ["--name", "ver-la-carta-devcontainer"],
-    // "postCreateCommand": "npm install",
+    "postCreateCommand": "bundle install",
     "mounts": [
         // Re-use local ssh configuration
         "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
