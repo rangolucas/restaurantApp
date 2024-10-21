@@ -14,13 +14,18 @@
         },
         "extensions": [
           "esbenp.prettier-vscode",
-          "eamodio.gitlens"
+          "eamodio.gitlens",
+          "shopify.ruby-lsp",
+          "vue.volar"
         ]
       }
     },
-    "forwardPorts": [],
+    "appPort": [
+      "3000:3000",
+      "3036:3036"
+    ],
     "runArgs": ["--name", "ver-la-carta-devcontainer"],
-    // "postCreateCommand": "npm install",
+    "postCreateCommand": "bundle install",
     "mounts": [
         // Re-use local ssh configuration
         "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
