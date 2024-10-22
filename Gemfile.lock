@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     base64 (0.2.0)
+    geokit (1.14.0)
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.7.3)
@@ -31,6 +32,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  geokit (~> 1.14)
   puma (~> 6.4, >= 6.4.3)
   rackup (~> 2.1)
   sinatra (~> 4.0)

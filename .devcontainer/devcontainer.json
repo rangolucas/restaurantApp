@@ -23,7 +23,7 @@
       "4567:4567"
     ],
     "runArgs": ["--name", "ver-la-carta-devcontainer"],
-    "postCreateCommand": "bundle install",
+    "postStartCommand": "bundle install",
     "mounts": [
         // Re-use local ssh configuration
         "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
