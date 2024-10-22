@@ -1,14 +1,14 @@
 class Order
-  attr_accessor :toTakeAway
+  attr_accessor :to_take_away
 
-  def initialize(userId, amountByItem, toTakeAway)
+  def initialize(user_id, amount_by_item, to_take_away)
     @state = :Pending
-    @userId = userId
-    @amountByItem = amountByItem
-    @toTakeAway = toTakeAway
+    @user_id = user_id
+    @amount_by_item = amount_by_item
+    @to_take_away = to_take_away
   end
 
-  def markAsAccepted
+  def mark_as_accepted
     if @state == :Pending
       @state = :Accepted
       true
@@ -16,7 +16,7 @@ class Order
     end
   end
 
-  def markAsRejected
+  def mark_as_rejected
     if @state == :Pending
       @state = :Rejected
       true
@@ -24,25 +24,25 @@ class Order
     end
   end
 
-  def markAsReady
+  def mark_as_ready
     if @state.is_a?(AcceptedState)
-      @state.markAsReady
+      @state.mark_as_ready
     else false
     end
   end
 end
 
 class AcceptedState
-  attr_accessor :readyToServe
+  attr_accessor :ready_to_serve
   def initialize()
-    @readyToServe = false
+    @ready_to_serve = false
   end
 
-  def markAsReady()
-    if @readyToServe
+  def mark_as_ready()
+    if @ready_to_serve
       false
     else 
-      @readyToServe = true
+      @ready_to_serve = true
       true
     end
   end

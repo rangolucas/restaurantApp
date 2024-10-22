@@ -1,38 +1,38 @@
 require './domain/restaurant/Menu'
 
 class Store
-  attr_accessor :id, :coordinates, :timeTable, :contactInfo, :menu
+  attr_accessor :id, :coordinates, :time_table, :contact_info, :menu
 
-  def initialize(id, coordinates, timeTable, contactInfo)
+  def initialize(id, coordinates, time_table, contact_info)
     @id = id
     @coordinates = coordinates
-    @timeTable = timeTable
-    @contactInfo = contactInfo
+    @time_table = time_table
+    @contact_info = contact_info
     @menu = Menu.new
     @orders = []
   end
 
-  def addItem(itemName, itemPrice)
-    return @menu.addItem(itemName, itemPrice)
+  def add_item(item_name, itemPrice)
+    return @menu.add_item(item_name, itemPrice)
   end
 
-  def removeItem(itemName)
-    @menu.removeItem(itemName)
+  def remove_item(item_name)
+    @menu.removeItem(item_name)
   end
 
-  def registerOrder(userId, amountByItem)
-    @orders.push(Order.new(userId, amountByItem))
+  def register_order(user_id, amount_by_item)
+    @orders.push(Order.new(user_id, amount_by_item))
   end
 
-  def acceptOrder(orderId)
-    @orders[orderId].markAsAccepted
+  def accept_order(order_id)
+    @orders[order_id].mark_as_accepted
   end
 
-  def rejectOrder(orderId)
-    @orders[orderId].markAsRejected
+  def reject_order(order_id)
+    @orders[order_id].mark_as_rejected
   end
 
-  def markAsReady(orderId)
-    @orders[orderId].markAsReady
+  def mark_as_ready(order_id)
+    @orders[order_id].mark_as_ready
   end
 end

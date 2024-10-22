@@ -3,8 +3,8 @@ class AddItemToMenu
     @stores = stores
   end
 
-  def invoke(storeId, itemName, itemPrice)
-    store = stores[storeId]
-    return store.addItem(itemName, itemPrice)
+  def invoke(store_id, item_name, item_price)
+    store = stores[store_id]
+    return store.add_item(item_name, item_price)
   end
 end

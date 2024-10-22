@@ -5,11 +5,11 @@ class Menu
     @items = {}
   end
 
-  def addItem(itemName, itemPrice)
-    @items[itemName] = itemPrice
+  def add_item(item_name, item_price)
+    @items[item_name] = item_price
   end
 
-  def removeItem(itemName)
-    @items.delete(itemName)
+  def remove_item(item_name)
+    @items.delete(item_name)
   end
 end

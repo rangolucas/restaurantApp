@@ -22,7 +22,7 @@ class StoreController
   def encode_to_json(store)
     {
       "id": store.id,
-      "contact": store.contactInfo
+      "contact": store.contact_info
     }.to_json
   end
 end

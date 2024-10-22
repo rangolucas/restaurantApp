@@ -18,14 +18,14 @@ store_controller = StoreController.new(create_store, get_stores)
 
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
-  jsonPayload = JSON.parse(request.body.read)
+  json_payload = JSON.parse(request.body.read)
   status :created
-  order_controller.createOrder(store_id, jsonPayload)
+  order_controller.createOrder(store_id, json_payload)
 end
 
 post '/stores' do
-  jsonPayload = JSON.parse(request.body.read)
-  store_controller.create_store(jsonPayload)
+  json_payload = JSON.parse(request.body.read)
+  store_controller.create_store(json_payload)
   halt :created
 end
 

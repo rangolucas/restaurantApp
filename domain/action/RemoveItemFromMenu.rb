@@ -3,8 +3,8 @@ class RemoveItemFromMenu
     @stores = stores
   end
 
-  def invoke(storeId, itemName)
-    store = stores[storeId]
-    return store.removeItem(itemName)
+  def invoke(store_id, item_name)
+    store = stores[store_id]
+    return store.remove_item(item_name)
   end
 end
