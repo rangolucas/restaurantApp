@@ -1,7 +1,7 @@
-require './Store'
+require './domain/restaurant/Store'
 
 class CreateStore
-  def initialize(store)
+  def initialize(stores)
     @stores = stores
     @nextId = 0
   end

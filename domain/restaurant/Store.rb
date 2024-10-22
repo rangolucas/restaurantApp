@@ -1,4 +1,4 @@
-require './Menu'
+require './domain/restaurant/Menu'
 
 class Store
   attr_accessor :id, :coordinates, :timeTable, :contactInfo, :menu
