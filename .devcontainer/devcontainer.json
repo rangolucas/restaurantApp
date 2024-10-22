@@ -20,8 +20,7 @@
       }
     },
     "appPort": [
-      "3000:3000",
-      "3036:3036"
+      "4567:4567"
     ],
     "runArgs": ["--name", "ver-la-carta-devcontainer"],
     "postCreateCommand": "bundle install",
