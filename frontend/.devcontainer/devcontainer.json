@@ -1,31 +1,21 @@
 {
-    "name": "VerLaCarta",
-    "build": {
-      "dockerfile": "Dockerfile"
-    },
-    "customizations": {
-      "vscode": {
-        "settings": {
-          "terminal.integrated.defaultProfile.linux": "zsh",
-          "terminal.integrated.defaultProfile.osx": "zsh",
-          // This allows viewing the website from local network devices
-          // See https://stackoverflow.com/questions/67983378/specify-listening-address-0-0-0-0-for-forwarded-port-in-vscode-remote-containers
-          "remote.localPortHost": "allInterfaces"
-        },
-        "extensions": [
-          "esbenp.prettier-vscode",
-          "eamodio.gitlens",
-          "vue.volar"
-        ]
-      }
-    },
-    "appPort": [
-      "8080:8080"
-    ],
-    "runArgs": ["--name", "ver-la-carta-frontend-devcontainer"],
-    "postCreateCommand": "npm install",
-    "mounts": [
-        // Re-use local ssh configuration
-        "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
-    ]
+  "name": "VerLaCarta",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.defaultProfile.osx": "zsh",
+        // This allows viewing the website from local network devices
+        // See https://stackoverflow.com/questions/67983378/specify-listening-address-0-0-0-0-for-forwarded-port-in-vscode-remote-containers
+        "remote.localPortHost": "allInterfaces"
+      },
+      "extensions": ["esbenp.prettier-vscode", "eamodio.gitlens", "vue.volar"]
+    }
+  },
+  "appPort": ["5173:5173"],
+  "runArgs": ["--name", "ver-la-carta-frontend-devcontainer"],
+  "postCreateCommand": "npm install"
 }
