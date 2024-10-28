@@ -22,7 +22,7 @@
     "appPort": [
       "4567:4567"
     ],
-    "runArgs": ["--name", "ver-la-carta-devcontainer"],
+    "runArgs": ["--name", "ver-la-carta-devcontainer-backend"],
     "postStartCommand": "bundle install",
     "mounts": [
         // Re-use local ssh configuration
