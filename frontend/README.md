@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
-## Compile and Hot-Reload for Development from a Dev Container
+### Compile and Hot-Reload for Development from a Dev Container
 
 ```sh
 npx vite --host 0.0.0.0
