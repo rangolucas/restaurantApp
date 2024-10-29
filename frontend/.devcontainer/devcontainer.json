@@ -1,5 +1,5 @@
 {
-  "name": "VerLaCarta",
+  "name": "VerLaCarta Frontend",
   "build": {
     "dockerfile": "Dockerfile"
   },

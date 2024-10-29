@@ -1,5 +1,5 @@
 {
-    "name": "VerLaCarta",
+    "name": "VerLaCarta Backend",
     "build": {
       "dockerfile": "Dockerfile"
     },
@@ -22,7 +22,7 @@
     "appPort": [
       "4567:4567"
     ],
-    "runArgs": ["--name", "ver-la-carta-devcontainer-backend"],
+    "runArgs": ["--name", "ver-la-carta-backend-devcontainer"],
     "postStartCommand": "bundle install",
     "mounts": [
         // Re-use local ssh configuration
