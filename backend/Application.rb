@@ -6,6 +6,10 @@ require './domain/action/MakeAnOrder'
 
 require 'json'
 require 'sinatra'
+require 'sinatra/cors'
+
+set :allow_origin, '*'
+set :bind, '0.0.0.0'
 
 stores = []
 
