@@ -14,7 +14,7 @@ class StoreController
   end
 
   def get_stores
-    @get_stores_action.invoke().map { |s| encode_to_json(s) }
+    @get_stores_action.invoke().map { |s| encode_to_json(s) }.to_json
   end
 
   private
@@ -23,6 +23,6 @@ class StoreController
     {
       "id": store.id,
       "contact": store.contact_info
-    }.to_json
+    }
   end
 end
