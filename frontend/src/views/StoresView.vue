@@ -25,14 +25,14 @@ onMounted(() => {
 
 <template>
   <div class="store-list">
-    <h1>All Stores</h1>
+    <h1>Seleccionar local</h1>
     <ul v-if="!loading">
       <li v-for="store in stores" :key="store.id">
         <span class="store-id">{{ store.id }}</span> -
         <span class="store-contact">{{ store.contact }}</span>
       </li>
     </ul>
-    <p v-else>Loading stores...</p>
+    <p v-else>Cargando locales</p>
   </div>
 </template>
 
