@@ -24,19 +24,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="store-list">
-    <h1>Seleccionar local</h1>
-    <ul v-if="!loading">
-      <li v-for="store in stores" :key="store.id">
-        <span class="store-id">{{ store.id }}</span> -
-        <span class="store-contact">{{ store.contact }}</span>
-      </li>
-    </ul>
-    <p v-else>Cargando locales</p>
+  <div class="stores">
+    <div class="store-list">
+      <h1>Seleccionar local</h1>
+      <ul v-if="!loading">
+        <li v-for="store in stores" :key="store.id">
+          <span class="store-id">{{ store.id }}</span> -
+          <span class="store-contact">{{ store.contact }}</span>
+        </li>
+      </ul>
+      <p v-else>Cargando locales</p>
+    </div>
+    <button>Agregar local</button>
   </div>
 </template>
 
 <style scoped>
+.stores {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .store-list {
   max-width: 600px;
   margin: 20px auto;
