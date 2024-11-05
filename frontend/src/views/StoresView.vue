@@ -29,8 +29,10 @@ onMounted(() => {
       <h1>Seleccionar local</h1>
       <ul v-if="!loading">
         <li v-for="store in stores" :key="store.id">
-          <span class="store-id">{{ store.id }}</span> -
-          <span class="store-contact">{{ store.contact }}</span>
+          <router-link :to="`/stores/${store.id}`">
+            <span class="store-id">{{ store.id }}</span> -
+            <span class="store-contact">{{ store.contact }}</span>
+          </router-link>
         </li>
       </ul>
       <p v-else>Cargando locales</p>

@@ -1,5 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const storeId = ref(route.params.id);
+
+onMounted(() => {
+  console.log(`Store ID: ${storeId.value}`);
+});
 </script>
 
 <template>

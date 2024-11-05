@@ -17,7 +17,12 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/StoresView.vue'),
     },
+    {
+      path: '/stores/:id',
+      name: 'store-details',
+      component: () => import('../views/StoreView.vue'),
+    },
   ],
-})
+});
 
 export default router
