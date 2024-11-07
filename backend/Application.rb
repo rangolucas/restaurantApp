@@ -2,6 +2,7 @@ require './controller/StoreController'
 require './controller/OrderController'
 require './domain/action/CreateStore'
 require './domain/action/GetStores'
+require './domain/action/GetMenu'
 require './domain/action/MakeAnOrder'
 
 require 'json'
@@ -16,9 +17,10 @@ stores = []
 create_store = CreateStore.new(stores)
 get_stores = GetStores.new(stores)
 make_an_order = MakeAnOrder.new(stores)
+get_menu = GetMenu.new(stores)
 
 order_controller = OrderController.new(make_an_order)
-store_controller = StoreController.new(create_store, get_stores)
+store_controller = StoreController.new(create_store, get_stores, get_menu)
 
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
@@ -37,4 +39,11 @@ get '/stores' do
   content_type :json
   status :ok
   store_controller.get_stores
+end
+
+get '/stores/:store_id/menu' do
+  store_id = params['store_id']
+  content_type :json
+  status :ok
+  store_controller.get_menu(store_id)
 end

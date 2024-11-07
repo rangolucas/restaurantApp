@@ -20,6 +20,10 @@ class Store
     @menu.removeItem(item_name)
   end
 
+  def get_menu_items
+    @menu.items
+  end
+
   def register_order(user_id, amount_by_item)
     @orders.push(Order.new(user_id, amount_by_item))
   end
