@@ -9,41 +9,17 @@ class Order
   end
 
   def mark_as_accepted
-    if @state == :Pending
+    if @state != :Ready
       @state = :Accepted
-      true
-    else false
-    end
-  end
-
-  def mark_as_rejected
-    if @state == :Pending
-      @state = :Rejected
-      true
-    else false
     end
   end
 
   def mark_as_ready
-    if @state.is_a?(AcceptedState)
-      @state.mark_as_ready
-    else false
-    end
-  end
-end
-
-class AcceptedState
-  attr_accessor :ready_to_serve
-  def initialize()
-    @ready_to_serve = false
-  end
-
-  def mark_as_ready()
-    if @ready_to_serve
-      false
+    if @state != :Accepted
+      raise "Order must be accepted before it can be marked as ready"
     else 
-      @ready_to_serve = true
-      true
+      @state = :Ready
     end
   end
+
 end
