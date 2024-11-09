@@ -1,41 +1,29 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { getApiService } from '../services/apiService'
+import { STATES } from '../constants'
 
 const TABS = {
   ORDERS: 'Orders',
   MENU: 'Menu',
 }
 
-const STATES = {
-  PENDING: 'Pendiente',
-  ACCEPTED: 'En preparación',
-  READY: 'Listo',
-}
-
 const route = useRoute()
 const storeId = ref(route.params.id)
 const activeTab = ref(TABS.ORDERS)
 const orders = ref([])
-
-function loadOrders(storeId) {
-  return [
-    { state: STATES.READY, user_id: 'user1' },
-    { state: STATES.ACCEPTED, user_id: 'user2' },
-    { state: STATES.READY, user_id: 'user3' },
-    { state: STATES.PENDING, user_id: 'user4' },
-  ]
-}
+const apiService = getApiService()
 
 function setActiveTab(tab) {
   activeTab.value = tab
 }
 
-onMounted(() => {
+onMounted(async () => {
   console.log(`Store ID: ${storeId.value}`)
 
   try {
-    orders.value = loadOrders()
+    orders.value = await apiService.getOrders()
   } catch (error) {
     console.error('Error fetching stores: ', error)
   }
@@ -181,7 +169,6 @@ body {
   margin: 20px 0;
 }
 
-/* Orders Table */
 .order-buttons {
   display: flex;
   flex-direction: row;
