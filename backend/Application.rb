@@ -17,9 +17,12 @@ stores = []
 create_store = CreateStore.new(stores)
 get_stores = GetStores.new(stores)
 make_an_order = MakeAnOrder.new(stores)
+accept_order = AcceptOrder.new(stores)
+mark_order_as_ready = MarkOrderAsReady.new(stores)
+delete_order = DeleteOrder.new(stores)
 get_menu = GetMenu.new(stores)
 
-order_controller = OrderController.new(make_an_order)
+order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order)
 store_controller = StoreController.new(create_store, get_stores, get_menu)
 
 post '/stores/:store_id/orders' do
