@@ -17,7 +17,7 @@
   },
   "appPort": ["5173:5173"],
   "runArgs": ["--name", "ver-la-carta-frontend-devcontainer"],
-  "postCreateCommand": "npm install",
+  "postStartCommand": "npm install",
   "mounts": [
     // Re-use local ssh configuration
     "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
