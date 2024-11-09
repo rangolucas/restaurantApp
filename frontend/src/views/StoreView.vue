@@ -7,6 +7,12 @@ const TABS = {
   MENU: 'Menu',
 }
 
+const STATES = {
+  PENDING: 'Pendiente',
+  ACCEPTED: 'En preparación',
+  READY: 'Listo',
+}
+
 const route = useRoute()
 const storeId = ref(route.params.id)
 const activeTab = ref(TABS.ORDERS)
@@ -14,10 +20,10 @@ const orders = ref([])
 
 function loadOrders(storeId) {
   return [
-    { state: 'ready', user_id: 'user1' },
-    { state: 'rejected', user_id: 'user2' },
-    { state: 'ready', user_id: 'user3' },
-    { state: 'accepted', user_id: 'user4' },
+    { state: STATES.READY, user_id: 'user1' },
+    { state: STATES.ACCEPTED, user_id: 'user2' },
+    { state: STATES.READY, user_id: 'user3' },
+    { state: STATES.PENDING, user_id: 'user4' },
   ]
 }
 
@@ -63,12 +69,59 @@ onMounted(() => {
           <tr>
             <th>Mesa</th>
             <th>Estado del pedido</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="order in orders" :key="order.user_id">
             <td>{{ order.user_id }}</td>
             <td>{{ order.state }}</td>
+            <td class="order-buttons">
+              <button
+                v-if="order.state === STATES.PENDING"
+                @click="changeOrderState(order)"
+                class="btn btn-primary"
+              >
+                <img
+                  src="@/assets/thumbs-up.svg"
+                  alt="icon"
+                  style="width: 24px; height: auto"
+                />
+              </button>
+              <button
+                v-if="order.state === STATES.PENDING"
+                @click="changeOrderState(order)"
+                class="btn btn-primary"
+              >
+                <img
+                  src="@/assets/trash.svg"
+                  alt="icon"
+                  style="width: 24px; height: auto"
+                />
+              </button>
+              <button
+                v-if="order.state === STATES.ACCEPTED"
+                @click="changeOrderState(order)"
+                class="btn btn-primary"
+              >
+                <img
+                  src="@/assets/delivered.svg"
+                  alt="icon"
+                  style="width: 24px; height: auto"
+                />
+              </button>
+              <button
+                v-if="order.state === STATES.READY"
+                @click="changeOrderState(order)"
+                class="btn btn-primary"
+              >
+                <img
+                  src="@/assets/trash.svg"
+                  alt="icon"
+                  style="width: 24px; height: auto"
+                />
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -129,8 +182,14 @@ body {
 }
 
 /* Orders Table */
+.order-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
 .orders-table {
-  width: 80%;
   max-width: 1200px;
   border-collapse: collapse;
   background-color: #fff;
