@@ -8,6 +8,13 @@ const ordersDB = [
   { orderId: '4', state: STATES.PENDING, userId: 'user4' },
 ]
 
+const menuDB = [
+  { itemId: '1', itemName: 'name1', itemPrice: 'price1' },
+  { itemId: '2', itemName: 'name2', itemPrice: 'price2' },
+  { itemId: '3', itemName: 'name3', itemPrice: 'price3' },
+  { itemId: '4', itemName: 'name4', itemPrice: 'price4' },
+]
+
 export const apiServiceDev = {
   async getOrders() {
     setTimeout(function () {}, 2000)
@@ -43,6 +50,19 @@ export const apiServiceDev = {
       console.log("Order not found")
     }
   },
+
+  async getMenu() {
+    setTimeout(function () {}, 2000)
+    return menuDB
+  },
+
+  async addItemToMenu(storeId) {
+    // do nothing
+  },
+
+  async removeItemFromMenu(storeId) {
+    // do nothing
+  },
 }
 
 const PROD_URL = 'http://localhost:4567'
@@ -51,6 +71,16 @@ export const apiServiceProd = {
   async getOrders(storeId) {
     try {
       const response = await axios.get(`${PROD_URL}/${storeId}/orders`)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching items:', error)
+      throw error
+    }
+  },
+  
+  async getMenu(storeId) {
+    try {
+      const response = await axios.get(`${PROD_URL}/${storeId}/menu`)
       return response.data
     } catch (error) {
       console.error('Error fetching items:', error)
