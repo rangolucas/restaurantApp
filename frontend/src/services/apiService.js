@@ -1,27 +1,47 @@
 import axios from 'axios'
 import { STATES } from '../constants'
 
+const ordersDB = [
+  { orderId: '1', state: STATES.READY, userId: 'user1' },
+  { orderId: '2', state: STATES.ACCEPTED, userId: 'user2' },
+  { orderId: '3', state: STATES.READY, userId: 'user3' },
+  { orderId: '4', state: STATES.PENDING, userId: 'user4' },
+]
+
 export const apiServiceDev = {
   async getOrders() {
     setTimeout(function () {}, 2000)
-    return [
-      { orderId: '1', state: STATES.READY, userId: 'user1' },
-      { orderId: '2', state: STATES.ACCEPTED, userId: 'user2' },
-      { orderId: '3', state: STATES.READY, userId: 'user3' },
-      { orderId: '4', state: STATES.PENDING, userId: 'user4' },
-    ]
+    return ordersDB
   },
 
   async markOrderAsReady(storeId, orderId) {
-    // do nothing
+    const order = ordersDB.find(order => order.orderId === orderId)
+    
+    if (order) {
+      order.state = STATES.READY
+    } else {
+      console.log("Order not found")
+    }
   },
 
   async acceptOrder(storeId, orderId) {
-    // do nothing
+    const order = ordersDB.find(order => order.orderId === orderId)
+    
+    if (order) {
+      order.state = STATES.ACCEPTED
+    } else {
+      console.log("Order not found")
+    }
   },
 
   async deleteOrder(storeId, orderId) {
-    // do nothing
+    const order = ordersDB.find(order => order.orderId === orderId)
+    
+    if (order) {
+      ordersDB.splice(ordersDB.indexOf(order), 1)
+    } else {
+      console.log("Order not found")
+    }
   },
 }
 

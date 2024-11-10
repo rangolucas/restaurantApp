@@ -22,19 +22,19 @@ function setActiveTab(tab) {
 
 function acceptOrder(order) {
   loading.value = true
-  apiService.acceptOrder(storeId, order.id)
+  apiService.acceptOrder(storeId, order.orderId)
   updateOrders()
 }
 
 function markOrderAsReady(order) {
   loading.value = true
-  apiService.markOrderAsReady(storeId, order.id)
+  apiService.markOrderAsReady(storeId, order.orderId)
   updateOrders()
 }
 
 function deleteOrder(order) {
   loading.value = true
-  apiService.deleteOrder(storeId, order.id)
+  apiService.deleteOrder(storeId, order.orderId)
   updateOrders()
 }
 
