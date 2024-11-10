@@ -3,12 +3,25 @@ import { STATES } from '../constants'
 
 export const apiServiceDev = {
   async getOrders() {
+    setTimeout(function () {}, 2000)
     return [
-      { state: STATES.READY, user_id: 'user1' },
-      { state: STATES.ACCEPTED, user_id: 'user2' },
-      { state: STATES.READY, user_id: 'user3' },
-      { state: STATES.PENDING, user_id: 'user4' },
+      { orderId: '1', state: STATES.READY, userId: 'user1' },
+      { orderId: '2', state: STATES.ACCEPTED, userId: 'user2' },
+      { orderId: '3', state: STATES.READY, userId: 'user3' },
+      { orderId: '4', state: STATES.PENDING, userId: 'user4' },
     ]
+  },
+
+  async markOrderAsReady(storeId, orderId) {
+    // do nothing
+  },
+
+  async acceptOrder(storeId, orderId) {
+    // do nothing
+  },
+
+  async deleteOrder(storeId, orderId) {
+    // do nothing
   },
 }
 

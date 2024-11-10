@@ -10,6 +10,7 @@ const TABS = {
 }
 
 const route = useRoute()
+const loading = ref(true)
 const storeId = ref(route.params.id)
 const activeTab = ref(TABS.ORDERS)
 const orders = ref([])
@@ -19,15 +20,34 @@ function setActiveTab(tab) {
   activeTab.value = tab
 }
 
-onMounted(async () => {
-  console.log(`Store ID: ${storeId.value}`)
+function acceptOrder(order) {
+  loading.value = true
+  apiService.acceptOrder(storeId, order.id)
+  updateOrders()
+}
 
+function markOrderAsReady(order) {
+  loading.value = true
+  apiService.markOrderAsReady(storeId, order.id)
+  updateOrders()
+}
+
+function deleteOrder(order) {
+  loading.value = true
+  apiService.deleteOrder(storeId, order.id)
+  updateOrders()
+}
+
+async function updateOrders() {
   try {
     orders.value = await apiService.getOrders()
+    loading.value = false
   } catch (error) {
     console.error('Error fetching stores: ', error)
   }
-})
+}
+
+onMounted(updateOrders)
 </script>
 
 <template>
@@ -52,7 +72,10 @@ onMounted(async () => {
     </ul>
 
     <div v-if="activeTab === TABS.ORDERS" class="table-container">
-      <table class="orders-table">
+      <div v-if="loading" class="spinner-wrapper">
+        <div class="spinner"></div>
+      </div>
+      <table v-if="!loading" class="orders-table">
         <thead>
           <tr>
             <th>Mesa</th>
@@ -61,13 +84,13 @@ onMounted(async () => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in orders" :key="order.user_id">
-            <td>{{ order.user_id }}</td>
+          <tr v-for="order in orders" :key="order.userId">
+            <td>{{ order.userId }}</td>
             <td>{{ order.state }}</td>
             <td class="order-buttons">
               <button
                 v-if="order.state === STATES.PENDING"
-                @click="changeOrderState(order)"
+                @click="acceptOrder(order)"
                 class="btn btn-primary"
               >
                 <img
@@ -78,7 +101,7 @@ onMounted(async () => {
               </button>
               <button
                 v-if="order.state === STATES.PENDING"
-                @click="changeOrderState(order)"
+                @click="deleteOrder(order)"
                 class="btn btn-primary"
               >
                 <img
@@ -89,7 +112,7 @@ onMounted(async () => {
               </button>
               <button
                 v-if="order.state === STATES.ACCEPTED"
-                @click="changeOrderState(order)"
+                @click="markOrderAsReady(order)"
                 class="btn btn-primary"
               >
                 <img
@@ -100,7 +123,7 @@ onMounted(async () => {
               </button>
               <button
                 v-if="order.state === STATES.READY"
-                @click="changeOrderState(order)"
+                @click="deleteOrder(order)"
                 class="btn btn-primary"
               >
                 <img
@@ -209,5 +232,29 @@ body {
   padding: 20px;
   font-size: 16px;
   color: #555;
+}
+.spinner-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
