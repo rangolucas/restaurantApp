@@ -56,12 +56,18 @@ export const apiServiceDev = {
     return menuDB
   },
 
-  async addItemToMenu(storeId) {
+  async addItemToMenu(storeId, itemId) {
     // do nothing
   },
 
-  async removeItemFromMenu(storeId) {
-    // do nothing
+  async removeItemFromMenu(storeId, itemId) {
+    const menuItem = menuDB.find(item => item.itemId === itemId)
+    
+    if (menuItem) {
+      menuDB.splice(menuDB.indexOf(menuItem), 1)
+    } else {
+      console.log("Item not found")
+    }
   },
 }
 

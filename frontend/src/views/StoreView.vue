@@ -14,6 +14,7 @@ const loading = ref(true)
 const storeId = ref(route.params.id)
 const activeTab = ref(TABS.ORDERS)
 const orders = ref([])
+const menu = ref([])
 const apiService = getApiService()
 
 function setActiveTab(tab) {
@@ -23,31 +24,38 @@ function setActiveTab(tab) {
 function acceptOrder(order) {
   loading.value = true
   apiService.acceptOrder(storeId, order.orderId)
-  updateOrders()
+  updateView()
 }
 
 function markOrderAsReady(order) {
   loading.value = true
   apiService.markOrderAsReady(storeId, order.orderId)
-  updateOrders()
+  updateView()
 }
 
 function deleteOrder(order) {
   loading.value = true
   apiService.deleteOrder(storeId, order.orderId)
-  updateOrders()
+  updateView()
 }
 
-async function updateOrders() {
+function deleteItem(item) {
+  loading.value = true
+  apiService.removeItemFromMenu(storeId, item.itemId)
+  updateView()
+}
+
+async function updateView() {
   try {
     orders.value = await apiService.getOrders()
+    menu.value = await apiService.getMenu()
     loading.value = false
   } catch (error) {
     console.error('Error fetching stores: ', error)
   }
 }
 
-onMounted(updateOrders)
+onMounted(updateView)
 </script>
 
 <template>
@@ -139,7 +147,31 @@ onMounted(updateOrders)
     </div>
 
     <div v-if="activeTab === TABS.MENU">
-      <p class="menu-view">Esta es la vista de Menú del restaurante.</p>
+      <div v-if="loading" class="spinner-wrapper">
+        <div class="spinner"></div>
+      </div>
+      <div class="container mt-4">
+        <ul class="list-group">
+          <li 
+            v-for="item in menu"
+            :key="item.itemId"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span>{{ item.itemName }}</span>
+            <span class="badge bg-success rounded-pill">${{ item.itemPrice }}</span>
+            <button
+                @click="deleteItem(item)"
+                class="btn btn-danger"
+            >
+              <img
+                src="@/assets/trash.svg"
+                alt="icon"
+                style="width: 24px; height: auto"
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
