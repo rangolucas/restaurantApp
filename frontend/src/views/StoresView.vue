@@ -1,26 +1,21 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { getApiService } from '../services/apiService'
 
 const stores = ref([])
 const loading = ref(true)
+const apiService = getApiService()
 
-function loadStores() {
-  loading.value = false
-  return [
-    { id: 'store1', contact: 'store@test.com' },
-    { id: 'store2', contact: 'store@test.com' },
-    { id: 'store3', contact: 'store@test.com' },
-    { id: 'store4', contact: 'store@test.com' },
-  ]
-}
-
-onMounted(() => {
+async function loadStores() {
   try {
-    stores.value = loadStores()
+    stores.value = await apiService.getStores()
+    loading.value = false
   } catch (error) {
     console.error('Error fetching stores:', error)
   }
-})
+}
+
+onMounted(loadStores)
 </script>
 
 <template>
@@ -37,7 +32,11 @@ onMounted(() => {
       </ul>
       <p v-else>Cargando locales</p>
     </div>
-    <button>Agregar local</button>
+    <button>
+      <router-link :to="`/registerStore`">
+        Agregar local
+      </router-link>
+    </button>
   </div>
 </template>
 

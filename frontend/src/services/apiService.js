@@ -15,6 +15,13 @@ const menuDB = [
   { itemId: '4', itemName: 'name4', itemPrice: 'price4' },
 ]
 
+const storesDB = [
+  { id: 'store1', contact: 'store@test.com' },
+  { id: 'store2', contact: 'store@test.com' },
+  { id: 'store3', contact: 'store@test.com' },
+  { id: 'store4', contact: 'store@test.com' },
+]
+
 export const apiServiceDev = {
   async getOrders() {
     setTimeout(function () {}, 2000)
@@ -68,6 +75,15 @@ export const apiServiceDev = {
     } else {
       console.log("Item not found")
     }
+  },
+
+  async getStores() {
+    setTimeout(function () {}, 2000)
+    return storesDB
+  },
+
+  async addStore(store) {
+    storesDB.push({ id: 'testId', contact: store.contact })
   },
 }
 
