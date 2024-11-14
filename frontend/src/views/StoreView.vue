@@ -22,26 +22,24 @@ function setActiveTab(tab) {
 }
 
 function acceptOrder(order) {
-  loading.value = true
-  apiService.acceptOrder(storeId, order.orderId)
-  updateView()
+  runAndUpdateView(() => apiService.acceptOrder(storeId, order.orderId))
 }
 
 function markOrderAsReady(order) {
-  loading.value = true
-  apiService.markOrderAsReady(storeId, order.orderId)
-  updateView()
+  runAndUpdateView(() => apiService.markOrderAsReady(storeId, order.orderId))
 }
 
 function deleteOrder(order) {
-  loading.value = true
-  apiService.deleteOrder(storeId, order.orderId)
-  updateView()
+  runAndUpdateView(() => apiService.deleteOrder(storeId, order.orderId))
 }
 
 function deleteItem(item) {
+  runAndUpdateView(() => apiService.removeItemFromMenu(storeId, item.itemId))
+}
+
+function runAndUpdateView(action) {
   loading.value = true
-  apiService.removeItemFromMenu(storeId, item.itemId)
+  action()
   updateView()
 }
 
@@ -152,17 +150,16 @@ onMounted(updateView)
       </div>
       <div class="container mt-4">
         <ul class="list-group">
-          <li 
+          <li
             v-for="item in menu"
             :key="item.itemId"
             class="list-group-item d-flex justify-content-between align-items-center"
           >
             <span>{{ item.itemName }}</span>
-            <span class="badge bg-success rounded-pill">${{ item.itemPrice }}</span>
-            <button
-                @click="deleteItem(item)"
-                class="btn btn-danger"
+            <span class="badge bg-success rounded-pill"
+              >${{ item.itemPrice }}</span
             >
+            <button @click="deleteItem(item)" class="btn btn-danger">
               <img
                 src="@/assets/trash.svg"
                 alt="icon"

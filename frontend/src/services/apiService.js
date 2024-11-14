@@ -24,37 +24,37 @@ const storesDB = [
 
 export const apiServiceDev = {
   async getOrders() {
-    setTimeout(function () {}, 2000)
+    await new Promise(resolve => setTimeout(resolve, 300))
     return ordersDB
   },
 
   async markOrderAsReady(storeId, orderId) {
     const order = ordersDB.find(order => order.orderId === orderId)
-    
+
     if (order) {
       order.state = STATES.READY
     } else {
-      console.log("Order not found")
+      console.log('Order not found')
     }
   },
 
   async acceptOrder(storeId, orderId) {
     const order = ordersDB.find(order => order.orderId === orderId)
-    
+
     if (order) {
       order.state = STATES.ACCEPTED
     } else {
-      console.log("Order not found")
+      console.log('Order not found')
     }
   },
 
   async deleteOrder(storeId, orderId) {
     const order = ordersDB.find(order => order.orderId === orderId)
-    
+
     if (order) {
       ordersDB.splice(ordersDB.indexOf(order), 1)
     } else {
-      console.log("Order not found")
+      console.log('Order not found')
     }
   },
 
@@ -69,11 +69,11 @@ export const apiServiceDev = {
 
   async removeItemFromMenu(storeId, itemId) {
     const menuItem = menuDB.find(item => item.itemId === itemId)
-    
+
     if (menuItem) {
       menuDB.splice(menuDB.indexOf(menuItem), 1)
     } else {
-      console.log("Item not found")
+      console.log('Item not found')
     }
   },
 
@@ -99,7 +99,7 @@ export const apiServiceProd = {
       throw error
     }
   },
-  
+
   async getMenu(storeId) {
     try {
       const response = await axios.get(`${PROD_URL}/${storeId}/menu`)
