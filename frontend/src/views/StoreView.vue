@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getApiService } from '../services/apiService'
-import { STATES } from '../constants'
+import OrdersTable from '@/components/OrdersTable.vue'
+import MenuEditor from '@/components/MenuEditor.vue'
 
 const TABS = {
   ORDERS: 'Orders',
@@ -10,50 +10,12 @@ const TABS = {
 }
 
 const route = useRoute()
-const loading = ref(true)
 const storeId = ref(route.params.id)
 const activeTab = ref(TABS.ORDERS)
-const orders = ref([])
-const menu = ref([])
-const apiService = getApiService()
 
 function setActiveTab(tab) {
   activeTab.value = tab
 }
-
-function acceptOrder(order) {
-  runAndUpdateView(() => apiService.acceptOrder(storeId, order.orderId))
-}
-
-function markOrderAsReady(order) {
-  runAndUpdateView(() => apiService.markOrderAsReady(storeId, order.orderId))
-}
-
-function deleteOrder(order) {
-  runAndUpdateView(() => apiService.deleteOrder(storeId, order.orderId))
-}
-
-function deleteItem(item) {
-  runAndUpdateView(() => apiService.removeItemFromMenu(storeId, item.itemId))
-}
-
-function runAndUpdateView(action) {
-  loading.value = true
-  action()
-  updateView()
-}
-
-async function updateView() {
-  try {
-    orders.value = await apiService.getOrders()
-    menu.value = await apiService.getMenu()
-    loading.value = false
-  } catch (error) {
-    console.error('Error fetching stores: ', error)
-  }
-}
-
-onMounted(updateView)
 </script>
 
 <template>
@@ -77,99 +39,8 @@ onMounted(updateView)
       </li>
     </ul>
 
-    <div v-if="activeTab === TABS.ORDERS" class="table-container">
-      <div v-if="loading" class="spinner-wrapper">
-        <div class="spinner"></div>
-      </div>
-      <table v-if="!loading" class="orders-table">
-        <thead>
-          <tr>
-            <th>Mesa</th>
-            <th>Estado del pedido</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in orders" :key="order.userId">
-            <td>{{ order.userId }}</td>
-            <td>{{ order.state }}</td>
-            <td class="order-buttons">
-              <button
-                v-if="order.state === STATES.PENDING"
-                @click="acceptOrder(order)"
-                class="btn btn-primary"
-              >
-                <img
-                  src="@/assets/thumbs-up.svg"
-                  alt="icon"
-                  style="width: 24px; height: auto"
-                />
-              </button>
-              <button
-                v-if="order.state === STATES.PENDING"
-                @click="deleteOrder(order)"
-                class="btn btn-primary"
-              >
-                <img
-                  src="@/assets/trash.svg"
-                  alt="icon"
-                  style="width: 24px; height: auto"
-                />
-              </button>
-              <button
-                v-if="order.state === STATES.ACCEPTED"
-                @click="markOrderAsReady(order)"
-                class="btn btn-primary"
-              >
-                <img
-                  src="@/assets/delivered.svg"
-                  alt="icon"
-                  style="width: 24px; height: auto"
-                />
-              </button>
-              <button
-                v-if="order.state === STATES.READY"
-                @click="deleteOrder(order)"
-                class="btn btn-primary"
-              >
-                <img
-                  src="@/assets/trash.svg"
-                  alt="icon"
-                  style="width: 24px; height: auto"
-                />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div v-if="activeTab === TABS.MENU">
-      <div v-if="loading" class="spinner-wrapper">
-        <div class="spinner"></div>
-      </div>
-      <div class="container mt-4">
-        <ul class="list-group">
-          <li
-            v-for="item in menu"
-            :key="item.itemId"
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <span>{{ item.itemName }}</span>
-            <span class="badge bg-success rounded-pill"
-              >${{ item.itemPrice }}</span
-            >
-            <button @click="deleteItem(item)" class="btn btn-danger">
-              <img
-                src="@/assets/trash.svg"
-                alt="icon"
-                style="width: 24px; height: auto"
-              />
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <OrdersTable v-if="activeTab === TABS.ORDERS" :storeId="storeId" />
+    <MenuEditor v-if="activeTab === TABS.MENU" :storeId="storeId" />
   </div>
 </template>
 
@@ -212,78 +83,5 @@ body {
 .nav-link.active {
   color: #fff;
   background-color: #007bff;
-}
-
-.table-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.order-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 5px;
-}
-
-.orders-table {
-  max-width: 1200px;
-  border-collapse: collapse;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.orders-table th,
-.orders-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.orders-table th {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: 600;
-}
-
-.orders-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-.orders-table tr:last-child td {
-  border-bottom: none;
-}
-
-.menu-view {
-  padding: 20px;
-  font-size: 16px;
-  color: #555;
-}
-.spinner-wrapper {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>
