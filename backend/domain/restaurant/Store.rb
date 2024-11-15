@@ -1,7 +1,7 @@
 require './domain/restaurant/Menu'
 
 class Store
-  attr_accessor :id, :coordinates, :time_table, :contact_info, :menu
+  attr_accessor :id, :coordinates, :time_table, :contact_info, :menu, :orders
 
   def initialize(id, coordinates, time_table, contact_info)
     @id = id
@@ -39,5 +39,15 @@ class Store
 
   def delete_order(order_id)
     @orders.delete(order_id)
+  end
+
+  def copy
+    Store.new(id, coordinates, time_table, contact_info, menu.copy, copy_orders)
+  end
+
+  private
+
+  def copy_orders
+    @orders.map { |id, order| [id, order.copy] }.to_h
   end
 end

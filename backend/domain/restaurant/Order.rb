@@ -22,4 +22,7 @@ class Order
     end
   end
 
+  def copy
+    Order.new(user_id, amount_by_item, to_take_away)
+  end
 end

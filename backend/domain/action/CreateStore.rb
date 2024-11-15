@@ -1,15 +1,12 @@
 require './domain/restaurant/Store'
 
 class CreateStore
-  def initialize(stores)
-    @stores = stores
-    @next_id = 0
+  def initialize(store_repository)
+    @store_repository = store_repository
   end
   
   def invoke(coordinates, time_table, contact_info)
-    store = Store.new(@next_id, coordinates, time_table, contact_info)
-    @stores.push(store)
-    @next_id += 1
-    return store.id
+    new_store = @store_repository.create_store(coordinates, time_table, contact_info)
+    new_store.id
   end
 end

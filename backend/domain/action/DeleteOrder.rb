@@ -1,10 +1,12 @@
 class DeleteOrder
-  def initialize(stores)
-    @stores = stores
+  def initialize(store_repository)
+    @store_repository = store_repository
   end
 
   def invoke(store_id, order_id)
-    store = @stores[store_id]
-    store.delete_order(order_id)
+    @store_repository.update_store(
+      store_id,
+      -> (store) { store.delete_order(order_id) }
+    )
   end
 end

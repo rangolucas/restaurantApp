@@ -1,9 +1,9 @@
 class GetStores
-  def initialize(stores)
-    @stores = stores
+  def initialize(store_repository)
+    @store_repository = store_repository
   end
 
   def invoke
-    @stores
+    @store_repository.fetch_all
   end
 end

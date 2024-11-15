@@ -1,5 +1,6 @@
-require './controller/StoreController'
-require './controller/OrderController'
+require './infrastructure/controller/StoreController'
+require './infrastructure/controller/OrderController'
+require './infrastructure/memory/MemoryStoreRepository'
 require './domain/action/CreateStore'
 require './domain/action/GetStores'
 require './domain/action/GetMenu'
@@ -12,15 +13,15 @@ require 'sinatra/cors'
 set :allow_origin, '*'
 set :bind, '0.0.0.0'
 
-stores = []
+store_repository = MemoryStoreRepository.new
 
-create_store = CreateStore.new(stores)
-get_stores = GetStores.new(stores)
-make_an_order = MakeAnOrder.new(stores)
-accept_order = AcceptOrder.new(stores)
-mark_order_as_ready = MarkOrderAsReady.new(stores)
-delete_order = DeleteOrder.new(stores)
-get_menu = GetMenu.new(stores)
+create_store = CreateStore.new(store_repository)
+get_stores = GetStores.new(store_repository)
+make_an_order = MakeAnOrder.new(store_repository)
+accept_order = AcceptOrder.new(store_repository)
+mark_order_as_ready = MarkOrderAsReady.new(store_repository)
+delete_order = DeleteOrder.new(store_repository)
+get_menu = GetMenu.new(store_repository)
 
 order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order)
 store_controller = StoreController.new(create_store, get_stores, get_menu)
