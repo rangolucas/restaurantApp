@@ -64,7 +64,7 @@ export const apiServiceDev = {
   },
 
   async addItemToMenu(storeId, itemId) {
-    // do nothing
+    menuDB.push({ itemId: 'testId', itemName: 'testName', itemPrice: 'testPrice' })
   },
 
   async removeItemFromMenu(storeId, itemId) {
