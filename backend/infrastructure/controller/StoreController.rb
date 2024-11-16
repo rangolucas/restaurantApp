@@ -11,11 +11,12 @@ class StoreController
     coordinates = request['coordinates']
     time_table = request['timeTable']
     contact_info = request['contactInfo']
-    @create_store_action.invoke(coordinates, time_table, contact_info)
+    store_id = @create_store_action.invoke(coordinates, time_table, contact_info)
+    encode_store_id_to_json(store_id)
   end
 
   def get_stores
-    @get_stores_action.invoke().map { |s| encode_to_json(s) }.to_json
+    @get_stores_action.invoke().map { |s| encode_store_to_json(s) }.to_json
   end
 
   def get_menu(store_id)
@@ -24,10 +25,16 @@ class StoreController
 
   private
 
-  def encode_to_json(store)
+  def encode_store_to_json(store)
     {
       "id": store.id,
       "contact": store.contact_info
     }
+  end
+
+  def encode_store_id_to_json(id)
+    {
+      "id": id
+  }.to_json
   end
 end
