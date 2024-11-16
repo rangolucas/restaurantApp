@@ -24,7 +24,7 @@ onMounted(loadStores)
       <h1>Locales disponibles</h1>
       <ul v-if="!loading">
         <li v-for="store in stores" :key="store.id">
-          <router-link :to="'/user'">
+          <router-link :to="`/user/${store.id}`">
             <span class="store-id">{{ store.id }}</span> -
             <span class="store-contact">{{ store.contact }}</span>
           </router-link>
@@ -35,7 +35,7 @@ onMounted(loadStores)
   </main>
 </template>
 
-<style>
+<style scoped>
 .stores {
   display: flex;
   flex-direction: column;

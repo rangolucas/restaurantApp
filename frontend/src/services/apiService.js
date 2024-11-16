@@ -58,7 +58,7 @@ export const apiServiceDev = {
     }
   },
 
-  async getMenu() {
+  async getMenu(storeId) {
     setTimeout(function () {}, 2000)
     return menuDB
   },

@@ -29,7 +29,7 @@ function runAndUpdateView(action) {
 
 async function updateView() {
   try {
-    menu.value = await apiService.getMenu()
+    menu.value = await apiService.getMenu(props.storeId)
     loading.value = false
   } catch (error) {
     console.error('Error fetching menu: ', error)
