@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { getApiService } from '../services/apiService'
 
+const router = useRouter()
 const stores = ref([])
 const loading = ref(true)
 const apiService = getApiService()
@@ -13,6 +15,10 @@ async function loadStores() {
   } catch (error) {
     console.error('Error fetching stores:', error)
   }
+}
+
+function goToRegisterStore() {
+  router.push(`/registerStore`)
 }
 
 onMounted(loadStores)
@@ -32,10 +38,8 @@ onMounted(loadStores)
       </ul>
       <p v-else>Cargando locales</p>
     </div>
-    <button class="buttonRegisterStore">
-      <router-link :to="`/registerStore`" >
+    <button class="buttonRegisterStore" v-on:click="goToRegisterStore">
         Agregar local
-      </router-link>
     </button>
   </div>
 </template>
