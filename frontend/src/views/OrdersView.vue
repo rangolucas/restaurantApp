@@ -1,15 +1,28 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { getApiService } from '../services/apiService'
 
-const orderStatus = ref('En preparación');
-const orderId = ref('123456');
+const route = useRoute()
+const orderId = ref(route.params.id)
+const order = ref({ orderId: '', state: ''});
+const apiService = getApiService()
+
+async function loadOrder() {
+  try {
+    order.value = await apiService.getOrderById(orderId.value)
+  } catch (error) {
+    console.error('Error fetching stores:', error)
+  }
+}
+
+onMounted(loadOrder)
 </script>
 
 <template>
   <main>
-    <h1>Número de la orden: #{{ orderId }}</h1>
-    <h2>Estado: {{ orderStatus }}</h2>
-
+    <h1>Número de la orden: #{{ order.orderId }}</h1>
+    <h2>Estado: {{ order.state }}</h2>
   </main>
 </template>
 
@@ -21,5 +34,4 @@ main {
   height: 100vh;
   padding: 20px;
 }
-
 </style>

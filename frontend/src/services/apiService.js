@@ -28,6 +28,16 @@ export const apiServiceDev = {
     return ordersDB
   },
 
+  async getOrderById(orderId) {
+    const order = ordersDB.find(order => order.orderId === orderId)
+
+    if (order) {
+      return order
+    } else {
+      console.log('Order not found')
+    }
+  },
+
   async createOrder() {
     const newOrder = {orderId: 'testId', state: STATES.PENDING, userId: 'testUser'}
     ordersDB.push(newOrder)

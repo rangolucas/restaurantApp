@@ -38,8 +38,9 @@ end
 
 post '/stores' do
   json_payload = JSON.parse(request.body.read)
+  content_type :json
+  status :created
   store_controller.create_store(json_payload)
-  halt :created
 end
 
 get '/stores' do
