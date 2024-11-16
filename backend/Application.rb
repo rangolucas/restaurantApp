@@ -1,3 +1,4 @@
+require './infrastructure/controller/MenuController'
 require './infrastructure/controller/StoreController'
 require './infrastructure/controller/OrderController'
 require './infrastructure/memory/MemoryStoreRepository'
@@ -27,7 +28,8 @@ delete_order = DeleteOrder.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 
 order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order)
-store_controller = StoreController.new(create_store, get_stores, get_menu)
+store_controller = StoreController.new(create_store, get_stores)
+menu_controller = MenuController.new(get_menu)
 
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
@@ -53,5 +55,13 @@ get '/stores/:store_id/menu' do
   store_id = params['store_id']
   content_type :json
   status :ok
-  store_controller.get_menu(store_id)
+  menu_controller.get_menu(store_id)
+end
+
+post '/stores/:store_id/menu' do
+  store_id = params['store_id']
+  json_payload = JSON.parse(request.body.read)
+  content_type :json
+  status :created
+  menu_controller.add_item(store_id, json_payload)
 end

@@ -1,10 +1,9 @@
 require 'json'
 
 class StoreController
-  def initialize(create_store_action, get_stores_action, get_menu_action)
+  def initialize(create_store_action, get_stores_action)
     @create_store_action = create_store_action
     @get_stores_action = get_stores_action
-    @get_menu_action = get_menu_action
   end
 
   def create_store(request)
@@ -15,10 +14,6 @@ class StoreController
   def get_stores
     all_stores = @get_stores_action.invoke
     encode_stores_to_json(all_stores)
-  end
-
-  def get_menu(store_id)
-    @get_menu_action.invoke(store_id).to_json
   end
 
   private
