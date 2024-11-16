@@ -96,22 +96,24 @@ export const apiServiceDev = {
 const PROD_URL = 'http://localhost:4567'
 
 export const apiServiceProd = {
+  async getStores() {
+    this.getCollection(`${PROD_URL}/stores`)
+  },
+
   async getOrders(storeId) {
-    try {
-      const response = await axios.get(`${PROD_URL}/${storeId}/orders`)
-      return response.data
-    } catch (error) {
-      console.error('Error fetching items:', error)
-      throw error
-    }
+    this.getCollection(`${PROD_URL}/${storeId}/orders`)
   },
 
   async getMenu(storeId) {
+    this.getCollection(`${PROD_URL}/${storeId}/menu`)
+  },
+
+  async getCollection(url) {
     try {
-      const response = await axios.get(`${PROD_URL}/${storeId}/menu`)
+      const response = await axios.get(url)
       return response.data
     } catch (error) {
-      console.error('Error fetching items:', error)
+      console.error('Error while fetching:', error)
       throw error
     }
   },
