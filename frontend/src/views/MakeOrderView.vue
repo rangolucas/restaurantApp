@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getApiService } from '../services/apiService'
 
 const route = useRoute()
+const router = useRouter()
 const storeId = ref(route.params.id)
 const menu = ref([])
 const selectedItems = ref({})
@@ -17,17 +18,17 @@ async function getMenu() {
   }
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   const selectedOrder = Object.entries(selectedItems.value)
     .filter(([id, quantity]) => quantity > 0)
     .map(([id, quantity]) => ({
       itemId: id,
       quantity: quantity,
     }))
-  
-  console.log('Selected Order:', selectedOrder)
 
-  // Send selectedOrder to the back
+  const orderCreated = await apiService.createOrder(selectedOrder)
+  console.log(orderCreated)
+  router.push(`/user/orders/${orderCreated.orderId}`)
 }
 
 onMounted(getMenu)
@@ -53,7 +54,7 @@ onMounted(getMenu)
               type="number"
               class="form-control w-25"
               min="0"
-              :placeholder="'Cantidad de ' + item.itemName"
+              :placeholder="0"
               v-model.number="selectedItems[item.itemId]"
             />
           </div>
