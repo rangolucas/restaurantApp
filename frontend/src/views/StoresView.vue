@@ -32,8 +32,8 @@ onMounted(loadStores)
       </ul>
       <p v-else>Cargando locales</p>
     </div>
-    <button>
-      <router-link :to="`/registerStore`">
+    <button class="buttonRegisterStore">
+      <router-link :to="`/registerStore`" >
         Agregar local
       </router-link>
     </button>
@@ -96,6 +96,21 @@ onMounted(loadStores)
 .store-contact {
   margin-left: 10px;
   color: #555;
+}
+
+.buttonRegisterStore {
+  background-color: #4a90e2;
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 @media (max-width: 600px) {
