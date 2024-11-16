@@ -1,11 +1,7 @@
 class Menu
   attr_accessor :items
 
-  def initialize()
-    @items = {}
-  end
-
-  def initialize(items)
+  def initialize(items = {})
     @items = items
   end
 
@@ -23,7 +19,7 @@ class Menu
 
   private
 
-  def copy_items(menu_items)
-    menu_items.map { |name, price| [name, price] }.to_h
+  def copy_items
+    @items.map { |name, price| [name, price] }.to_h
   end
 end

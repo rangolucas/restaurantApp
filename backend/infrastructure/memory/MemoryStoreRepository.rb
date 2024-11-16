@@ -8,10 +8,14 @@ class MemoryStoreRepository
     @stores[store_id].copy
   end
 
+  def fetch_all
+    @stores.values.map(&:copy)
+  end
+
   def create_store(coordinates, time_table, contact_info)
-    new_store = Store.new(next_id.to_s, coordinates, time_table, contact_info)
-    @stores[next_id] = new_store
-    next_id += 1
+    new_store = Store.new(@next_id.to_s, coordinates, time_table, contact_info)
+    @stores[@next_id] = new_store
+    @next_id += 1
     new_store.copy
   end
 

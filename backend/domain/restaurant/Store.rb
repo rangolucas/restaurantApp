@@ -3,13 +3,13 @@ require './domain/restaurant/Menu'
 class Store
   attr_accessor :id, :coordinates, :time_table, :contact_info, :menu, :orders
 
-  def initialize(id, coordinates, time_table, contact_info)
+  def initialize(id, coordinates, time_table, contact_info, menu = Menu.new, orders = Hash.new)
     @id = id
     @coordinates = coordinates
     @time_table = time_table
     @contact_info = contact_info
-    @menu = Menu.new
-    @orders = Hash.new
+    @menu = menu
+    @orders = orders
   end
 
   def add_item(item_name, itemPrice)
