@@ -18,6 +18,16 @@ async function getMenu() {
   }
 }
 
+function incrementQuantity(itemId) {
+  selectedItems.value[itemId] = (selectedItems.value[itemId] || 0) + 1
+}
+
+function decrementQuantity(itemId) {
+  if (selectedItems.value[itemId] > 0) {
+    selectedItems.value[itemId] -= 1
+  }
+}
+
 async function handleSubmit() {
   const selectedOrder = Object.entries(selectedItems.value)
     .filter(([id, quantity]) => quantity > 0)
@@ -27,7 +37,6 @@ async function handleSubmit() {
     }))
 
   const orderCreated = await apiService.createOrder(selectedOrder)
-  console.log(orderCreated)
   router.push(`/user/orders/${orderCreated.orderId}`)
 }
 
@@ -37,7 +46,7 @@ onMounted(getMenu)
 <template>
   <div class="container mt-4">
     <h1 class="text-center mb-4">Hacé tu pedido</h1>
-    <form v-on:submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit">
       <ul class="list-group">
         <li
           v-for="item in menu"
@@ -50,13 +59,30 @@ onMounted(getMenu)
           </div>
           <div class="d-flex align-items-center">
             <label class="me-2 mb-0">Cantidad:</label>
-            <input
-              type="number"
-              class="form-control w-25"
-              min="0"
-              :placeholder="0"
-              v-model.number="selectedItems[item.itemId]"
-            />
+            <div class="input-group">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="decrementQuantity(item.itemId)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                class="form-control text-center w-25"
+                min="0"
+                :placeholder="0"
+                v-model.number="selectedItems[item.itemId]"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="incrementQuantity(item.itemId)"
+              >
+                +
+              </button>
+            </div>
           </div>
         </li>
       </ul>
@@ -80,11 +106,6 @@ h1 {
   font-size: 1rem;
 }
 
-.list-group-item .form-control.input-cantidad {
-  width: 120px;
-  max-width: none;
-}
-
 .text-muted {
   font-size: 0.85rem;
 }
@@ -98,14 +119,23 @@ label {
   font-weight: bold;
 }
 
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group .btn {
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .list-group-item {
     flex-wrap: wrap;
   }
 
-  .list-group-item .form-control.input-cantidad {
+  .input-group {
     width: 100%;
-    max-width: none;
   }
 }
 </style>
