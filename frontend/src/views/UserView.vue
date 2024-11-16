@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getApiService } from '../services/apiService'
+import StoresMap from "@/components/StoresMap.vue";
+
 
 const stores = ref([])
 const loading = ref(true)
@@ -33,6 +35,10 @@ onMounted(loadStores)
       <p v-else>Cargando locales</p>
     </div>
   </main>
+
+  <div class="stores">
+    <StoresMap />
+  </div>
 </template>
 
 <style scoped>
