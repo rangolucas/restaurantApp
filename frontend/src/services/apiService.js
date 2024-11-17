@@ -22,7 +22,6 @@ const storesDB = [
   { id: 'store4', name: 'Paellaza', contact: 'store4@test.com', lat: -34.569148, long: -58.433930, address: 'Avenida 9 de Julio 3243' }
 ]
 
-
 export const apiServiceDev = {
   async getOrders() {
     await new Promise(resolve => setTimeout(resolve, 300))
@@ -114,15 +113,15 @@ const PROD_URL = 'http://localhost:4567'
 
 export const apiServiceProd = {
   async getStores() {
-    this.getCollection(`${PROD_URL}/stores`)
+    return this.getCollection(`${PROD_URL}/stores`)
   },
 
   async getOrders(storeId) {
-    this.getCollection(`${PROD_URL}/${storeId}/orders`)
+    return this.getCollection(`${PROD_URL}/${storeId}/orders`)
   },
 
   async getMenu(storeId) {
-    this.getCollection(`${PROD_URL}/${storeId}/menu`)
+    return this.getCollection(`${PROD_URL}/${storeId}/menu`)
   },
 
   async getCollection(url) {
@@ -131,6 +130,30 @@ export const apiServiceProd = {
       return response.data
     } catch (error) {
       console.error('Error while fetching:', error)
+      throw error
+    }
+  },
+
+  async addStore(store) {
+    const url = `${PROD_URL}/stores`
+  
+    const storeObject = {
+      name: store.name,
+      contactInfo: store.contact,
+      timeTable: store.hours,
+      coordinates: [store.lat, store.long],
+    }
+    
+    try {
+      const response = await axios.post(url, storeObject, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      
+      return response.data
+    } catch (error) {
+      console.error('Error adding store:', error.response?.data || error.message)
       throw error
     }
   },

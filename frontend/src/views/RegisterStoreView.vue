@@ -15,18 +15,18 @@ const storeLogo = ref(null)
 const apiService = getApiService()
 
 async function registerStore() {
-  const store = {
-    name: storeName.value,
-    address: storeAddress.value,
-    contact: storeContact.value,
-    hours: storeHours.value,
-    lat: storeLat.value,
-    long: storeLng.value,
-    logo: storeLogo.value
-  }
-  console.log(store);
-  await apiService.addStore(store)
-  router.push('/stores')
+    const store = {
+      name: storeName.value,
+      address: storeAddress.value,
+      contact: storeContact.value,
+      hours: storeHours.value,
+      lat: storeLat.value,
+      long: storeLng.value,
+      logo: storeLogo.value
+    }
+
+    await apiService.addStore(store)
+    router.push('/stores')
 }
 
 function handleFileChange(event) {

@@ -7,9 +7,10 @@ class JsonCodec
   def decode_store_creation(request)
     encoded_coordinates = get_mandatory_field(request, "coordinates")
     coordinates = decode_coordinates(encoded_coordinates)
+    name = get_mandatory_field(request, "name")
     time_table = get_mandatory_field(request, "timeTable")
     contact_info = get_mandatory_field(request, "contactInfo")
-    StoreCreationDto.new(coordinates, time_table, contact_info)
+    StoreCreationDto.new(coordinates, name, time_table, contact_info)
   end
   
   def decode_order_creation(request)
@@ -99,6 +100,7 @@ class JsonCodec
   def encode_store(store)
     {
       "id": store.id,
+      "name": store.name,
       "contact": store.contact_info,
       "coordinates": encode_coordinates(store.coordinates)
     }
