@@ -55,6 +55,23 @@ class JsonCodec
     menu.items.map(&:encode_item).to_json
   end
 
+  def encode_order_result(result)
+    case result
+    when :success
+      nil
+    when :invalid_order
+      {
+        "error": "INVALID_ORDER"
+      }.to_json
+    when :not_in_store_radius
+      {
+        "error": "NOT_IN_STORE_RADIUS"
+      }.to_json
+    else
+      raise "Unknown order result: '#{result}'"
+    end
+  end
+
   private
 
   def decode_coordinates(coordinates)

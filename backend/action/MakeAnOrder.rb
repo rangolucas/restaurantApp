@@ -9,10 +9,14 @@ class MakeAnOrder
   def invoke(store_id, user_id, amount_by_item, user_coordinates, takeaway)
     store = @store_repository.fetch_by_id(store_id)
     if store.is_close_to(user_coordinates)
-      register_order(store_id, user_id, amount_by_item, takeaway)
-      true
+      if store.accepts_order(amount_by_item)
+        register_order(store_id, user_id, amount_by_item, takeaway)
+        :success
+      else
+        :invalid_order
+      end
     else
-      false
+      :not_in_store_radius
     end
   end
 

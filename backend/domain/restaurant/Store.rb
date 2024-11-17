@@ -51,6 +51,10 @@ class Store
     @coordinates.distance_to(coordinates, units: :meters) < 50
   end
 
+  def accepts_order(amount_by_item)
+    @menu.has_all_items?(amount_by_item.keys)
+  end
+
   def copy
     Store.new(@id, @coordinates, @name, @time_table, @contact_info, @menu.copy, copy_orders)
   end

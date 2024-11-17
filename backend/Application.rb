@@ -49,8 +49,14 @@ end
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
   json_payload = JSON.parse(request.body.read)
-  status :created
-  order_controller.make_order(store_id, json_payload)
+  order_result = order_controller.make_order(store_id, json_payload)
+  if order_result == nil
+    status :created
+  else
+    content_type :json
+    status 400
+    order_result
+  end
 end
 
 #falta un get de orders
