@@ -16,11 +16,12 @@ const menuDB = [
 ]
 
 const storesDB = [
-  { id: 'store1', contact: 'store@test.com' },
-  { id: 'store2', contact: 'store@test.com' },
-  { id: 'store3', contact: 'store@test.com' },
-  { id: 'store4', contact: 'store@test.com' },
+  { id: 'store1', contact: 'store1@test.com', lat: -34.584770, long: -58.442846, address: 'Calle 124' },
+  { id: 'store2', contact: 'store2@test.com', lat: -34.588254, long: -58.434529, address: 'Avenida Corrientes 742' },
+  { id: 'store3', contact: 'store3@test.com', lat: -34.573144, long: -58.456630, address: 'Calle 456' },
+  { id: 'store4', contact: 'store4@test.com', lat: -34.569148, long: -58.433930, address: 'Avenida 9 de Julio 3243' }
 ]
+
 
 export const apiServiceDev = {
   async getOrders() {
@@ -99,7 +100,11 @@ export const apiServiceDev = {
   },
 
   async addStore(store) {
-    storesDB.push({ id: 'testId', contact: store.contact })
+    storesDB.push({ id: store.name,
+                    contact: store.contact,
+                    address: store.address,
+                    lat: store.lat,
+                    long: store.long })
   },
 }
 

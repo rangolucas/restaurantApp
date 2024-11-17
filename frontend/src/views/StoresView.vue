@@ -32,7 +32,8 @@ onMounted(loadStores)
         <li v-for="store in stores" :key="store.id">
           <router-link :to="`/stores/${store.id}`">
             <span class="store-id">{{ store.id }}</span> -
-            <span class="store-contact">{{ store.contact }}</span>
+            <span class="store-contact">{{ store.contact }}</span> -
+            <span class="store-contact">{{ store.address }}</span>
           </router-link>
         </li>
       </ul>

@@ -9,44 +9,58 @@ import { Loader } from "@googlemaps/js-api-loader";
 
 export default {
   name: "StoresMap",
+  props: {
+    stores: {
+      type: Array,
+      required: true,
+    },
+  },
   mounted() {
     const loader = new Loader({
       apiKey: "AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E", // Reemplaza con tu clave de API
-      version: "weekly", // Opcional: versión de la API
+      version: "weekly",
+      libraries: ["places"], // Opcional: versión de la API
     });
 
     loader.load().then(() => {
+      const initializeMap = (center) => {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: center,
+          zoom: 12, // Adjust the zoom level as needed
+        });
+
+        // Add markers for each store
+        this.stores.forEach((store) => {
+          const marker = new google.maps.Marker({
+            position: { lat: store.lat, lng: store.long },
+            map: map,
+            title: store.id,
+          });
+
+          // Add click event listener to the marker
+          marker.addListener('click', () => {
+            const infoWindow = new google.maps.InfoWindow({
+              content: `<div><strong>${store.id}</strong><br>${store.contact}</div>`,
+            });
+            infoWindow.open(map, marker);
+          });
+        });
+      };
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
-            const map = new google.maps.Map(document.getElementById("map"), {
-              center: { lat: latitude, lng: longitude },
-              zoom: 10,
-            });
-
-            // Agregar un marcador en la ubicación actual
-            new google.maps.Marker({
-              position: { lat: latitude, lng: longitude },
-              map: map,
-              title: "You are here!",
-            });
+            initializeMap({ lat: latitude, lng: longitude });
           },
-          () => {
-            // Handle error case
-            const map = new google.maps.Map(document.getElementById("map"), {
-              center: { lat: -34.588207, lng: -58.437899 }, // Default to Caba
-              zoom: 10,
-            });
-
-            // Agregar un marcador en la ubicación predeterminada
-            new google.maps.Marker({
-              position: { lat: -34.588207, lng: -58.437899 },
-              map: map,
-              title: "Default Location",
-            });
+          (error) => {
+            console.error("Error getting current location:", error);
+            initializeMap({ lat: -34.588207, lng: -58.437899 }); // Default to Caba
           }
         );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+        initializeMap({ lat: -34.588207, lng: -58.437899 }); // Default to Caba
       }
     });
   },
