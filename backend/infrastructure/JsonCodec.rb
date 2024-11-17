@@ -59,7 +59,7 @@ class JsonCodec
   end
   
   def encode_menu(menu)
-    menu.items.map(&:encode_item).to_json
+    menu.items.map{|name, price| encode_item([name, price])}.to_json
   end
 
   def encode_order_result(result)

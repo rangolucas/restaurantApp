@@ -12,7 +12,7 @@ const apiService = getApiService()
 
 async function getMenu() {
   try {
-    menu.value = await apiService.getMenu(storeId)
+    menu.value = await apiService.getMenu(storeId.value)
   } catch (error) {
     console.error('Error fetching menu: ', error)
   }
