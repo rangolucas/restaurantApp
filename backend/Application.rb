@@ -117,7 +117,6 @@ get '/stores/:store_id/table' do
   if updated_user_tables == nil
     status :bad_request
   else
-    puts updated_user_tables
     cookies["userTables"] = updated_user_tables
   end
 end
