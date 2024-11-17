@@ -59,7 +59,9 @@ class JsonCodec
   end
   
   def encode_menu(menu)
-    menu.items.map{|name, price| encode_item([name, price])}.to_json
+    menu.items.map { |name, price| 
+      encode_item(name, price)
+    }.to_json
   end
 
   def encode_order_result(result)
@@ -131,7 +133,7 @@ class JsonCodec
     }
   end
 
-  def encode_item((name, price))
+  def encode_item(name, price)
     {
       "itemName": name,
       "price": price
