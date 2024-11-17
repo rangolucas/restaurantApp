@@ -1,5 +1,4 @@
 require './infrastructure/JsonCodec'
-require './infrastructure/JsonFormatError'
 require './infrastructure/controller/MenuController'
 require './infrastructure/controller/StoreController'
 require './infrastructure/controller/OrderController'

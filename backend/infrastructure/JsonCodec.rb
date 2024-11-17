@@ -58,3 +58,6 @@ class JsonCodec
     end
   end
 end
+
+class JsonFormatError < StandardError
+end
