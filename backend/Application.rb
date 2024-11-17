@@ -35,8 +35,8 @@ get_menu = GetMenu.new(store_repository)
 add_item_to_menu = AddItemToMenu.new(store_repository)
 
 order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order, codec)
-store_controller = StoreController.new(create_store, get_stores)
-menu_controller = MenuController.new(get_menu, add_item_to_menu)
+store_controller = StoreController.new(create_store, get_stores, codec)
+menu_controller = MenuController.new(get_menu, add_item_to_menu, codec)
 
 error JsonFormatError do
   content_type :json

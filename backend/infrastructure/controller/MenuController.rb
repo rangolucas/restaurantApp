@@ -1,29 +1,18 @@
 class MenuController
   
-  def initialize(get_menu_action, add_item_action)
+  def initialize(get_menu_action, add_item_action, codec)
     @get_menu_action = get_menu_action
     @add_item_action = add_item_action
+    @codec = codec
   end
 
   def get_menu(store_id)
     menu = @get_menu_action.invoke(store_id)
-    encode_menu(menu)
+    @codec.encode_menu(menu)
   end
 
   def add_item(store_id, request)
-    @add_item_action.invoke(store_id, request["itemName"], request["price"])
-  end
-
-  private
-
-  def encode_menu(menu)
-      menu.items.map(&:encode_item).to_json
-  end
-
-  def encode_item((name, price))
-    {
-      "itemName": name,
-      "price": price
-    }
+    menu_item = @codec.decode_menu_item(request)
+    @add_item_action.invoke(store_id, menu_item.name, menu_item.price)
   end
 end

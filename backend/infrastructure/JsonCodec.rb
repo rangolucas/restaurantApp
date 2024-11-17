@@ -1,6 +1,16 @@
+require './infrastructure/controller/dto/MenuItemDto'
 require './infrastructure/controller/dto/OrderCreationDto'
+require './infrastructure/controller/dto/StoreCreationDto'
 
 class JsonCodec
+
+  def decode_store_creation(request)
+    encoded_coordinates = get_mandatory_field(request, "coordinates")
+    coordinates = decode_coordinates(encoded_coordinates)
+    time_table = get_mandatory_field(request, "timeTable")
+    contact_info = get_mandatory_field(request, "contactInfo")
+    StoreCreationDto.new(coordinates, time_table, contact_info)
+  end
   
   def decode_order_creation(request)
     user_id = get_mandatory_field(request, "userId")
@@ -14,6 +24,12 @@ class JsonCodec
     get_mandatory_field(request, "orderId")
   end
 
+  def decode_menu_item(request)
+    name = get_mandatory_field(request, "itemName")
+    price = get_mandatory_field(request, "price")
+    MenuItemDto.new(name, price)
+  end
+
   def encode_order(order)
     {
       "state": encode_order_state(order.state),
@@ -23,21 +39,31 @@ class JsonCodec
     }.to_json
   end
 
+  def encode_stores(stores)
+    stores.map { |s| encode_store(s) }.to_json
+  end
+
+  def encode_store_id(id)
+    {
+      "id": id
+    }.to_json
+  end
+
   private
 
   def decode_coordinates(coordinates)
-    if coordinates.size == 2
+    if coordinates.is_a?(Array) && coordinates.size == 2
       (lat, lon) = coordinates
       Coordinates.new(lat, lon)
     else
-      raise JsonFormatError
+      raise JsonFormatError, "Coordinates should be an array of size 2"
     end
   end
 
   def get_mandatory_field(request, field)
     field_value = request[field]
     if field_value == nil
-      raise JsonFormatError, "JSON field '#{field}' should not be null"
+      raise JsonFormatError, "Missing JSON field '#{field}'"
     else
       field_value
     end
@@ -56,6 +82,29 @@ class JsonCodec
     else
       raise "Unknown order state: '#{state}'"
     end
+  end
+
+  def encode_menu(menu)
+      menu.items.map(&:encode_item).to_json
+  end
+
+  def encode_item((name, price))
+    {
+      "itemName": name,
+      "price": price
+    }
+  end
+
+  def encode_store(store)
+    {
+      "id": store.id,
+      "contact": store.contact_info,
+      "coordinates": encode_coordinates(store.coordinates)
+    }
+  end
+
+  def encode_coordinates(coordinates)
+    [coordinates.lat, coordinates.lon]
   end
 end
 
