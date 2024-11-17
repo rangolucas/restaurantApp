@@ -37,7 +37,7 @@ function runAndUpdateView(action) {
 
 async function updateView() {
   try {
-    orders.value = await apiService.getOrders()
+    orders.value = await apiService.getOrders(storeId)
     loading.value = false
   } catch (error) {
     console.error('Error fetching orders: ', error)

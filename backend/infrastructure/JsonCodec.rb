@@ -50,6 +50,10 @@ class JsonCodec
       "id": id
     }.to_json
   end
+  
+  def encode_menu(menu)
+    menu.items.map(&:encode_item).to_json
+  end
 
   private
 
@@ -84,10 +88,6 @@ class JsonCodec
     else
       raise "Unknown order state: '#{state}'"
     end
-  end
-
-  def encode_menu(menu)
-      menu.items.map(&:encode_item).to_json
   end
 
   def encode_item((name, price))

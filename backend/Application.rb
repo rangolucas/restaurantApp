@@ -53,6 +53,8 @@ post '/stores/:store_id/orders' do
   order_controller.make_order(store_id, json_payload)
 end
 
+#falta un get de orders
+
 get '/stores/:store_id/orders/:order_id' do
   store_id = params['store_id']
   order_id = params['order_id']
@@ -75,14 +77,14 @@ get '/stores' do
 end
 
 get '/stores/:store_id/menu' do
-  store_id = params['store_id']
+  store_id = params['store_id'].to_s # capaz se puede sacar el cast
   content_type :json
   status :ok
   menu_controller.get_menu(store_id)
 end
 
 post '/stores/:store_id/menu' do
-  store_id = params['store_id']
+  store_id = params['store_id'].to_s # capaz se puede sacar el cast
   json_payload = JSON.parse(request.body.read)
   content_type :json
   status :created

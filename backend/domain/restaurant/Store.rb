@@ -22,8 +22,8 @@ class Store
     @menu.removeItem(item_name)
   end
 
-  def get_menu_items
-    @menu.items
+  def get_menu
+    @menu
   end
 
   def register_order(user_id, amount_by_item, takeaway)

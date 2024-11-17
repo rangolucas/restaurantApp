@@ -14,7 +14,8 @@ const props = defineProps({
 const loading = ref(true)
 const apiService = getApiService()
 const menu = ref([])
-let newItem = ref({ name: '', price: '' })
+const itemName = ref('')
+const itemPrice = ref('')
 
 function deleteItem(item) {
   runAndUpdateView(() =>
@@ -24,8 +25,11 @@ function deleteItem(item) {
 
 function addItem() {
   runAndUpdateView(() => {
-    apiService.addItemToMenu(props.storeId)
-    newItem = ref({ name: '', price: '' })
+    const newItem = {
+      name: itemName.value,
+      price: itemPrice.value,
+    }
+    apiService.addItemToMenu(props.storeId, newItem)
   })
 }
 
@@ -78,7 +82,7 @@ onMounted(updateView)
         <div class="mb-3">
           <label for="itemName" class="form-label">Nombre del producto</label>
           <input
-            v-model="newItem.name"
+            v-model="itemName"
             type="text"
             id="itemName"
             class="form-control"
@@ -88,7 +92,7 @@ onMounted(updateView)
         <div class="mb-3">
           <label for="itemPrice" class="form-label">Precio</label>
           <input
-            v-model="newItem.price"
+            v-model="itemPrice"
             type="number"
             id="itemPrice"
             class="form-control"
