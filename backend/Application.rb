@@ -7,6 +7,7 @@ require './domain/action/AddItemToMenu'
 require './domain/action/CreateStore'
 require './domain/action/DeleteOrder'
 require './domain/action/GetMenu'
+require './domain/action/GetOrder'
 require './domain/action/GetStores'
 require './domain/action/MakeAnOrder'
 require './domain/action/MarkOrderAsReady'
@@ -23,13 +24,14 @@ store_repository = MemoryStoreRepository.new
 create_store = CreateStore.new(store_repository)
 get_stores = GetStores.new(store_repository)
 make_an_order = MakeAnOrder.new(store_repository)
+get_order = GetOrder.new(store_repository)
 accept_order = AcceptOrder.new(store_repository)
 mark_order_as_ready = MarkOrderAsReady.new(store_repository)
 delete_order = DeleteOrder.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 add_item_to_menu = AddItemToMenu.new(store_repository)
 
-order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order)
+order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order)
 store_controller = StoreController.new(create_store, get_stores)
 menu_controller = MenuController.new(get_menu, add_item_to_menu)
 
@@ -37,7 +39,7 @@ post '/stores/:store_id/orders' do
   store_id = params['store_id']
   json_payload = JSON.parse(request.body.read)
   status :created
-  order_controller.createOrder(store_id, json_payload)
+  order_controller.make_order(store_id, json_payload)
 end
 
 get '/stores/:store_id/orders/:order_id' do

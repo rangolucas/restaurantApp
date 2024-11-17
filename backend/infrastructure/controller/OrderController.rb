@@ -12,7 +12,7 @@ class OrderController
   def make_order(store_id, request)
     user_id = request["userId"]
     amount_by_item = request["amountByItem"]
-    user_coordinates = request["userCoordinates"]
+    user_coordinates = decode_coordinates(request)
     @make_order_action.invoke(store_id, user_id, amount_by_item, user_coordinates)
   end
 
@@ -60,5 +60,10 @@ class OrderController
     else
       raise "Unknown order state: '#{state}'"
     end
+  end
+
+  def decode_coordinates(request)
+    (lat, lon) = request["coordinates"]
+    Coordinates.new(lat, lon)
   end
 end
