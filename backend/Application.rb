@@ -91,14 +91,14 @@ get '/stores' do
 end
 
 get '/stores/:store_id/menu' do
-  store_id = params['store_id'].to_s # capaz se puede sacar el cast
+  store_id = params['store_id']
   content_type :json
   status :ok
   menu_controller.get_menu(store_id)
 end
 
 post '/stores/:store_id/menu' do
-  store_id = params['store_id'].to_s # capaz se puede sacar el cast
+  store_id = params['store_id']
   json_payload = JSON.parse(request.body.read)
   content_type :json
   status :created
