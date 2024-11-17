@@ -7,7 +7,7 @@ class AcceptOrder
   def invoke(store_id, order_id)
     @store_repository.update_store(
       store_id,
-      -> (store) { store.accept_order(order_id)}
+      -> (store) { store.accept_order(order_id) }
     )
   end
 end

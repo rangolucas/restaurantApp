@@ -3,6 +3,7 @@ require './infrastructure/controller/StoreController'
 require './infrastructure/controller/OrderController'
 require './infrastructure/memory/MemoryStoreRepository'
 require './domain/action/AcceptOrder'
+require './domain/action/AddItemToMenu'
 require './domain/action/CreateStore'
 require './domain/action/DeleteOrder'
 require './domain/action/GetMenu'
@@ -26,10 +27,11 @@ accept_order = AcceptOrder.new(store_repository)
 mark_order_as_ready = MarkOrderAsReady.new(store_repository)
 delete_order = DeleteOrder.new(store_repository)
 get_menu = GetMenu.new(store_repository)
+add_item_to_menu = AddItemToMenu.new(store_repository)
 
 order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order)
 store_controller = StoreController.new(create_store, get_stores)
-menu_controller = MenuController.new(get_menu)
+menu_controller = MenuController.new(get_menu, add_item_to_menu)
 
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
