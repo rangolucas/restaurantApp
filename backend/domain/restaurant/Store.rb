@@ -29,6 +29,10 @@ class Store
     @orders[order_id] = Order.new(user_id, amount_by_item)
   end
 
+  def get_order_with_id(order_id)
+    @orders[order_id].copy
+  end
+
   def accept_order(order_id)
     @orders[order_id].mark_as_accepted
   end

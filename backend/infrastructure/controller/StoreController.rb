@@ -11,36 +11,36 @@ class StoreController
   def create_store(request)
     coordinates = decode_coordinates(request['coordinates'])
     store_id = @create_store_action.invoke(coordinates, request['timeTable'], request['contactInfo'])
-    encode_store_id_to_json(store_id)
+    encode_store_id(store_id)
   end
 
   def get_stores
     all_stores = @get_stores_action.invoke
-    encode_stores_to_json(all_stores)
+    encode_stores(all_stores)
   end
 
   private
 
-  def encode_store_to_json(store)
+  def encode_store(store)
     {
       "id": store.id,
       "contact": store.contact_info,
-      "coordinates": encode_coordinates_to_json(store.coordinates)
+      "coordinates": encode_coordinates(store.coordinates)
     }
   end
 
-  def encode_stores_to_json(stores)
-    stores.map { |s| encode_store_to_json(s) }.to_json
+  def encode_stores(stores)
+    stores.map { |s| encode_store(s) }.to_json
   end
 
-  def encode_coordinates_to_json(coordinates)
+  def encode_coordinates(coordinates)
     [coordinates.lat, coordinates.lon]
   end
 
-  def encode_store_id_to_json(id)
+  def encode_store_id(id)
     {
       "id": id
-  }.to_json
+    }.to_json
   end
 
   def decode_coordinates((lat, lon))

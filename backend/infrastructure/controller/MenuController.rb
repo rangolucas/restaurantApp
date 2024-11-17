@@ -7,7 +7,7 @@ class MenuController
 
   def get_menu(store_id)
     menu = @get_menu_action.invoke(store_id)
-    encode_menu_to_json(menu)
+    encode_menu(menu)
   end
 
   def add_item(store_id, request)
@@ -16,11 +16,11 @@ class MenuController
 
   private
 
-  def encode_menu_to_json(menu)
-      menu.items.map(&:encode_item_to_json).to_json
+  def encode_menu(menu)
+      menu.items.map(&:encode_item).to_json
   end
 
-  def encode_item_to_json((name, price))
+  def encode_item((name, price))
     {
       "itemName": name,
       "price": price

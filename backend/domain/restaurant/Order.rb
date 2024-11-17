@@ -1,5 +1,5 @@
 class Order
-  attr_accessor :to_take_away
+  attr_reader :user_id, :amount_by_item, :to_take_away
 
   def initialize(user_id, amount_by_item, to_take_away)
     @state = :Pending

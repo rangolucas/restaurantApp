@@ -40,6 +40,14 @@ post '/stores/:store_id/orders' do
   order_controller.createOrder(store_id, json_payload)
 end
 
+get '/stores/:store_id/orders/:order_id' do
+  store_id = params['store_id']
+  order_id = params['order_id']
+  content_type :json
+  status :ok
+  order_controller.get_order(store_id, order_id)
+end
+
 post '/stores' do
   json_payload = JSON.parse(request.body.read)
   content_type :json
