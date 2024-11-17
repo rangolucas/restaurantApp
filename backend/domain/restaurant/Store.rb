@@ -26,6 +26,10 @@ class Store
     @menu
   end
 
+  def get_orders
+    @orders.values
+  end
+
   def register_order(user_id, amount_by_item, takeaway)
     order_id = SecureRandom.uuid[0..3]
     @orders[order_id] = Order.new(user_id, amount_by_item, takeaway)

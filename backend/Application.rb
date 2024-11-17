@@ -9,6 +9,7 @@ require './action/CreateStore'
 require './action/DeleteOrder'
 require './action/GetMenu'
 require './action/GetOrder'
+require './action/GetStoreOrders'
 require './action/GetStores'
 require './action/MakeAnOrder'
 require './action/MarkOrderAsReady'
@@ -30,13 +31,14 @@ create_store = CreateStore.new(store_repository)
 get_stores = GetStores.new(store_repository)
 make_an_order = MakeAnOrder.new(store_repository)
 get_order = GetOrder.new(store_repository)
+get_store_orders = GetStoreOrders.new(store_repository)
 accept_order = AcceptOrder.new(store_repository)
 mark_order_as_ready = MarkOrderAsReady.new(store_repository)
 delete_order = DeleteOrder.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 add_item_to_menu = AddItemToMenu.new(store_repository)
 
-order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order, codec)
+order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order, get_store_orders, codec)
 store_controller = StoreController.new(create_store, get_stores, codec)
 menu_controller = MenuController.new(get_menu, add_item_to_menu, codec)
 
@@ -59,7 +61,13 @@ post '/stores/:store_id/orders' do
   end
 end
 
-#falta un get de orders
+get '/stores/:store_id/orders' do
+  store_id = params['store_id']
+  orders = order_controller.get_store_orders(store_id)
+  content_type :json
+  status :ok
+  orders
+end
 
 get '/stores/:store_id/orders/:order_id' do
   store_id = params['store_id']
