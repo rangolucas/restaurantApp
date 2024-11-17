@@ -17,7 +17,8 @@ class JsonCodec
     amount_by_item = get_mandatory_field(request, "amountByItem")
     encoded_coordinates = get_mandatory_field(request, "userCoordinates")
     user_coordinates = decode_coordinates(encoded_coordinates)
-    OrderCreationDto.new(user_id, amount_by_item, user_coordinates)
+    takeaway = get_mandatory_field(request, "takeaway")
+    OrderCreationDto.new(user_id, amount_by_item, user_coordinates, takeaway)
   end
 
   def decode_order_id(request)

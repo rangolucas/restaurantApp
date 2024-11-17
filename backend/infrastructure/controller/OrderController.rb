@@ -12,7 +12,7 @@ class OrderController
 
   def make_order(store_id, encoded_request)
     decoded_request = @codec.decode_order_creation(encoded_request)
-    @make_order_action.invoke(store_id, decoded_request.user_id, decoded_request.amount_by_item, decoded_request.coordinates)
+    @make_order_action.invoke(store_id, decoded_request.user_id, decoded_request.amount_by_item, decoded_request.coordinates, decoded_request.takeaway)
   end
 
   def get_order(store_id, order_id)

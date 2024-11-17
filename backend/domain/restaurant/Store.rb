@@ -1,4 +1,5 @@
 require './domain/restaurant/Menu'
+require './domain/restaurant/Order'
 
 class Store
   attr_accessor :id, :coordinates, :time_table, :contact_info, :menu, :orders
@@ -24,9 +25,9 @@ class Store
     @menu.items
   end
 
-  def register_order(user_id, amount_by_item)
+  def register_order(user_id, amount_by_item, takeaway)
     order_id = SecureRandom.uuid[0..3]
-    @orders[order_id] = Order.new(user_id, amount_by_item)
+    @orders[order_id] = Order.new(user_id, amount_by_item, takeaway)
   end
 
   def get_order_with_id(order_id)
