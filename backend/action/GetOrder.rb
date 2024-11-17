@@ -3,8 +3,8 @@ class GetOrder
     @store_repository = store_repository
   end
 
-  def invoke(store_id, order_id)
+  def invoke(store_id, table_id)
     store = @store_repository.fetch_by_id(store_id)
-    store.get_order_with_id(order_id)
+    store.get_order_for_table(table_id)
   end
 end

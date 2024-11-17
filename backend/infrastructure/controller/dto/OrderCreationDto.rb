@@ -1,8 +1,8 @@
 class OrderCreationDto
-  attr_reader :user_id, :amount_by_item, :coordinates, :takeaway
+  attr_reader :table_id, :amount_by_item, :coordinates, :takeaway
 
-  def initialize(user_id, amount_by_item, coordinates, takeaway)
-    @user_id = user_id
+  def initialize(table_id, amount_by_item, coordinates, takeaway)
+    @table_id = table_id
     @amount_by_item = amount_by_item
     @coordinates = coordinates
     @takeaway = takeaway

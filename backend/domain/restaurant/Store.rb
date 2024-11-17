@@ -30,17 +30,16 @@ class Store
     @orders.values
   end
 
-  def register_order(user_id, amount_by_item, takeaway)
-    order_id = SecureRandom.uuid[0..3]
-    @orders[order_id] = Order.new(user_id, amount_by_item, takeaway)
+  def register_order(table_id, amount_by_item, takeaway)
+    @orders[table_id] = Order.new(table_id, amount_by_item, takeaway)
   end
 
-  def get_order_with_id(order_id)
-    @orders[order_id].copy
+  def get_order_for_table(table_id)
+    @orders[table_id].copy
   end
 
-  def accept_order(order_id)
-    @orders[order_id].mark_as_accepted
+  def accept_order(table_id)
+    @orders[table_id].mark_as_accepted
   end
 
   def mark_as_ready(order_id)

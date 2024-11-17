@@ -14,16 +14,16 @@ class JsonCodec
   end
   
   def decode_order_creation(request)
-    user_id = get_mandatory_field(request, "userId")
+    table_id = get_mandatory_field(request, "table_id")
     amount_by_item = get_mandatory_field(request, "amountByItem")
     encoded_coordinates = get_mandatory_field(request, "userCoordinates")
     user_coordinates = decode_coordinates(encoded_coordinates)
     takeaway = get_mandatory_field(request, "takeaway")
-    OrderCreationDto.new(user_id, amount_by_item, user_coordinates, takeaway)
+    OrderCreationDto.new(table_id, amount_by_item, user_coordinates, takeaway)
   end
 
-  def decode_order_id(request)
-    get_mandatory_field(request, "orderId")
+  def decode_table_id(request)
+    get_mandatory_field(request, "tableId")
   end
 
   def decode_menu_item(request)
@@ -109,7 +109,7 @@ class JsonCodec
   def encode_order_to_object(order)
     {
       "state": encode_order_state(order.state),
-      "userId": order.user_id,
+      "table_id": order.table_id,
       "amountByItem": order.amount_by_item,
       "toTakeAway": order.to_take_away
     }

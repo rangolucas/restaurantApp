@@ -2,10 +2,10 @@ import axios from 'axios'
 import { STATES } from '../constants'
 
 const ordersDB = [
-  { orderId: '1', state: STATES.READY, userId: 'user1' },
-  { orderId: '2', state: STATES.ACCEPTED, userId: 'user2' },
-  { orderId: '3', state: STATES.READY, userId: 'user3' },
-  { orderId: '4', state: STATES.PENDING, userId: 'user4' },
+  { orderId: '1', state: STATES.READY, tableId: 'table1' },
+  { orderId: '2', state: STATES.ACCEPTED, tableId: 'table2' },
+  { orderId: '3', state: STATES.READY, tableId: 'table3' },
+  { orderId: '4', state: STATES.PENDING, tableId: 'table4' },
 ]
 
 const menuDB = [
@@ -16,10 +16,38 @@ const menuDB = [
 ]
 
 const storesDB = [
-  { id: 'store1', name: 'Guerrin', contact: 'store1@test.com', lat: -34.584770, long: -58.442846, address: 'Calle 124' },
-  { id: 'store2', name: 'Cuervo', contact: 'store2@test.com', lat: -34.588254, long: -58.434529, address: 'Avenida Corrientes 742' },
-  { id: 'store3', name: 'Panchitos', contact: 'store3@test.com', lat: -34.627460, long: -58.434038, address: 'Calle 456' },
-  { id: 'store4', name: 'Paellaza', contact: 'store4@test.com', lat: -34.569148, long: -58.433930, address: 'Avenida 9 de Julio 3243' }
+  {
+    id: 'store1',
+    name: 'Guerrin',
+    contact: 'store1@test.com',
+    lat: -34.58477,
+    long: -58.442846,
+    address: 'Calle 124',
+  },
+  {
+    id: 'store2',
+    name: 'Cuervo',
+    contact: 'store2@test.com',
+    lat: -34.588254,
+    long: -58.434529,
+    address: 'Avenida Corrientes 742',
+  },
+  {
+    id: 'store3',
+    name: 'Panchitos',
+    contact: 'store3@test.com',
+    lat: -34.62746,
+    long: -58.434038,
+    address: 'Calle 456',
+  },
+  {
+    id: 'store4',
+    name: 'Paellaza',
+    contact: 'store4@test.com',
+    lat: -34.569148,
+    long: -58.43393,
+    address: 'Avenida 9 de Julio 3243',
+  },
 ]
 
 export const apiServiceDev = {
@@ -39,7 +67,11 @@ export const apiServiceDev = {
   },
 
   async createOrder() {
-    const newOrder = {orderId: 'testId', state: STATES.PENDING, userId: 'testUser'}
+    const newOrder = {
+      orderId: 'testId',
+      state: STATES.PENDING,
+      tableId: 'testTable',
+    }
     ordersDB.push(newOrder)
     return newOrder
   },
@@ -80,7 +112,11 @@ export const apiServiceDev = {
   },
 
   async addItemToMenu(storeId, item) {
-    menuDB.push({ itemId: 'testId', itemName: item.name, itemPrice: item.price })
+    menuDB.push({
+      itemId: 'testId',
+      itemName: item.name,
+      itemPrice: item.price,
+    })
   },
 
   async removeItemFromMenu(storeId, itemId) {
@@ -99,14 +135,16 @@ export const apiServiceDev = {
   },
 
   async addStore(store) {
-     storesDB.push({ id: 'testId',
-                    name: store.name,
-                    address: store.address,
-                    contact: store.contact,
-                    hours: store.hours,
-                    lat: store.lat,
-                    long: store.long,
-                    logo: store.logo})
+    storesDB.push({
+      id: 'testId',
+      name: store.name,
+      address: store.address,
+      contact: store.contact,
+      hours: store.hours,
+      lat: store.lat,
+      long: store.long,
+      logo: store.logo,
+    })
   },
 }
 
@@ -154,29 +192,35 @@ export const apiServiceProd = {
 
       return response.data
     } catch (error) {
-      console.error('Error adding store:', error.response?.data || error.message)
+      console.error(
+        'Error adding store:',
+        error.response?.data || error.message,
+      )
       throw error
     }
   },
 
   async addItemToMenu(storeId, item) {
     const url = `${PROD_URL}/stores/${storeId}/menu`
-  
+
     const itemObject = {
       itemName: item.name,
       price: item.price,
     }
-    
+
     try {
       const response = await axios.post(url, itemObject, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      
+
       return response.data
     } catch (error) {
-      console.error('Error adding item to menu:', error.response?.data || error.message)
+      console.error(
+        'Error adding item to menu:',
+        error.response?.data || error.message,
+      )
       throw error
     }
   },
