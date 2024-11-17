@@ -27,7 +27,7 @@ onMounted(loadStores)
       <ul v-if="!loading">
         <li v-for="store in stores" :key="store.id">
           <router-link :to="`/user/${store.id}`">
-            <span class="store-id">{{ store.id }}</span> -
+            <span class="store-name">{{ store.name }}</span> -
             <span class="store-contact">{{ store.contact }}</span> -
             <span class="store-contact">{{ store.address }}</span>
           </router-link>
@@ -90,7 +90,7 @@ onMounted(loadStores)
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.store-id {
+.store-name {
   font-weight: bold;
   color: #4a90e2;
 }
@@ -100,20 +100,6 @@ onMounted(loadStores)
   color: #555;
 }
 
-.buttonRegisterStore {
-  background-color: #4a90e2;
-  color: #ffffff;
-  font-size: 1em;
-  font-weight: bold;
-  text-transform: uppercase;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
 
 @media (max-width: 600px) {
   .store-list {

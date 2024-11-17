@@ -21,7 +21,7 @@ export default {
     const loader = new Loader({
       apiKey: "AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E",
       version: "weekly",
-      libraries: ["places"], 
+      libraries: ["places"],
     })
 
     loader.load().then(() => {
@@ -44,7 +44,7 @@ export default {
           // Add click event listener to the marker
           marker.addListener('click', () => {
             const infoWindow = new google.maps.InfoWindow({
-              content: `<div><strong>${store.id}</strong><br>${store.contact}</div>`,
+              content: `<div><h6><strong>${store.name}</strong></h6><br>${store.address}</div>`,
             })
             infoWindow.open(map, marker)
           })
@@ -75,11 +75,10 @@ export default {
 .map-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 400px;
   width: 80%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 }
 
 #map {

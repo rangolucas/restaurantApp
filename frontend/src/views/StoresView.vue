@@ -31,7 +31,7 @@ onMounted(loadStores)
       <ul v-if="!loading">
         <li v-for="store in stores" :key="store.id">
           <router-link :to="`/stores/${store.id}`">
-            <span class="store-id">{{ store.id }}</span> -
+            <span class="store-name">{{ store.name }}</span> -
             <span class="store-contact">{{ store.contact }}</span> -
             <span class="store-contact">{{ store.address }}</span>
           </router-link>
@@ -93,7 +93,7 @@ onMounted(loadStores)
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.store-id {
+.store-name {
   font-weight: bold;
   color: #4a90e2;
 }
