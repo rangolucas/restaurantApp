@@ -22,7 +22,7 @@ async function registerStore() {
       lat: storeLat.value,
       long: storeLng.value,
     }
-    console.log(store);
+    
     await apiService.addStore(store)
     router.push('/stores')
 }
