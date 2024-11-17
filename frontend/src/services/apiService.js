@@ -2,7 +2,7 @@ import { devApiService } from './devApiService'
 import { prodApiService } from './prodApiService'
 
 export function getApiService() {
-  const env = import.meta.env.MODE ?? 'development'
+  const env = import.meta.env.VITE_RUN_MODE ?? 'development'
 
   switch (env) {
     case 'development':
