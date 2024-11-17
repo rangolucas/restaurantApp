@@ -51,7 +51,7 @@ class Store
   end
 
   def copy
-    Store.new(id, coordinates, time_table, contact_info, menu.copy, copy_orders)
+    Store.new(@id, @coordinates, @time_table, @contact_info, @menu.copy, copy_orders)
   end
 
   private
