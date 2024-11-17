@@ -6,6 +6,7 @@ import StoresMap from "@/components/StoresMap.vue";
 
 const stores = ref([])
 const loading = ref(true)
+const location = ref(null)
 const apiService = getApiService()
 
 async function loadStores() {
@@ -15,6 +16,10 @@ async function loadStores() {
   } catch (error) {
     console.error('Error fetching stores:', error)
   }
+}
+
+function updateLocation (newLocation) {
+  location.value = newLocation
 }
 
 onMounted(loadStores)
@@ -39,7 +44,7 @@ onMounted(loadStores)
   </main>
 
   <div class="stores">
-    <StoresMap :stores="stores"/>
+    <StoresMap :stores="stores" :updateLocation="updateLocation"/>
   </div>
 </template>
 
