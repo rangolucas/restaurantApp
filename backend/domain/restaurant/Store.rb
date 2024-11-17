@@ -22,8 +22,12 @@ class Store
     @menu.removeItem(item_name)
   end
 
-  def get_menu_items
-    @menu.items
+  def get_menu
+    @menu
+  end
+
+  def get_orders
+    @orders.values
   end
 
   def register_order(user_id, amount_by_item, takeaway)
@@ -49,6 +53,10 @@ class Store
 
   def is_close_to(coordinates)
     @coordinates.distance_to(coordinates, units: :meters) < 50
+  end
+
+  def accepts_order(amount_by_item)
+    @menu.has_all_items?(amount_by_item.keys)
   end
 
   def copy

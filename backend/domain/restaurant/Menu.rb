@@ -13,6 +13,13 @@ class Menu
     @items.delete(item_name)
   end
 
+  def has_all_items?(item_names)
+    item_names.all? { |name|
+      lowercase_items = @items.keys.map(&:downcase)
+      lowercase_items.include?(name.downcase)
+    }
+  end
+
   def copy
     Menu.new(copy_items)
   end

@@ -33,12 +33,11 @@ class JsonCodec
   end
 
   def encode_order(order)
-    {
-      "state": encode_order_state(order.state),
-      "userId": order.user_id,
-      "amountByItem": order.amount_by_item.to_json,
-      "toTakeAway": order.to_take_away
-    }.to_json
+    encode_order_to_object(order).to_json
+  end
+
+  def encode_orders(orders)
+    orders.map { |order| encode_order_to_object(order) }.to_json
   end
 
   def encode_stores(stores)
@@ -49,6 +48,27 @@ class JsonCodec
     {
       "id": id
     }.to_json
+  end
+  
+  def encode_menu(menu)
+    menu.items.map(&:encode_item).to_json
+  end
+
+  def encode_order_result(result)
+    case result
+    when :success
+      nil
+    when :invalid_order
+      {
+        "error": "INVALID_ORDER"
+      }.to_json
+    when :not_in_store_radius
+      {
+        "error": "NOT_IN_STORE_RADIUS"
+      }.to_json
+    else
+      raise "Unknown order result: '#{result}'"
+    end
   end
 
   private
@@ -86,8 +106,13 @@ class JsonCodec
     end
   end
 
-  def encode_menu(menu)
-      menu.items.map(&:encode_item).to_json
+  def encode_order_to_object(order)
+    {
+      "state": encode_order_state(order.state),
+      "userId": order.user_id,
+      "amountByItem": order.amount_by_item,
+      "toTakeAway": order.to_take_away
+    }
   end
 
   def encode_item((name, price))
