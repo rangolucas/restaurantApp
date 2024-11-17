@@ -3,9 +3,10 @@ require 'json'
 require './domain/Coordinates'
 
 class StoreController
-  def initialize(create_store_action, get_stores_action, codec)
+  def initialize(create_store_action, get_stores_action, acquire_table_action, codec)
     @create_store_action = create_store_action
     @get_stores_action = get_stores_action
+    @acquire_table_action = acquire_table_action
     @codec = codec
   end
 
@@ -18,5 +19,11 @@ class StoreController
   def get_stores
     all_stores = @get_stores_action.invoke
     @codec.encode_stores(all_stores)
+  end
+
+  def acquire_table(store_id, encoded_request)
+    user_tables = @codec.decode_user_tables(encoded_request)
+    updated_user_tables = @acquire_table_action.invoke(store_id, user_tables)
+    @codec.encode_user_tables(updated_user_tables)
   end
 end

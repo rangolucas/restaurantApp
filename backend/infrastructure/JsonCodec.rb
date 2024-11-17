@@ -32,6 +32,14 @@ class JsonCodec
     MenuItemDto.new(name, price)
   end
 
+  def decode_user_tables(request)
+    begin
+      request == nil ? Hash.new : JSON.parse(request)
+    rescue JSON::ParserError
+      raise JsonFormatError, "Invalid user tables JSON"
+    end
+  end
+
   def encode_order(order)
     encode_order_to_object(order).to_json
   end
@@ -68,6 +76,14 @@ class JsonCodec
       }.to_json
     else
       raise "Unknown order result: '#{result}'"
+    end
+  end
+
+  def encode_user_tables(user_tables)
+    if user_tables == nil
+      nil
+    else
+      user_tables.to_json
     end
   end
 
