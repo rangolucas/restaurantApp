@@ -1,5 +1,7 @@
 require 'json'
 
+require './domain/Coordinates'
+
 class StoreController
   def initialize(create_store_action, get_stores_action)
     @create_store_action = create_store_action
@@ -7,7 +9,8 @@ class StoreController
   end
 
   def create_store(request)
-    store_id = @create_store_action.invoke(request['coordinates'], request['timeTable'], request['contactInfo'])
+    coordinates = decode_coordinates(request['coordinates'])
+    store_id = @create_store_action.invoke(coordinates, request['timeTable'], request['contactInfo'])
     encode_store_id_to_json(store_id)
   end
 
@@ -22,7 +25,7 @@ class StoreController
     {
       "id": store.id,
       "contact": store.contact_info,
-      "coordinates": store.coordinates
+      "coordinates": encode_coordinates_to_json(store.coordinates)
     }
   end
 
@@ -30,9 +33,17 @@ class StoreController
     stores.map { |s| encode_store_to_json(s) }.to_json
   end
 
+  def encode_coordinates_to_json(coordinates)
+    [coordinates.lat, coordinates.lon]
+  end
+
   def encode_store_id_to_json(id)
     {
       "id": id
   }.to_json
+  end
+
+  def decode_coordinates((lat, lon))
+    Coordinates.new(lat, lon)
   end
 end

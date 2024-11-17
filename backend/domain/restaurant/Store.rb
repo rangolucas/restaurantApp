@@ -13,7 +13,7 @@ class Store
   end
 
   def add_item(item_name, itemPrice)
-    return @menu.add_item(item_name, itemPrice)
+    @menu.add_item(item_name, itemPrice)
   end
 
   def remove_item(item_name)
@@ -39,6 +39,10 @@ class Store
 
   def delete_order(order_id)
     @orders.delete(order_id)
+  end
+
+  def is_close_to(coordinates)
+    @coordinates.distance_to(coordinates, units: :meters) < 50
   end
 
   def copy
