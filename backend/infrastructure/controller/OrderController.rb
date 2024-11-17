@@ -1,19 +1,18 @@
 require 'json'
 
 class OrderController
-  def initialize(make_order_action, accept_order_action, mark_order_as_ready_action, delete_order_action, get_order_action)
+  def initialize(make_order_action, accept_order_action, mark_order_as_ready_action, delete_order_action, get_order_action, codec)
     @make_order_action = make_order_action
     @get_order_action = get_order_action
     @accept_order_action = accept_order_action
     @make_order_as_ready_action = mark_order_as_ready_action
     @delete_order_action = delete_order_action
+    @codec = codec
   end
 
-  def make_order(store_id, request)
-    user_id = request["userId"]
-    amount_by_item = request["amountByItem"]
-    user_coordinates = decode_coordinates(request)
-    @make_order_action.invoke(store_id, user_id, amount_by_item, user_coordinates)
+  def make_order(store_id, encoded_request)
+    decoded_request = @codec.decode_order_creation(encoded_request)
+    @make_order_action.invoke(store_id, decoded_request.user_id, decoded_request.amount_by_item, decoded_request.coordinates)
   end
 
   def get_order(store_id, order_id)
@@ -22,48 +21,17 @@ class OrderController
   end
 
   def accept_order(store_id, request)
-    order_id = request["orderId"]
+    order_id = @codec.decode_order_id(request)
     @accept_order_action.invoke(store_id, order_id)
   end
 
   def mark_order_as_ready(store_id, request)
-    order_id = request["orderId"]
+    order_id = @codec.decode_order_id(request)
     @mark_order_as_ready_action.invoke(store_id, order_id)
   end
 
   def delete_order(store_id, request)
-    order_id = request["orderId"]
+    order_id = @codec.decode_order_id(request)
     @delete_order_action.invoke(store_id, order_id)
-  end
-
-  private
-
-  def encode_order(order)
-    {
-      "state": encode_order_state(order.state),
-      "userId": order.user_id,
-      "amountByItem": order.amount_by_item.to_json,
-      "toTakeAway": order.to_take_away
-    }.to_json
-  end
-
-  def encode_order_state(state)
-    case state
-    when :Pending
-      "PENDING"
-    when :Accepted
-      "ACCEPTED"
-    when :Rejected
-      "REJECTED"
-    when :Ready
-      "READY"
-    else
-      raise "Unknown order state: '#{state}'"
-    end
-  end
-
-  def decode_coordinates(request)
-    (lat, lon) = request["coordinates"]
-    Coordinates.new(lat, lon)
   end
 end

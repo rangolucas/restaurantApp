@@ -1,0 +1,2 @@
+class JsonFormatError < StandardError
+end

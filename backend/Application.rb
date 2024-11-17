@@ -1,3 +1,5 @@
+require './infrastructure/JsonCodec'
+require './infrastructure/JsonFormatError'
 require './infrastructure/controller/MenuController'
 require './infrastructure/controller/StoreController'
 require './infrastructure/controller/OrderController'
@@ -16,10 +18,12 @@ require 'json'
 require 'sinatra'
 require 'sinatra/cors'
 
+disable :show_exceptions
 set :allow_origin, '*'
 set :bind, '0.0.0.0'
 
 store_repository = MemoryStoreRepository.new
+codec = JsonCodec.new
 
 create_store = CreateStore.new(store_repository)
 get_stores = GetStores.new(store_repository)
@@ -31,9 +35,15 @@ delete_order = DeleteOrder.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 add_item_to_menu = AddItemToMenu.new(store_repository)
 
-order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order)
+order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order, codec)
 store_controller = StoreController.new(create_store, get_stores)
 menu_controller = MenuController.new(get_menu, add_item_to_menu)
+
+error JsonFormatError do
+  content_type :json
+  status 400
+  { error: env['sinatra.error'].message }.to_json
+end
 
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
