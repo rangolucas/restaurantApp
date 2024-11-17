@@ -44,7 +44,11 @@ export default {
           // Add click event listener to the marker
           marker.addListener('click', () => {
             const infoWindow = new google.maps.InfoWindow({
-              content: `<div><h6><strong>${store.name}</strong></h6><br>${store.address}</div>`,
+              content: `<div>
+                          <h6><strong><a href="/user/${store.id}">${store.name}</a></strong></h6>
+                          <br>${store.address}
+                          <br><p>Horarios: ${store.hours}</p>
+                        </div>`,
             })
             infoWindow.open(map, marker)
           })

@@ -11,25 +11,38 @@ const storeContact = ref('')
 const storeHours = ref('')
 const storeLat = ref(null)
 const storeLng = ref(null)
+const storeLogo = ref(null)
 const apiService = getApiService()
 
 async function registerStore() {
-    const store = {
-      name: storeName.value,
-      address: storeAddress.value,
-      contact: storeContact.value,
-      hours: storeHours.value,
-      lat: storeLat.value,
-      long: storeLng.value,
-    }
-    console.log(store);
-    await apiService.addStore(store)
-    router.push('/stores')
+  const store = {
+    name: storeName.value,
+    address: storeAddress.value,
+    contact: storeContact.value,
+    hours: storeHours.value,
+    lat: storeLat.value,
+    long: storeLng.value,
+    logo: storeLogo.value
+  }
+  console.log(store);
+  await apiService.addStore(store)
+  router.push('/stores')
+}
+
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      storeLogo.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 onMounted(() => {
   const loader = new Loader({
-    apiKey: "AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E", // Replace with your API key
+    apiKey: "AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E",
     version: "weekly",
     libraries: ["places"],
   });
@@ -43,7 +56,7 @@ onMounted(() => {
       if (place.geometry) {
         const formattedAddress = place.formatted_address;
         const addressParts = formattedAddress.split(',');
-        storeAddress.value = addressParts[0];
+        storeAddress.value = addressParts[0]; // Save only the first part of the address
         storeLat.value = place.geometry.location.lat();
         storeLng.value = place.geometry.location.lng();
       }
@@ -59,7 +72,7 @@ onMounted(() => {
       <!-- Nombre del local -->
       <div class="mb-3">
         <label for="storeName" class="form-label">Nombre</label>
-        <input type="text" v-model="storeName" id="storeName" class="form-control" placeholder="Example" required>
+        <input type="text" v-model="storeName" id="storeName" class="form-control" placeholder="Example">
       </div>
 
       <!-- Direccion del local -->
@@ -80,11 +93,10 @@ onMounted(() => {
         <input type="text" v-model="storeHours" id="storeHours" class="form-control" placeholder="Lunes a Viernes: 9 AM - 6 PM" required>
       </div>
 
-
-      <!-- Logo/Fotos -->
+      <!-- Logo -->
       <div class="mb-3">
-        <label for="storePhotos" class="form-label">Fotos o logo del local</label>
-        <input type="file" id="storePhotos" class="form-control" multiple>
+        <label for="storeLogo" class="form-label">Logo del local</label>
+        <input type="file" id="storeLogo" class="form-control" @change="handleFileChange">
       </div>
 
       <button type="submit" class="btn btn-primary w-100">Registrar Local</button>

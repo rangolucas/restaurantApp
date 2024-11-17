@@ -31,6 +31,7 @@ onMounted(loadStores)
       <ul v-if="!loading">
         <li v-for="store in stores" :key="store.id">
           <router-link :to="`/stores/${store.id}`">
+            <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
             <span class="store-name">{{ store.name }}</span> -
             <span class="store-contact">{{ store.contact }}</span> -
             <span class="store-contact">{{ store.address }}</span>
@@ -103,8 +104,15 @@ onMounted(loadStores)
   color: #555;
 }
 
+.store-logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 95%;
+}
+
 .buttonRegisterStore {
-  background-color: #4a90e2;
+  background-color: #0d6efd;
   color: #ffffff;
   font-size: 1em;
   font-weight: bold;

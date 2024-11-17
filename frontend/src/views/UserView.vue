@@ -27,6 +27,7 @@ onMounted(loadStores)
       <ul v-if="!loading">
         <li v-for="store in stores" :key="store.id">
           <router-link :to="`/user/${store.id}`">
+            <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
             <span class="store-name">{{ store.name }}</span> -
             <span class="store-contact">{{ store.contact }}</span> -
             <span class="store-contact">{{ store.address }}</span>
@@ -100,6 +101,12 @@ onMounted(loadStores)
   color: #555;
 }
 
+.store-logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 95%;
+}
 
 @media (max-width: 600px) {
   .store-list {

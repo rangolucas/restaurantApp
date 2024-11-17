@@ -100,10 +100,11 @@ export const apiServiceDev = {
   },
 
   async addStore(store) {
-    storesDB.push({ id: 'testId',
+     storesDB.push({ id: 'testId',
                     name: store.name,
-                    contact: store.contact,
                     address: store.address,
+                    contact: store.contact,
+                    hours: store.hours,
                     lat: store.lat,
                     long: store.long })
   },
