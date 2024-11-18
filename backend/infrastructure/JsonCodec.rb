@@ -9,8 +9,8 @@ class JsonCodec
     encoded_coordinates = get_mandatory_field(request, "coordinates")
     coordinates = decode_coordinates(encoded_coordinates)
     name = get_mandatory_field(request, "name")
-    time_table = get_mandatory_field(request, "timeTable")
-    contact_info = get_mandatory_field(request, "contactInfo")
+    time_table = get_mandatory_field(request, "hours")
+    contact_info = get_mandatory_field(request, "contact")
     StoreCreationDto.new(coordinates, name, time_table, contact_info)
   end
   
@@ -163,6 +163,7 @@ class JsonCodec
       "id": store.id,
       "name": store.name,
       "contact": store.contact_info,
+      "hours": store.time_table,
       "coordinates": encode_coordinates(store.coordinates)
     }
   end
