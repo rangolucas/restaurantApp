@@ -7,7 +7,7 @@ import Menu from '../components/Menu.vue'
 import OrderStatus from '../components/OrderStatus.vue'
 
 const route = useRoute()
-const storeId = ref(route.params.id)
+const storeId = ref(route.params.storeId)
 const apiService = getApiService()
 const loading = ref(true)
 const menu = ref(null)
@@ -16,7 +16,7 @@ const order = ref(null)
 async function checkIn() {
   try {
     loading.value = true
-    const [updatedOrder, updatedMenu] = await apiService.checkIn()
+    const [updatedOrder, updatedMenu] = await apiService.checkIn(storeId.value)
     order.value = updatedOrder
     menu.value = updatedMenu
     loading.value = false
