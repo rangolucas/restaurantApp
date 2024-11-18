@@ -48,7 +48,9 @@ function setActiveTab(tab) {
     <OrdersTable v-if="activeTab === TABS.ORDERS" :storeId="storeId" />
     <MenuEditor v-if="activeTab === TABS.MENU" :storeId="storeId" />
 
-    <QrCode :url="qrCodeUrl" />
+    <div class="qr-container">
+      <QrCode :url="qrCodeUrl" class="qrcode" />
+    </div>
   </div>
 </template>
 
@@ -91,5 +93,16 @@ body {
 .nav-link.active {
   color: #fff;
   background-color: #007bff;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.qrcode {
+  border: 2px solid #ddd;
+  padding: 10px;
 }
 </style>
