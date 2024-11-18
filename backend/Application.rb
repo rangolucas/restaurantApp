@@ -131,3 +131,19 @@ get '/stores/:store_id/table' do
     cookies["userTables"] = updated_user_tables
   end
 end
+
+put '/stores/:store_id/orders/:table_id/accept' do
+  store_id = params['store_id']
+  table_id = params['table_id']
+  content_type :json
+  status :ok
+  order_controller.accept_order(store_id, table_id)
+end
+
+put '/stores/:store_id/orders/:table_id/ready' do
+  store_id = params['store_id']
+  table_id = params['table_id']
+  content_type :json
+  status :ok
+  order_controller.mark_order_ready(store_id, table_id)
+end

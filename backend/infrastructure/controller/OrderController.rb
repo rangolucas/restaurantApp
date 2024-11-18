@@ -29,14 +29,12 @@ class OrderController
     @codec.encode_orders(orders)
   end
 
-  def accept_order(store_id, request)
-    table_id = @codec.decode_table_id(request)
+  def accept_order(store_id, table_id)
     @accept_order_action.invoke(store_id, table_id)
   end
 
-  def mark_order_as_ready(store_id, request)
-    order_id = @codec.decode_order_id(request)
-    @mark_order_as_ready_action.invoke(store_id, order_id)
+  def mark_order_as_ready(store_id, table_id)
+    @mark_order_as_ready_action.invoke(store_id, table_id)
   end
 
   def delete_order(store_id, request)
