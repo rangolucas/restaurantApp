@@ -30,12 +30,29 @@ class Store
     @orders.values
   end
 
+  def validate_order(table_id, user_coordinates, amount_by_item)
+    if !self.is_close_to(user_coordinates)
+      :not_in_store_radius
+    elsif self.has_order_in_progress(table_id)
+      :order_in_progress
+    elsif !self.accepts_order(amount_by_item)
+      :invalid_order
+    else
+      :success
+    end
+  end
+
   def register_order(table_id, amount_by_item, takeaway)
     @orders[table_id] = Order.new(table_id, amount_by_item, takeaway)
   end
 
   def get_order_for_table(table_id)
-    @orders[table_id].copy
+    order = @orders[table_id]
+    if order == nil
+      nil
+    else
+      order.copy
+    end
   end
 
   def accept_order(table_id)
@@ -63,6 +80,11 @@ class Store
   end
 
   private
+
+  def has_order_in_progress(table_id)
+    order = get_order_for_table(table_id)
+    order != nil && order.is_in_progress
+  end
 
   def copy_orders
     @orders.map { |id, order| [id, order.copy] }.to_h

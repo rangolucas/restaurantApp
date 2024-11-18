@@ -8,6 +8,10 @@ class Order
     @takeaway = takeaway
   end
 
+  def is_in_progress
+    @state == :Pending || @state == :Accepted
+  end
+
   def mark_as_accepted
     if @state != :Ready
       @state = :Accepted

@@ -76,6 +76,10 @@ class JsonCodec
       {
         "error": "NOT_IN_STORE_RADIUS"
       }.to_json
+    when :order_in_progress
+      {
+        "error": "ORDER_IN_PROGRESS"
+      }.to_json
     else
       raise "Unknown order result: '#{result}'"
     end
