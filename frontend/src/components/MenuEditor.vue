@@ -65,7 +65,7 @@ onMounted(updateView)
         >
           <span>{{ item.itemName }}</span>
           <span class="badge bg-success rounded-pill">
-            ${{ item.itemPrice }}
+            ${{ item.price }}
           </span>
           <button @click="deleteItem(item)" class="btn btn-danger">
             <img

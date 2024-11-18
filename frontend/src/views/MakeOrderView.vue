@@ -60,7 +60,7 @@ onMounted(getMenu)
           >
             <div class="d-flex flex-column" style="flex: 3">
               <strong>{{ item.itemName }}</strong>
-              <span class="text-muted">Precio: ${{ item.itemPrice }}</span>
+              <span class="text-muted">Precio: ${{ item.price }}</span>
             </div>
             <div class="d-flex align-items-center" style="flex: 2">
               <div class="input-group">

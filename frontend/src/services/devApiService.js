@@ -8,10 +8,10 @@ const ordersDB = [
 ]
 
 const menuDB = [
-  { itemId: '1', itemName: 'Hamburguesa', itemPrice: '10.3' },
-  { itemId: '2', itemName: 'Pizza con ananá', itemPrice: '5' },
-  { itemId: '3', itemName: 'Flan', itemPrice: '888' },
-  { itemId: '4', itemName: 'Suprema a la maryland', itemPrice: '1' },
+  { itemId: '1', itemName: 'Hamburguesa', price: '10.3' },
+  { itemId: '2', itemName: 'Pizza con ananá', price: '5' },
+  { itemId: '3', itemName: 'Flan', price: '888' },
+  { itemId: '4', itemName: 'Suprema a la maryland', price: '1' },
 ]
 
 const storesDB = [
@@ -114,7 +114,7 @@ export const devApiService = {
     menuDB.push({
       itemId: 'testId',
       itemName: item.name,
-      itemPrice: item.price,
+      price: item.price,
     })
   },
 
