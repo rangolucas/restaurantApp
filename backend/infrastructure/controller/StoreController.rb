@@ -3,10 +3,9 @@ require 'json'
 require './domain/Coordinates'
 
 class StoreController
-  def initialize(create_store_action, get_stores_action, acquire_table_action, codec)
+  def initialize(create_store_action, get_stores_action, codec)
     @create_store_action = create_store_action
     @get_stores_action = get_stores_action
-    @acquire_table_action = acquire_table_action
     @codec = codec
   end
 
