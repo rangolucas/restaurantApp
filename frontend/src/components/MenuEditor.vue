@@ -63,8 +63,8 @@ onMounted(updateView)
           :key="item.itemId"
           class="list-group-item d-flex justify-content-between align-items-center"
         >
-          <span>{{ item.itemName }}</span>
-          <span class="badge bg-success rounded-pill">
+          <span class="col-5">{{ item.itemName }}</span>
+          <span class="col-13 text-center badge bg-success rounded-pill">
             ${{ item.price }}
           </span>
           <button @click="deleteItem(item)" class="btn btn-danger">
