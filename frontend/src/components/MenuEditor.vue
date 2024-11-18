@@ -17,25 +17,25 @@ const menu = ref([])
 const itemName = ref('')
 const itemPrice = ref('')
 
-function deleteItem(item) {
-  runAndUpdateView(() =>
-    apiService.removeItemFromMenu(props.storeId, item.itemId),
+async function deleteItem(item) {
+  await runAndUpdateView(async () =>
+    await apiService.removeItemFromMenu(props.storeId, item.itemId),
   )
 }
 
-function addItem() {
-  runAndUpdateView(() => {
+async function addItem() {
+  await runAndUpdateView(async () => {
     const newItem = {
       name: itemName.value,
       price: itemPrice.value,
     }
-    apiService.addItemToMenu(props.storeId, newItem)
+    await apiService.addItemToMenu(props.storeId, newItem)
   })
 }
 
-function runAndUpdateView(action) {
+async function runAndUpdateView(action) {
   loading.value = true
-  action()
+  await action()
   updateView()
 }
 
