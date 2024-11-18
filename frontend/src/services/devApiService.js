@@ -1,10 +1,10 @@
 import { STATES } from '../constants'
 
 const ordersDB = [
-  { orderId: '1', state: STATES.READY },
-  { orderId: '2', state: STATES.ACCEPTED },
-  { orderId: '3', state: STATES.READY },
-  { orderId: '4', state: STATES.PENDING },
+  { tableId: '1', state: STATES.READY },
+  { tableId: '2', state: STATES.ACCEPTED },
+  { tableId: '3', state: STATES.READY },
+  { tableId: '4', state: STATES.PENDING },
 ]
 
 const menuDB = [

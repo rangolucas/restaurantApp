@@ -62,8 +62,8 @@ onMounted(updateView)
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in orders" :key="order.userId">
-            <td>{{ order.userId }}</td>
+          <tr v-for="order in orders" :key="order.tableId">
+            <td>{{ order.tableId }}</td>
             <td>{{ order.state }}</td>
             <td class="order-buttons">
               <button
