@@ -14,7 +14,7 @@ class JsonCodec
   end
   
   def decode_order_creation(request)
-    table_id = get_mandatory_field(request, "table_id")
+    table_id = get_mandatory_field(request, "tableId")
     amount_by_item = get_mandatory_field(request, "amountByItem")
     encoded_coordinates = get_mandatory_field(request, "userCoordinates")
     user_coordinates = decode_coordinates(encoded_coordinates)
