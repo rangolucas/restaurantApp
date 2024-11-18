@@ -1,11 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { getApiService } from '../services/apiService'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { getApiService } from '../services/getApiService'
 
 const route = useRoute()
 const orderId = ref(route.params.id)
-const order = ref({ orderId: '', state: ''});
+const order = ref({ orderId: '', state: '' })
 const apiService = getApiService()
 
 async function loadOrder() {

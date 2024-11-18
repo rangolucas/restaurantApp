@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getApiService } from '../services/apiService'
-import { Loader } from "@googlemaps/js-api-loader"
+import { getApiService } from '../services/getApiService'
+import { Loader } from '@googlemaps/js-api-loader'
 
 const router = useRouter()
 const storeName = ref('')
@@ -15,53 +15,53 @@ const storeLogo = ref(null)
 const apiService = getApiService()
 
 async function registerStore() {
-    const store = {
-      name: storeName.value,
-      address: storeAddress.value,
-      contact: storeContact.value,
-      hours: storeHours.value,
-      lat: storeLat.value,
-      long: storeLng.value,
-      logo: storeLogo.value
-    }
+  const store = {
+    name: storeName.value,
+    address: storeAddress.value,
+    contact: storeContact.value,
+    hours: storeHours.value,
+    lat: storeLat.value,
+    long: storeLng.value,
+    logo: storeLogo.value,
+  }
 
-    await apiService.addStore(store)
-    router.push('/stores')
+  await apiService.addStore(store)
+  router.push('/stores')
 }
 
 function handleFileChange(event) {
-  const file = event.target.files[0];
+  const file = event.target.files[0]
   if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      storeLogo.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    const reader = new FileReader()
+    reader.onload = e => {
+      storeLogo.value = e.target.result
+    }
+    reader.readAsDataURL(file)
   }
 }
 
 onMounted(() => {
   const loader = new Loader({
-    apiKey: "AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E",
-    version: "weekly",
-    libraries: ["places"],
-  });
+    apiKey: 'AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E',
+    version: 'weekly',
+    libraries: ['places'],
+  })
 
   loader.load().then(() => {
-    const input = document.getElementById("storeAddress");
-    const autocomplete = new google.maps.places.Autocomplete(input);
+    const input = document.getElementById('storeAddress')
+    const autocomplete = new google.maps.places.Autocomplete(input)
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace()
       if (place.geometry) {
-        const formattedAddress = place.formatted_address;
-        const addressParts = formattedAddress.split(',');
-        storeAddress.value = addressParts[0]; // Save only the first part of the address
-        storeLat.value = place.geometry.location.lat();
-        storeLng.value = place.geometry.location.lng();
+        const formattedAddress = place.formatted_address
+        const addressParts = formattedAddress.split(',')
+        storeAddress.value = addressParts[0] // Save only the first part of the address
+        storeLat.value = place.geometry.location.lat()
+        storeLng.value = place.geometry.location.lng()
       }
-    });
-  });
+    })
+  })
 })
 </script>
 
@@ -72,34 +72,68 @@ onMounted(() => {
       <!-- Nombre del local -->
       <div class="mb-3">
         <label for="storeName" class="form-label">Nombre</label>
-        <input type="text" v-model="storeName" id="storeName" class="form-control" placeholder="Example">
+        <input
+          type="text"
+          v-model="storeName"
+          id="storeName"
+          class="form-control"
+          placeholder="Example"
+        />
       </div>
 
       <!-- Direccion del local -->
       <div class="mb-3">
         <label for="storeAddress" class="form-label">Dirección</label>
-        <input type="text" v-model="storeAddress" id="storeAddress" class="form-control" placeholder="Calle 1234" required>
+        <input
+          type="text"
+          v-model="storeAddress"
+          id="storeAddress"
+          class="form-control"
+          placeholder="Calle 1234"
+          required
+        />
       </div>
 
       <!-- Contacto del local -->
       <div class="mb-3">
         <label for="storeContact" class="form-label">Contacto</label>
-        <input type="text" v-model="storeContact" id="storeContact" class="form-control" placeholder="11 4000-0000" required>
+        <input
+          type="text"
+          v-model="storeContact"
+          id="storeContact"
+          class="form-control"
+          placeholder="11 4000-0000"
+          required
+        />
       </div>
 
       <!-- Horarios -->
       <div class="mb-3">
         <label for="storeHours" class="form-label">Horarios</label>
-        <input type="text" v-model="storeHours" id="storeHours" class="form-control" placeholder="Lunes a Viernes: 9 AM - 6 PM" required>
+        <input
+          type="text"
+          v-model="storeHours"
+          id="storeHours"
+          class="form-control"
+          placeholder="Lunes a Viernes: 9 AM - 6 PM"
+          required
+        />
       </div>
 
       <!-- Logo -->
       <div class="mb-3">
         <label for="storeLogo" class="form-label">Logo del local</label>
-        <input type="file" id="storeLogo" class="form-control" @change="handleFileChange">
+        <input
+          type="file"
+          id="storeLogo"
+          class="form-control"
+          @change="handleFileChange"
+        />
       </div>
 
-      <button type="submit" class="btn btn-primary w-100">Registrar Local</button>
+      <button type="submit" class="btn btn-primary w-100">
+        Registrar Local
+      </button>
     </form>
   </div>
 </template>

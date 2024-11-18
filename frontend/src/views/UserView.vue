@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getApiService } from '../services/apiService'
-import StoresMap from "@/components/StoresMap.vue";
-
+import { getApiService } from '../services/getApiService'
+import StoresMap from '@/components/StoresMap.vue'
 
 const stores = ref([])
 const loading = ref(true)
@@ -18,7 +17,7 @@ async function loadStores() {
   }
 }
 
-function updateLocation (newLocation) {
+function updateLocation(newLocation) {
   location.value = newLocation
 }
 
@@ -44,7 +43,7 @@ onMounted(loadStores)
   </main>
 
   <div class="stores">
-    <StoresMap :stores="stores" :updateLocation="updateLocation"/>
+    <StoresMap :stores="stores" :updateLocation="updateLocation" />
   </div>
 </template>
 

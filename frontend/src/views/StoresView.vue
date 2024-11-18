@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getApiService } from '../services/apiService'
+import { getApiService } from '../services/getApiService'
 
 const router = useRouter()
 const stores = ref([])
@@ -41,7 +41,7 @@ onMounted(loadStores)
       <p v-else>Cargando locales</p>
     </div>
     <button class="buttonRegisterStore" v-on:click="goToRegisterStore">
-        Agregar local
+      Agregar local
     </button>
   </div>
 </template>

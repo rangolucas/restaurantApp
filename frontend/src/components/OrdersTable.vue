@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getApiService } from '../services/apiService'
+import { getApiService } from '../services/getApiService'
 import { STATES } from '../constants'
 import { defineProps } from 'vue'
 import LoadingSpinner from './LoadingSpinner.vue'

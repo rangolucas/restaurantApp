@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getApiService } from '../services/apiService'
+import { getApiService } from '../services/getApiService'
 
 const route = useRoute()
 const router = useRouter()
@@ -87,9 +87,7 @@ onMounted(getMenu)
         </li>
       </ul>
       <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary">
-          Enviar Pedido
-        </button>
+        <button type="submit" class="btn btn-primary">Enviar Pedido</button>
       </div>
     </form>
   </div>
