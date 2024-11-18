@@ -115,6 +115,13 @@ post '/stores/:store_id/menu' do
   menu_controller.add_item(store_id, json_payload)
 end
 
+get '/stores/:store_id/menu' do
+  store_id = params['store_id']
+  content_type :json
+  status :created
+  menu_controller.get_menu(store_id)
+end
+
 get '/stores/:store_id/table' do
   store_id = params['store_id']
   updated_user_tables = store_controller.acquire_table(store_id, cookies["userTables"])

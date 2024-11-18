@@ -77,7 +77,7 @@ class JsonCodec
   end
   
   def encode_menu(menu)
-    encode_menu_to_object.to_json
+    encode_menu_to_object(menu).to_json
   end
 
   def encode_order_result(result)
