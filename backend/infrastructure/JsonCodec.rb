@@ -155,7 +155,7 @@ class JsonCodec
   def encode_order_to_object(order)
     {
       "state": encode_order_state(order.state),
-      "table_id": order.table_id,
+      "tableId": order.table_id,
       "amountByItem": order.amount_by_item,
       "toTakeAway": order.to_take_away
     }
