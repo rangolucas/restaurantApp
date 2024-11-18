@@ -8,10 +8,10 @@ const ordersDB = [
 ]
 
 const menuDB = [
-  { itemId: '1', itemName: 'name1', itemPrice: 'price1' },
-  { itemId: '2', itemName: 'name2', itemPrice: 'price2' },
-  { itemId: '3', itemName: 'name3', itemPrice: 'price3' },
-  { itemId: '4', itemName: 'name4', itemPrice: 'price4' },
+  { itemId: '1', itemName: 'Hamburguesa', itemPrice: '10.3' },
+  { itemId: '2', itemName: 'Pizza con ananá', itemPrice: '5' },
+  { itemId: '3', itemName: 'Flan', itemPrice: '888' },
+  { itemId: '4', itemName: 'Suprema a la maryland', itemPrice: '1' },
 ]
 
 const storesDB = [
@@ -51,7 +51,7 @@ const storesDB = [
 
 export const devApiService = {
   async getOrders() {
-    await new Promise(resolve => setTimeout(resolve, 300))
+    await this.simulateDelay(300)
     return ordersDB
   },
 
@@ -106,7 +106,7 @@ export const devApiService = {
   },
 
   async getMenu(storeId) {
-    setTimeout(function () {}, 2000)
+    await this.simulateDelay(300)
     return menuDB
   },
 
@@ -129,7 +129,7 @@ export const devApiService = {
   },
 
   async getStores() {
-    setTimeout(function () {}, 2000)
+    await this.simulateDelay(500)
     return storesDB
   },
 
@@ -144,5 +144,9 @@ export const devApiService = {
       long: store.long,
       logo: store.logo,
     })
+  },
+
+  async simulateDelay(millis) {
+    await new Promise(resolve => setTimeout(resolve, millis))
   },
 }

@@ -50,7 +50,8 @@ onMounted(getMenu)
   <div class="container mt-4">
     <h1 class="text-center mb-4">Hacé tu pedido</h1>
     <div class="content-wrapper">
-      <form @submit.prevent="handleSubmit">
+      <LoadingSpinner v-if="loadingMenu" />
+      <form v-else @submit.prevent="handleSubmit">
         <ul class="list-group">
           <li
             v-for="item in menu"

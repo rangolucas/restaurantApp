@@ -2,6 +2,8 @@
   <div class="spinner"></div>
 </template>
 
+<script setup />
+
 <style scoped>
 .spinner {
   border: 4px solid #f3f3f3;

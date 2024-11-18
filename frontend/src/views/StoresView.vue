@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getApiService } from '../services/getApiService'
+import LoadingSpinner from '../components/LoadingSpinner.vue'
 
 const router = useRouter()
 const stores = ref([])
@@ -38,7 +39,7 @@ onMounted(loadStores)
           </router-link>
         </li>
       </ul>
-      <p v-else>Cargando locales</p>
+      <LoadingSpinner v-else />
     </div>
     <button class="buttonRegisterStore" v-on:click="goToRegisterStore">
       Agregar local
@@ -54,6 +55,9 @@ onMounted(loadStores)
 }
 
 .store-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;

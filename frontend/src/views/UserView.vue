@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { getApiService } from '../services/getApiService'
 import StoresMap from '@/components/StoresMap.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 const stores = ref([])
 const loading = ref(true)
@@ -38,7 +39,7 @@ onMounted(loadStores)
           </router-link>
         </li>
       </ul>
-      <p v-else>Cargando locales</p>
+      <LoadingSpinner v-else />
     </div>
   </main>
 
@@ -55,6 +56,9 @@ onMounted(loadStores)
 }
 
 .store-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
