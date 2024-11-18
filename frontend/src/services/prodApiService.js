@@ -5,8 +5,8 @@ const PROD_URL = 'http://localhost:4567'
 function adaptStoreToBackend(store) {
   const backendStore = {
     name: store.name,
-    contactInfo: store.contact,
-    timeTable: store.hours,
+    contact: store.contact,
+    hours: store.hours,
     coordinates: [store.lat, store.lng],
   }
 
@@ -17,8 +17,8 @@ function adaptStoreToFrontend(store) {
   const frontendStore = {
     id: store.id,
     name: store.name,
-    contact: store.contactInfo,
-    hours: store.timeTable,
+    contact: store.contact,
+    hours: store.hours,
     lat: store.coordinates[0],
     lng: store.coordinates[1],
   }
