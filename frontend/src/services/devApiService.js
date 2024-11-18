@@ -1,10 +1,10 @@
 import { STATES } from '../constants'
 
 const ordersDB = [
-  { orderId: '1', state: STATES.READY, tableId: 'table1' },
-  { orderId: '2', state: STATES.ACCEPTED, tableId: 'table2' },
-  { orderId: '3', state: STATES.READY, tableId: 'table3' },
-  { orderId: '4', state: STATES.PENDING, tableId: 'table4' },
+  { orderId: '1', state: STATES.READY },
+  { orderId: '2', state: STATES.ACCEPTED },
+  { orderId: '3', state: STATES.READY },
+  { orderId: '4', state: STATES.PENDING },
 ]
 
 const menuDB = [
@@ -78,7 +78,6 @@ export const devApiService = {
     const newOrder = {
       orderId: 'testId',
       state: STATES.PENDING,
-      tableId: 'testTable',
     }
     ordersDB.push(newOrder)
     return newOrder

@@ -11,15 +11,17 @@ class OrderController
     @codec = codec
   end
 
-  def make_order(store_id, encoded_request)
-    decoded_request = @codec.decode_order_creation(encoded_request)
-    result = @make_order_action.invoke(store_id, decoded_request.table_id, decoded_request.amount_by_item, decoded_request.coordinates, decoded_request.takeaway)
+  def make_order(store_id, encoded_customer, encoded_request)
+    customer = @codec.decode_customer(encoded_customer)
+    request = @codec.decode_order_creation(encoded_request)
+    result = @make_order_action.invoke(store_id, customer, request.amount_by_item, request.coordinates, request.takeaway)
     @codec.encode_order_result(result)
   end
 
-  def get_order(store_id, order_id)
-    order = @get_order_action.invoke(store_id, order_id)
-    @codec.encode_order(order)
+  def get_order_or_menu(store_id, encoded_customer)
+    customer = @codec.decode_customer(encoded_customer)
+    (updated_customer, order_or_menu) = @get_order_action.invoke(store_id, customer)
+    [@codec.encode_customer(updated_customer), @codec.encode_order_or_menu(order_or_menu)]
   end
 
   def get_store_orders(store_id)

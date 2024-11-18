@@ -1,3 +1,4 @@
+require './domain/restaurant/Customer'
 require './infrastructure/controller/dto/MenuItemDto'
 require './infrastructure/controller/dto/OrderCreationDto'
 require './infrastructure/controller/dto/StoreCreationDto'
@@ -14,12 +15,11 @@ class JsonCodec
   end
   
   def decode_order_creation(request)
-    table_id = get_mandatory_field(request, "tableId")
     amount_by_item = get_mandatory_field(request, "amountByItem")
     encoded_coordinates = get_mandatory_field(request, "userCoordinates")
     user_coordinates = decode_coordinates(encoded_coordinates)
     takeaway = get_mandatory_field(request, "takeaway")
-    OrderCreationDto.new(table_id, amount_by_item, user_coordinates, takeaway)
+    OrderCreationDto.new(amount_by_item, user_coordinates, takeaway)
   end
 
   def decode_table_id(request)
@@ -40,8 +40,26 @@ class JsonCodec
     end
   end
 
-  def encode_order(order)
-    encode_order_to_object(order).to_json
+  def decode_customer(encoded_customer)
+    begin
+      Customer.new(encoded_customer.nil? ? Hash.new : JSON.parse(encoded_customer))
+    rescue JSON::ParserError
+      raise JsonFormatError, "Invalid customer JSON"
+    end
+  end
+
+  def encode_order_or_menu(order_or_menu)
+    if order_or_menu.is_a?(Order)
+      {
+        "type": "order",
+        "value": encode_order_to_object(order_or_menu)
+      }
+    else 
+      {
+        "type": "menu",
+        "value": encode_menu_to_object(order_or_menu)
+      }
+    end.to_json
   end
 
   def encode_orders(orders)
@@ -59,9 +77,7 @@ class JsonCodec
   end
   
   def encode_menu(menu)
-    menu.items.map { |name, price| 
-      encode_item(name, price)
-    }.to_json
+    encode_menu_to_object.to_json
   end
 
   def encode_order_result(result)
@@ -71,6 +87,10 @@ class JsonCodec
     when :invalid_order
       {
         "error": "INVALID_ORDER"
+      }.to_json
+    when :no_table_assigned
+      {
+        "error": "NO_TABLE_ASSIGNED"
       }.to_json
     when :not_in_store_radius
       {
@@ -91,6 +111,10 @@ class JsonCodec
     else
       user_tables.to_json
     end
+  end
+
+  def encode_customer(customer)
+    customer.tables.to_json
   end
 
   private
@@ -134,6 +158,12 @@ class JsonCodec
       "table_id": order.table_id,
       "amountByItem": order.amount_by_item,
       "toTakeAway": order.to_take_away
+    }
+  end
+
+  def encode_menu_to_object(menu)
+    menu.items.map { |name, price| 
+      encode_item(name, price)
     }
   end
 

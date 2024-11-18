@@ -13,6 +13,15 @@ export const prodApiService = {
     }
   },
 
+  async checkIn(storeId) {
+    const response = this.getCollection(
+      `${PROD_URL}/stores/${storeId}/check-in`,
+    )
+    return response.type == 'menu'
+      ? [null, response.value]
+      : [response.value, null]
+  },
+
   async getStores() {
     const stores = await this.getCollection(`${PROD_URL}/stores`)
     // Transform coordinates array to lat and lng

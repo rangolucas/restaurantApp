@@ -33,6 +33,8 @@ class Store
   def validate_order(table_id, user_coordinates, amount_by_item)
     if !self.is_close_to(user_coordinates)
       :not_in_store_radius
+    elsif table_id.nil?
+      :no_table_assigned
     elsif self.has_order_in_progress(table_id)
       :order_in_progress
     elsif !self.accepts_order(amount_by_item)

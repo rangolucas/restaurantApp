@@ -9,7 +9,7 @@ require './action/AddItemToMenu'
 require './action/CreateStore'
 require './action/DeleteOrder'
 require './action/GetMenu'
-require './action/GetOrder'
+require './action/GetOrderOrMenu'
 require './action/GetStoreOrders'
 require './action/GetStores'
 require './action/MakeAnOrder'
@@ -41,7 +41,7 @@ add_item_to_menu = AddItemToMenu.new(store_repository)
 acquire_table = AcquireTable.new
 get_stores = GetStores.new(store_repository)
 make_an_order = MakeAnOrder.new(store_repository)
-get_order = GetOrder.new(store_repository)
+get_order = GetOrderOrMenu.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 
 order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order, get_store_orders, codec)
@@ -57,7 +57,8 @@ end
 post '/stores/:store_id/orders' do
   store_id = params['store_id']
   json_payload = JSON.parse(request.body.read)
-  order_result = order_controller.make_order(store_id, json_payload)
+  customer = cookies["X-VerLaCarta-Customer"]
+  order_result = order_controller.make_order(store_id, customer, json_payload)
   if order_result.nil? 
     status :created
   else
@@ -96,11 +97,14 @@ get '/stores' do
   store_controller.get_stores
 end
 
-get '/stores/:store_id/menu' do
+get '/stores/:store_id/check-in' do
   store_id = params['store_id']
+  customer = cookies["X-VerLaCarta-Customer"]
   content_type :json
   status :ok
-  menu_controller.get_menu(store_id)
+  (customer, order_or_menu) = order_controller.get_order_or_menu(store_id, customer)
+  cookies["X-VerLaCarta-Customer"] = customer
+  order_or_menu
 end
 
 post '/stores/:store_id/menu' do

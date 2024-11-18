@@ -5,9 +5,9 @@ class MakeAnOrder
     @store_repository = store_repository
   end
 
-  # Returns true only if the user is close enough to the store
-  def invoke(store_id, table_id, amount_by_item, user_coordinates, takeaway)
+  def invoke(store_id, customer, amount_by_item, user_coordinates, takeaway)
     store = @store_repository.fetch_by_id(store_id)
+    table_id = customer.table_in_store(store_id)
     order_validation = store.validate_order(table_id, user_coordinates, amount_by_item)
     if order_validation == :success
       register_order(store_id, table_id, amount_by_item, takeaway)
