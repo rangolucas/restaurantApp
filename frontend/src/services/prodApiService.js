@@ -2,6 +2,30 @@ import axios from 'axios'
 
 const PROD_URL = 'http://localhost:4567'
 
+function adaptStoreToBackend(store) {
+  const backendStore = {
+    name: store.name,
+    contactInfo: store.contact,
+    timeTable: store.hours,
+    coordinates: [store.lat, store.lng],
+  }
+
+  return backendStore
+}
+
+function adaptStoreToFrontend(store) {
+  const frontendStore = {
+    id: store.id,
+    name: store.name,
+    contact: store.contactInfo,
+    hours: store.timeTable,
+    lat: store.coordinates[0],
+    lng: store.coordinates[1],
+  }
+
+  return frontendStore
+}
+
 export const prodApiService = {
   async getCollection(url) {
     try {
@@ -24,15 +48,8 @@ export const prodApiService = {
 
   async getStores() {
     const stores = await this.getCollection(`${PROD_URL}/stores`)
-    // Transform coordinates array to lat and lng
-    return stores.map(store => {
-      const { coordinates, ...rest } = store
-      return {
-        ...rest,
-        lat: coordinates[0],
-        lng: coordinates[1]
-      }
-    })
+    stores.map(adaptStoreToFrontend)
+    return stores
   },
 
   async getOrders(storeId) {
@@ -46,12 +63,7 @@ export const prodApiService = {
   async addStore(store) {
     const url = `${PROD_URL}/stores`
 
-    const storeObject = {
-      name: store.name,
-      contactInfo: store.contact,
-      timeTable: store.hours,
-      coordinates: [store.lat, store.lng],
-    }
+    const storeObject = adaptStoreToBackend(store)
 
     try {
       const response = await axios.post(url, storeObject, {
