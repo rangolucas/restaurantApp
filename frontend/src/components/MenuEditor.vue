@@ -111,10 +111,19 @@ onMounted(updateView)
   font-size: 16px;
   color: #555;
 }
+
 .spinner-wrapper {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+span {
+  display:inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 35ch;
 }
 </style>

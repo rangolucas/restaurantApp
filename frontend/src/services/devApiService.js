@@ -64,7 +64,7 @@ export const devApiService = {
     return ordersDB
   },
 
-  async getOrderById(orderId) {
+  async getOrderById(storeId, orderId) {
     const order = ordersDB.find(order => order.orderId === orderId)
 
     if (order) {

@@ -136,6 +136,14 @@ label {
   padding: 0.5rem;
 }
 
+strong {
+  display:inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 35ch;
+}
+
 @media (max-width: 768px) {
   .list-group-item {
     flex-wrap: wrap;
