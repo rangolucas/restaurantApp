@@ -1,25 +1,24 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { getApiService } from '../services/getApiService'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
 
-const route = useRoute()
 const router = useRouter()
-const storeId = ref(route.params.id)
-const menu = ref([])
 const selectedItems = ref({})
 const apiService = getApiService()
-const loadingMenu = ref(true)
+const loadingSubmit = ref(false)
 
-async function getMenu() {
-  try {
-    menu.value = await apiService.getMenu(storeId.value)
-    loadingMenu.value = false
-  } catch (error) {
-    console.error('Error fetching menu: ', error)
-  }
-}
+const props = defineProps({
+  menu: {
+    type: Array,
+    required: true,
+  },
+  checkIn: {
+    type: Function,
+    required: true,
+  },
+})
 
 function incrementQuantity(itemName) {
   selectedItems.value[itemName] = (selectedItems.value[itemName] || 0) + 1
@@ -32,6 +31,7 @@ function decrementQuantity(itemName) {
 }
 
 async function handleSubmit() {
+  loadingSubmit.value = true
   const selectedOrder = Object.entries(selectedItems.value)
     .filter(([id, quantity]) => quantity > 0)
     .map(([id, quantity]) => ({
@@ -39,19 +39,17 @@ async function handleSubmit() {
       quantity: quantity,
     }))
 
-  const orderCreated = await apiService.createOrder(selectedOrder)
-  router.push(`/user/orders/${orderCreated.orderId}`)
+  await apiService.createOrder(selectedOrder)
+  loadingSubmit.value = false
+  props.checkIn()
 }
-
-onMounted(getMenu)
 </script>
 
 <template>
   <div class="container mt-4">
     <h1 class="text-center mb-4">Hacé tu pedido</h1>
     <div class="content-wrapper">
-      <LoadingSpinner v-if="loadingMenu" />
-      <form v-else @submit.prevent="handleSubmit">
+      <form @submit.prevent="handleSubmit">
         <ul class="list-group">
           <li
             v-for="item in menu"

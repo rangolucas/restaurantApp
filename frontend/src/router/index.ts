@@ -33,16 +33,11 @@ const router = createRouter({
       component: () => import('../views/UserView.vue'),
     },
     {
-      path: '/user/:id',
-      name: 'user-makeOrder',
-      component: () => import('../views/MakeOrderView.vue'),
-    },
-    {
-      path: '/user/orders/:id',
-      name: 'user-orders',
-      component: () => import('../views/OrdersView.vue'),
+      path: '/user/:storeId',
+      name: 'user-checkIn',
+      component: () => import('../views/CheckInView.vue'),
     },
   ],
-});
+})
 
 export default router
