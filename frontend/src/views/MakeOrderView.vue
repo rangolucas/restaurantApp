@@ -21,13 +21,13 @@ async function getMenu() {
   }
 }
 
-function incrementQuantity(itemId) {
-  selectedItems.value[itemId] = (selectedItems.value[itemId] || 0) + 1
+function incrementQuantity(itemName) {
+  selectedItems.value[itemName] = (selectedItems.value[itemName] || 0) + 1
 }
 
-function decrementQuantity(itemId) {
-  if (selectedItems.value[itemId] > 0) {
-    selectedItems.value[itemId] -= 1
+function decrementQuantity(itemName) {
+  if (selectedItems.value[itemName] > 0) {
+    selectedItems.value[itemName] -= 1
   }
 }
 
@@ -67,7 +67,7 @@ onMounted(getMenu)
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="decrementQuantity(item.itemId)"
+                  @click="decrementQuantity(item.itemName)"
                 >
                   -
                 </button>
@@ -76,13 +76,13 @@ onMounted(getMenu)
                   class="form-control text-center w-25"
                   min="0"
                   :placeholder="0"
-                  v-model.number="selectedItems[item.itemId]"
+                  v-model.number="selectedItems[item.itemName]"
                   readonly
                 />
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="incrementQuantity(item.itemId)"
+                  @click="incrementQuantity(item.itemName)"
                 >
                   +
                 </button>
