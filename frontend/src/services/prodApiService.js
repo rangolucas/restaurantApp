@@ -15,6 +15,7 @@ export const prodApiService = {
 
   async getStores() {
     const stores = await this.getCollection(`${PROD_URL}/stores`)
+    // Transform coordinates array to lat and lng
     return stores.map(store => {
       const { coordinates, ...rest } = store
       return {
