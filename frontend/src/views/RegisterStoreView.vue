@@ -44,7 +44,7 @@ onMounted(() => {
   const loader = new Loader({
     apiKey: 'AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E',
     version: 'weekly',
-    libraries: ['places'],
+    libraries: ['places', 'marker'],
   })
 
   loader.load().then(() => {
