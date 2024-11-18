@@ -20,10 +20,4 @@ class StoreController
     all_stores = @get_stores_action.invoke
     @codec.encode_stores(all_stores)
   end
-
-  def acquire_table(store_id, encoded_request)
-    user_tables = @codec.decode_user_tables(encoded_request)
-    updated_user_tables = @acquire_table_action.invoke(store_id, user_tables)
-    @codec.encode_user_tables(updated_user_tables)
-  end
 end
