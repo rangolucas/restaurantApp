@@ -18,8 +18,8 @@ class Store
     @menu.add_item(item_name, itemPrice)
   end
 
-  def remove_item(item_name)
-    @menu.removeItem(item_name)
+  def remove_item(item_id)
+    @menu.removeItem(item_id)
   end
 
   def get_menu

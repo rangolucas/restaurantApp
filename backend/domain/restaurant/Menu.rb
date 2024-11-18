@@ -6,17 +6,16 @@ class Menu
   end
 
   def add_item(item_name, item_price)
-    @items[item_name] = item_price
+    @items[SecureRandom.uuid] = [item_name, item_price]
   end
 
-  def remove_item(item_name)
-    @items.delete(item_name)
+  def remove_item(item_id)
+    @items.delete(item_id)
   end
 
-  def has_all_items?(item_names)
-    item_names.all? { |name|
-      lowercase_items = @items.keys.map(&:downcase)
-      lowercase_items.include?(name.downcase)
+  def has_all_items?(item_ids)
+    item_ids.all? { |id|
+      @items.keys.include?(id)
     }
   end
 
@@ -27,6 +26,6 @@ class Menu
   private
 
   def copy_items
-    @items.map { |name, price| [name, price] }.to_h
+    @items.map { |id, (name, price)| [id, [name, price]] }.to_h
   end
 end

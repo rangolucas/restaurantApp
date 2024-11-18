@@ -3,10 +3,10 @@ class RemoveItemFromMenu
     @store_repository = store_repository
   end
 
-  def invoke(store_id, item_name)
+  def invoke(store_id, item_id)
     @store_repository.update_store(
       store_id,
-      -> (store) { store.remove_item(item_name) }
+      -> (store) { store.remove_item(item_id) }
     )
   end
 end

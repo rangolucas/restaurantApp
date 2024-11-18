@@ -146,13 +146,14 @@ class JsonCodec
   end
 
   def encode_menu_to_object(menu)
-    menu.items.map { |name, price| 
-      encode_item(name, price)
+    menu.items.map { |id, (name, price)| 
+      encode_item(id, name, price)
     }
   end
 
-  def encode_item(name, price)
+  def encode_item(id, name, price)
     {
+      "itemId": id,
       "itemName": name,
       "price": price
     }
