@@ -48,8 +48,8 @@ export const prodApiService = {
 
   async getStores() {
     const stores = await this.getCollection(`${PROD_URL}/stores`)
-    stores.map(adaptStoreToFrontend)
-    return stores
+    const adaptedStores = stores.map(adaptStoreToFrontend)
+    return adaptedStores
   },
 
   async getOrders(storeId) {
