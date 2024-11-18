@@ -58,7 +58,7 @@ post '/stores/:store_id/orders' do
   store_id = params['store_id']
   json_payload = JSON.parse(request.body.read)
   order_result = order_controller.make_order(store_id, json_payload)
-  if order_result == nil
+  if order_result.nil? 
     status :created
   else
     content_type :json
@@ -114,7 +114,7 @@ end
 get '/stores/:store_id/table' do
   store_id = params['store_id']
   updated_user_tables = store_controller.acquire_table(store_id, cookies["userTables"])
-  if updated_user_tables == nil
+  if updated_user_tables.nil?
     status :bad_request
   else
     cookies["userTables"] = updated_user_tables

@@ -48,7 +48,7 @@ class Store
 
   def get_order_for_table(table_id)
     order = @orders[table_id]
-    if order == nil
+    if order.nil?
       nil
     else
       order.copy

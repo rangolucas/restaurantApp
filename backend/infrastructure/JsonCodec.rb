@@ -34,7 +34,7 @@ class JsonCodec
 
   def decode_user_tables(request)
     begin
-      request == nil ? Hash.new : JSON.parse(request)
+      request.nil? ? Hash.new : JSON.parse(request)
     rescue JSON::ParserError
       raise JsonFormatError, "Invalid user tables JSON"
     end
@@ -86,7 +86,7 @@ class JsonCodec
   end
 
   def encode_user_tables(user_tables)
-    if user_tables == nil
+    if user_tables.nil?
       nil
     else
       user_tables.to_json
@@ -106,7 +106,7 @@ class JsonCodec
 
   def get_mandatory_field(request, field)
     field_value = request[field]
-    if field_value == nil
+    if field_value.nil?
       raise JsonFormatError, "Missing JSON field '#{field}'"
     else
       field_value
