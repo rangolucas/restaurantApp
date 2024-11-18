@@ -76,4 +76,36 @@ export const prodApiService = {
       throw error
     }
   },
+
+  async removeItemFromMenu(storeId, itemId) {
+    // TODO
+  },
+
+  async createOrder(storeId, order) {
+    // TODO
+  },
+
+  async getOrderById(storeId, orderId) {
+    const url = `${PROD_URL}/stores/${storeId}/orders/${orderId}`
+
+    try {
+      const response = await axios.get(url)
+      return response.data
+    } catch (error) {
+      console.error('Error while fetching order:', error)
+      throw error
+    }
+  },
+
+  async markOrderAsReady(storeId, orderId) {
+    // TODO
+  },
+
+  async acceptOrder(storeId, orderId) {
+    // TODO
+  },
+
+  async deleteOrder(storeId, orderId) {
+    // TODO
+  },
 }
