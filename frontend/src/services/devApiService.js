@@ -20,7 +20,7 @@ const storesDB = [
     name: 'Guerrin',
     contact: 'store1@test.com',
     lat: -34.58477,
-    long: -58.442846,
+    lng: -58.442846,
     address: 'Calle 124',
   },
   {
@@ -28,7 +28,7 @@ const storesDB = [
     name: 'Cuervo',
     contact: 'store2@test.com',
     lat: -34.588254,
-    long: -58.434529,
+    lng: -58.434529,
     address: 'Avenida Corrientes 742',
   },
   {
@@ -36,7 +36,7 @@ const storesDB = [
     name: 'Panchitos',
     contact: 'store3@test.com',
     lat: -34.62746,
-    long: -58.434038,
+    lng: -58.434038,
     address: 'Calle 456',
   },
   {
@@ -44,7 +44,7 @@ const storesDB = [
     name: 'Paellaza',
     contact: 'store4@test.com',
     lat: -34.569148,
-    long: -58.43393,
+    lng: -58.43393,
     address: 'Avenida 9 de Julio 3243',
   },
 ]
@@ -141,7 +141,7 @@ export const devApiService = {
       contact: store.contact,
       hours: store.hours,
       lat: store.lat,
-      long: store.long,
+      lng: store.lng,
       logo: store.logo,
     })
   },

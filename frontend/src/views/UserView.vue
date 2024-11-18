@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted , computed } from 'vue'
 import { getApiService } from '../services/getApiService'
 import StoresMap from '@/components/StoresMap.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
@@ -18,11 +18,45 @@ async function loadStores() {
   }
 }
 
-function updateLocation(newLocation) {
-  location.value = newLocation
+function getUserLocation() {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          location.value = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+          resolve()
+        },
+        (error) => {
+          console.error('Error getting user location:', error)
+          reject(error)
+        }
+      )
+    } else {
+      console.error('Geolocation is not supported by this browser.')
+      reject(new Error('Geolocation not supported'))
+    }
+  })
 }
 
-onMounted(loadStores)
+const calculateDistance = (lat1, lng1, lat2, lng2) => {
+  return (Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2))) * 100;
+};
+
+const storesWithDistance = computed(() => {
+  return stores.value.map(store => {
+    const distance = calculateDistance(location.value.lat, location.value.lng, store.lat, store.lng)
+    return { ...store, distance }
+  })
+})
+
+
+onMounted(async () => {
+  await getUserLocation()
+  loadStores()
+})
 </script>
 
 <template>
@@ -30,25 +64,54 @@ onMounted(loadStores)
     <div class="store-list">
       <h1>Locales disponibles</h1>
       <ul v-if="!loading">
-        <li v-for="store in stores" :key="store.id">
-          <router-link :to="`/user/${store.id}`">
-            <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
-            <span class="store-name">{{ store.name }}</span> -
-            <span class="store-contact">{{ store.contact }}</span> -
-            <span class="store-contact">{{ store.address }}</span>
-          </router-link>
-        </li>
+        <template v-for="store in storesWithDistance">
+          <li v-if="store.distance <= 2" :key="store.id">
+            <router-link :to="`/user/${store.id}`">
+              <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
+              <span class="store-name">{{ store.name }}</span> -
+              <span class="store-contact">{{ store.contact }}</span> -
+              <span class="store-contact">{{ store.address }}</span>
+            </router-link>
+          </li>
+        </template>
+        <div class="far-away-message" v-if="storesWithDistance.some(store => store.distance > 2)">
+          <h1>Lejanos a tu ubicación</h1>
+        </div>
+        <template v-for="store in storesWithDistance">
+          <li v-if="store.distance > 2" :key="store.id" class="gray-out">
+            <div>
+              <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
+              <span class="store-name">{{ store.name }}</span> -
+              <span class="store-contact">{{ store.contact }}</span> -
+              <span class="store-contact">{{ store.address }}</span>
+            </div>
+          </li>
+        </template>
       </ul>
       <LoadingSpinner v-else />
     </div>
   </main>
 
   <div class="stores">
-    <StoresMap :stores="stores" :updateLocation="updateLocation" />
+    <StoresMap :stores="stores" />
   </div>
 </template>
 
 <style scoped>
+.gray-out {
+  color: gray;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.far-away-message {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 10px;
+}
+
 .stores {
   display: flex;
   flex-direction: column;
@@ -115,6 +178,7 @@ onMounted(loadStores)
   margin-right: 15px;
   border-radius: 95%;
 }
+
 
 @media (max-width: 600px) {
   .store-list {

@@ -21,10 +21,6 @@ export default {
       type: Array,
       required: true,
     },
-    updateLocation: {
-      type: Function,
-      required: true,
-    },
   },
   methods: {
     initializeMapAndMarkers(center, stores) {
@@ -38,7 +34,7 @@ export default {
 
       // Add markers for each store
       stores.forEach((store) => {
-        const distance = calculateDistance(center.lat, center.lng, store.lat, store.long);
+        const distance = calculateDistance(center.lat, center.lng, store.lat, store.lng);
         const pinForFarStores = new google.maps.marker.PinElement({
           background: "grey",
           glyphColor: "white",
@@ -51,7 +47,7 @@ export default {
         });
         const marker = new google.maps.marker.AdvancedMarkerElement({
           map,
-          position: { lat: store.lat, lng: store.long },
+          position: { lat: store.lat, lng: store.lng },
           content: distance > DISTANCE_THRESHOLD ? pinForFarStores.element : pinForCloseStores.element,
         });
 
@@ -89,7 +85,6 @@ export default {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
-            this.updateLocation({ lat: latitude, lng: longitude });
             this.initializeMapAndMarkers({ lat: latitude, lng: longitude }, this.stores);
           },
           (error) => {
@@ -116,7 +111,6 @@ export default {
           navigator.geolocation.getCurrentPosition(
             (position) => {
               const { latitude, longitude } = position.coords;
-              this.updateLocation({ lat: latitude, lng: longitude });
               this.initializeMapAndMarkers({ lat: latitude, lng: longitude }, newStores);
             },
             (error) => {

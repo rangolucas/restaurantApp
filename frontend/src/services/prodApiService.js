@@ -32,7 +32,7 @@ export const prodApiService = {
       name: store.name,
       contactInfo: store.contact,
       timeTable: store.hours,
-      coordinates: [store.lat, store.long],
+      coordinates: [store.lat, store.lng],
     }
 
     try {

@@ -21,7 +21,7 @@ async function registerStore() {
     contact: storeContact.value,
     hours: storeHours.value,
     lat: storeLat.value,
-    long: storeLng.value,
+    lng: storeLng.value,
     logo: storeLogo.value,
   }
 
