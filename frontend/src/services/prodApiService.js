@@ -14,7 +14,15 @@ export const prodApiService = {
   },
 
   async getStores() {
-    return this.getCollection(`${PROD_URL}/stores`)
+    const stores = await this.getCollection(`${PROD_URL}/stores`)
+    return stores.map(store => {
+      const { coordinates, ...rest } = store
+      return {
+        ...rest,
+        lat: coordinates[0],
+        lng: coordinates[1]
+      }
+    })
   },
 
   async getOrders(storeId) {
