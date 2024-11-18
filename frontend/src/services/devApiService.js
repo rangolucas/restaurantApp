@@ -50,12 +50,21 @@ const storesDB = [
 ]
 
 export const devApiService = {
+  ordered: false,
+
+  async checkIn() {
+    await this.simulateDelay(300)
+    const result = [this.ordered ? ordersDB[0] : null, menuDB]
+    this.ordered = true
+    return result
+  },
+
   async getOrders() {
     await this.simulateDelay(300)
     return ordersDB
   },
 
-  async getOrderById(orderId) {
+  async getOrderById(storeId, orderId) {
     const order = ordersDB.find(order => order.orderId === orderId)
 
     if (order) {

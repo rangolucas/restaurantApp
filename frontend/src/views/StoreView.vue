@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import OrdersTable from '@/components/OrdersTable.vue'
 import MenuEditor from '@/components/MenuEditor.vue'
+import QrCode from '@/components/QR.vue'
 
 const TABS = {
   ORDERS: 'Orders',
@@ -12,6 +13,11 @@ const TABS = {
 const route = useRoute()
 const storeId = ref(route.params.id)
 const activeTab = ref(TABS.ORDERS)
+
+const qrCodeUrl = computed(() => {
+  const baseUrl = window.location.origin // Current base URL
+  return `${baseUrl}/user/${storeId.value}`
+})
 
 function setActiveTab(tab) {
   activeTab.value = tab
@@ -41,6 +47,10 @@ function setActiveTab(tab) {
 
     <OrdersTable v-if="activeTab === TABS.ORDERS" :storeId="storeId" />
     <MenuEditor v-if="activeTab === TABS.MENU" :storeId="storeId" />
+
+    <div class="qr-container">
+      <QrCode :url="qrCodeUrl" class="qrcode" />
+    </div>
   </div>
 </template>
 
@@ -83,5 +93,16 @@ body {
 .nav-link.active {
   color: #fff;
   background-color: #007bff;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.qrcode {
+  border: 2px solid #ddd;
+  padding: 10px;
 }
 </style>
