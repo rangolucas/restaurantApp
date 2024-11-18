@@ -1,14 +1,9 @@
-<template>
-  <div class="map-container">
-    <div id="map"></div>
-  </div>
-</template>
-
 <script>
 import { Loader } from "@googlemaps/js-api-loader"
+import { DISTANCE_THRESHOLD } from '../constants'
+
 
 const DEFAULT_COORDINATES = { lat: -34.588207, lng: -58.437899 } // CABA
-const DISTANCE_THRESHOLD = 2
 
 const calculateDistance = (lat1, lng1, lat2, lng2) => {
   return (Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2))) * 100;
@@ -127,6 +122,12 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="map-container">
+    <div id="map"></div>
+  </div>
+</template>
 
 <style scoped>
 .map-container {

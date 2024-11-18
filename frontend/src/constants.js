@@ -3,3 +3,5 @@ export const STATES = {
   ACCEPTED: 'En preparación',
   READY: 'Listo',
 }
+
+export const DISTANCE_THRESHOLD = 2

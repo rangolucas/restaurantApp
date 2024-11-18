@@ -3,6 +3,8 @@ import { ref, onMounted , computed } from 'vue'
 import { getApiService } from '../services/getApiService'
 import StoresMap from '@/components/StoresMap.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { DISTANCE_THRESHOLD } from '../constants'
+
 
 const stores = ref([])
 const loading = ref(true)
@@ -65,7 +67,7 @@ onMounted(async () => {
       <h1>Locales disponibles</h1>
       <ul v-if="!loading">
         <template v-for="store in storesWithDistance">
-          <li v-if="store.distance <= 2" :key="store.id">
+          <li v-if="store.distance <= DISTANCE_THRESHOLD" :key="store.id">
             <router-link :to="`/user/${store.id}`">
               <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
               <span class="store-name">{{ store.name }}</span> -
@@ -74,11 +76,11 @@ onMounted(async () => {
             </router-link>
           </li>
         </template>
-        <div class="far-away-message" v-if="storesWithDistance.some(store => store.distance > 2)">
+        <div class="far-away-message" v-if="storesWithDistance.some(store => store.distance > DISTANCE_THRESHOLD)">
           <h1>Lejanos a tu ubicación</h1>
         </div>
         <template v-for="store in storesWithDistance">
-          <li v-if="store.distance > 2" :key="store.id" class="gray-out">
+          <li v-if="store.distance > DISTANCE_THRESHOLD" :key="store.id" class="gray-out">
             <div>
               <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
               <span class="store-name">{{ store.name }}</span> -
