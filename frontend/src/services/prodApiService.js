@@ -2,6 +2,16 @@ import axios from 'axios'
 
 const PROD_URL = 'http://localhost:4567'
 
+async function getCollection(url) {
+  try {
+    const response = await axios.get(url)
+    return response.data
+  } catch (error) {
+    console.error('Error while fetching:', error)
+    throw error
+  }
+}
+
 function adaptStoreToBackend(store) {
   const backendStore = {
     name: store.name,
@@ -26,19 +36,19 @@ function adaptStoreToFrontend(store) {
   return frontendStore
 }
 
-export const prodApiService = {
-  async getCollection(url) {
-    try {
-      const response = await axios.get(url)
-      return response.data
-    } catch (error) {
-      console.error('Error while fetching:', error)
-      throw error
-    }
-  },
+async function modifyOrderStatus(url) {
+  try {
+    const response = await axios.put(url)
+    return response.data
+  } catch (error) {
+    console.error('Error updating order:', error)
+    throw error
+  }
+}
 
+export const prodApiService = {
   async checkIn(storeId) {
-    const response = this.getCollection(
+    const response = await getCollection(
       `${PROD_URL}/stores/${storeId}/check-in`,
     )
     return response.type == 'menu'
@@ -47,17 +57,17 @@ export const prodApiService = {
   },
 
   async getStores() {
-    const stores = await this.getCollection(`${PROD_URL}/stores`)
+    const stores = await getCollection(`${PROD_URL}/stores`)
     const adaptedStores = stores.map(adaptStoreToFrontend)
     return adaptedStores
   },
 
   async getOrders(storeId) {
-    return this.getCollection(`${PROD_URL}/stores/${storeId}/orders`)
+    return getCollection(`${PROD_URL}/stores/${storeId}/orders`)
   },
 
   async getMenu(storeId) {
-    return this.getCollection(`${PROD_URL}/stores/${storeId}/menu`)
+    return getCollection(`${PROD_URL}/stores/${storeId}/menu`)
   },
 
   async addStore(store) {
@@ -115,8 +125,9 @@ export const prodApiService = {
     // TODO
   },
 
-  async getOrderById(storeId, orderId) {
-    const url = `${PROD_URL}/stores/${storeId}/orders/${orderId}`
+  // no la probe
+  async getOrderById(storeId, tableId) {
+    const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
 
     try {
       const response = await axios.get(url)
@@ -127,15 +138,23 @@ export const prodApiService = {
     }
   },
 
-  async markOrderAsReady(storeId, orderId) {
-    // TODO
+  async markOrderAsReady(storeId, tableId) {
+    modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/ready`)
   },
 
-  async acceptOrder(storeId, orderId) {
-    // TODO
+  async acceptOrder(storeId, tableId) {
+    modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/accept`)
   },
 
-  async deleteOrder(storeId, orderId) {
-    // TODO
+  async deleteOrder(storeId, tableId) {
+    const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
+
+    try {
+      const response = await axios.delete(url)
+      return response.data
+    } catch (error) {
+      console.error('Error deleting order:', error)
+      throw error
+    }
   },
 }

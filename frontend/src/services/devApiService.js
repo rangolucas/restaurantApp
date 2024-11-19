@@ -64,8 +64,8 @@ export const devApiService = {
     return ordersDB
   },
 
-  async getOrderById(storeId, orderId) {
-    const order = ordersDB.find(order => order.orderId === orderId)
+  async getOrderById(storeId, tableId) {
+    const order = ordersDB.find(order => order.tableId === tableId)
 
     if (order) {
       return order
@@ -76,15 +76,15 @@ export const devApiService = {
 
   async createOrder() {
     const newOrder = {
-      orderId: 'testId',
+      tableId: 'testId',
       state: STATES.PENDING,
     }
     ordersDB.push(newOrder)
     return newOrder
   },
 
-  async markOrderAsReady(storeId, orderId) {
-    const order = ordersDB.find(order => order.orderId === orderId)
+  async markOrderAsReady(storeId, tableId) {
+    const order = ordersDB.find(order => order.tableId === tableId)
 
     if (order) {
       order.state = STATES.READY
@@ -93,8 +93,8 @@ export const devApiService = {
     }
   },
 
-  async acceptOrder(storeId, orderId) {
-    const order = ordersDB.find(order => order.orderId === orderId)
+  async acceptOrder(storeId, tableId) {
+    const order = ordersDB.find(order => order.tableId === tableId)
 
     if (order) {
       order.state = STATES.ACCEPTED
@@ -103,8 +103,8 @@ export const devApiService = {
     }
   },
 
-  async deleteOrder(storeId, orderId) {
-    const order = ordersDB.find(order => order.orderId === orderId)
+  async deleteOrder(storeId, tableId) {
+    const order = ordersDB.find(order => order.tableId === tableId)
 
     if (order) {
       ordersDB.splice(ordersDB.indexOf(order), 1)

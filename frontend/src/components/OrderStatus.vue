@@ -9,7 +9,7 @@ const props = defineProps({
 
 <template>
   <main>
-    <h1>Número de la orden: #{{ order.orderId }}</h1>
+    <h1>Número de la orden: #{{ order.tableId }}</h1>
     <h2>Estado: {{ order.state }}</h2>
   </main>
 </template>

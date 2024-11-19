@@ -37,8 +37,7 @@ class OrderController
     @mark_order_as_ready_action.invoke(store_id, table_id)
   end
 
-  def delete_order(store_id, request)
-    order_id = @codec.decode_order_id(request)
-    @delete_order_action.invoke(store_id, order_id)
+  def delete_order(store_id, table_id)
+    @delete_order_action.invoke(store_id, table_id)
   end
 end
