@@ -38,7 +38,7 @@ export const prodApiService = {
   },
 
   async checkIn(storeId) {
-    const response = this.getCollection(
+    const response = await this.getCollection(
       `${PROD_URL}/stores/${storeId}/check-in`,
     )
     return response.type == 'menu'
