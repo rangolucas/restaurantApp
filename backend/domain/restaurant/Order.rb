@@ -18,6 +18,12 @@ class Order
     end
   end
 
+  def mark_as_rejected
+    if @state != :Ready
+      @state = :Rejected
+    end
+  end
+
   def mark_as_ready
     if @state != :Accepted
       raise "Order must be accepted before it can be marked as ready"

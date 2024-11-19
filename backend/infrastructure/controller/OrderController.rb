@@ -1,11 +1,12 @@
 require 'json'
 
 class OrderController
-  def initialize(make_order_action, accept_order_action, mark_order_as_ready_action, delete_order_action, get_order_action, get_store_orders_action, codec)
+  def initialize(make_order_action, accept_order_action, reject_order_action, mark_order_as_ready_action, delete_order_action, get_order_action, get_store_orders_action, codec)
     @make_order_action = make_order_action
     @get_order_action = get_order_action
     @get_store_orders_action = get_store_orders_action
     @accept_order_action = accept_order_action
+    @reject_order_action = reject_order_action
     @make_order_as_ready_action = mark_order_as_ready_action
     @delete_order_action = delete_order_action
     @codec = codec
@@ -31,6 +32,10 @@ class OrderController
 
   def accept_order(store_id, table_id)
     @accept_order_action.invoke(store_id, table_id)
+  end
+
+  def reject_order(store_id, table_id)
+    @reject_order_action.invoke(store_id, table_id)
   end
 
   def mark_order_as_ready(store_id, table_id)

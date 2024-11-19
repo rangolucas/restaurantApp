@@ -65,6 +65,10 @@ class Store
     @orders[table_id].mark_as_accepted
   end
 
+  def reject_order(table_id)
+    @orders[table_id].mark_as_rejected
+  end
+
   def mark_as_ready(order_id)
     @orders[order_id].mark_as_ready
   end

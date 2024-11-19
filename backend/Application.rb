@@ -13,6 +13,7 @@ require './action/GetStoreOrders'
 require './action/GetStores'
 require './action/MakeAnOrder'
 require './action/MarkOrderAsReady'
+require './action/RejectOrder'
 
 require 'json'
 require 'sinatra'
@@ -32,6 +33,7 @@ codec = JsonCodec.new
 create_store = CreateStore.new(store_repository)
 get_store_orders = GetStoreOrders.new(store_repository)
 accept_order = AcceptOrder.new(store_repository)
+reject_order = RejectOrder.new(store_repository)
 mark_order_as_ready = MarkOrderAsReady.new(store_repository)
 delete_order = DeleteOrder.new(store_repository)
 add_item_to_menu = AddItemToMenu.new(store_repository)
@@ -42,7 +44,7 @@ make_an_order = MakeAnOrder.new(store_repository)
 get_order = GetOrderOrMenu.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 
-order_controller = OrderController.new(make_an_order, accept_order, mark_order_as_ready, delete_order, get_order, get_store_orders, codec)
+order_controller = OrderController.new(make_an_order, accept_order, reject_order ,mark_order_as_ready, delete_order, get_order, get_store_orders, codec)
 store_controller = StoreController.new(create_store, get_stores, codec)
 menu_controller = MenuController.new(get_menu, add_item_to_menu, codec)
 
@@ -129,6 +131,14 @@ put '/stores/:store_id/orders/:table_id/accept' do
   content_type :json
   status :ok
   order_controller.accept_order(store_id, table_id)
+end
+
+put '/stores/:store_id/orders/:table_id/reject' do
+  store_id = params['store_id']
+  table_id = params['table_id']
+  content_type :json
+  status :ok
+  order_controller.reject_order(store_id, table_id)
 end
 
 put '/stores/:store_id/orders/:table_id/ready' do
