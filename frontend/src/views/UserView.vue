@@ -72,6 +72,14 @@ const storesWithDistance = computed(() => {
   })
 })
 
+const hasNearbyStores = computed(() => {
+  return storesWithDistance.value.some(store => store.distance <= DISTANCE_THRESHOLD)
+})
+
+const hasFarStores = computed(() => {
+  return storesWithDistance.value.some(store => store.distance > DISTANCE_THRESHOLD)
+})
+
 onMounted(async () => {
   await getUserLocation()
   console.log(toRaw(location))
@@ -86,12 +94,7 @@ onMounted(async () => {
       <h1 v-else>No hay locales disponibles</h1>
       <ul v-if="!loading()">
         <h1
-          v-if="
-            storesWithDistance.some(
-              store => store.distance < DISTANCE_THRESHOLD,
-            )
-          "
-        >
+          v-if="hasNearbyStores">
           Cercanos a tu ubicación
         </h1>
         <template v-for="store in storesWithDistance">
@@ -112,12 +115,7 @@ onMounted(async () => {
         </template>
         <h1
           class="message"
-          v-if="
-            storesWithDistance.some(
-              store => store.distance > DISTANCE_THRESHOLD,
-            )
-          "
-        >
+          v-if="hasFarStores">
           Lejanos a tu ubicación
         </h1>
         <template v-for="store in storesWithDistance">

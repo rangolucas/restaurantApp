@@ -89,7 +89,7 @@ async function handleSubmit() {
   loadingSubmit.value = true
   await apiService.createOrder(
     userLocation,
-    props.storeId,
+    storeId.value,
     selectedItems.value,
     false,
   )
