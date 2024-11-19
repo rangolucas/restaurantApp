@@ -34,7 +34,7 @@ const router = createRouter({
     },
     {
       path: '/user/:storeId',
-      name: 'user-checkIn',
+      name: 'user-check-in',
       component: () => import('../views/CheckInView.vue'),
     },
   ],

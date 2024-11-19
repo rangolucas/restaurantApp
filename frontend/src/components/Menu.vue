@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getApiService } from '../services/getApiService'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
 
 const router = useRouter()
+const userLocation = useRoute().state?.userLocation
 const selectedItems = ref({})
 const apiService = getApiService()
 const loadingSubmit = ref(false)
@@ -12,6 +13,10 @@ const loadingSubmit = ref(false)
 const props = defineProps({
   menu: {
     type: Array,
+    required: true,
+  },
+  storeId: {
+    type: String,
     required: true,
   },
   checkIn: {
@@ -27,21 +32,21 @@ function incrementQuantity(itemName) {
 function decrementQuantity(itemName) {
   if (selectedItems.value[itemName] > 0) {
     selectedItems.value[itemName] -= 1
+  } else {
+    delete selectedItems.value[itemName]
   }
 }
 
 async function handleSubmit() {
   loadingSubmit.value = true
-  const selectedOrder = Object.entries(selectedItems.value)
-    .filter(([id, quantity]) => quantity > 0)
-    .map(([id, quantity]) => ({
-      itemId: id,
-      quantity: quantity,
-    }))
-
-  await apiService.createOrder(selectedOrder)
+  await apiService.createOrder(
+    userLocation,
+    props.storeId,
+    selectedItems.value,
+    false,
+  )
   loadingSubmit.value = false
-  props.checkIn()
+  await props.checkIn()
 }
 </script>
 
@@ -65,7 +70,7 @@ async function handleSubmit() {
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="decrementQuantity(item.itemName)"
+                  @click="decrementQuantity(item.itemId)"
                 >
                   -
                 </button>
@@ -74,13 +79,13 @@ async function handleSubmit() {
                   class="form-control text-center w-25"
                   min="0"
                   :placeholder="0"
-                  v-model.number="selectedItems[item.itemName]"
+                  v-model.number="selectedItems[item.itemId]"
                   readonly
                 />
                 <button
                   type="button"
                   class="btn btn-outline-secondary"
-                  @click="incrementQuantity(item.itemName)"
+                  @click="incrementQuantity(item.itemId)"
                 >
                   +
                 </button>
@@ -137,7 +142,7 @@ label {
 }
 
 strong {
-  display:inline-block;
+  display: inline-block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

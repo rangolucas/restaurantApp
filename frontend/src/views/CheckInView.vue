@@ -33,7 +33,7 @@ onMounted(checkIn)
     <LoadingSpinner />
   </div>
   <OrderStatus v-else-if="order != null" :order="order" />
-  <Menu v-else :menu="menu" :checkIn="checkIn" />
+  <Menu v-else :menu="menu" :storeId="storeId" :checkIn="checkIn" />
 </template>
 
 <style scoped>

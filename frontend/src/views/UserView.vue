@@ -1,26 +1,32 @@
 <script setup>
-import { ref, onMounted , computed } from 'vue'
+import { toRaw, ref, onMounted, computed } from 'vue'
 import { getApiService } from '../services/getApiService'
 import StoresMap from '@/components/StoresMap.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { DISTANCE_THRESHOLD } from '../constants'
 
-
 const stores = ref([])
-const loading = ref(true)
+const loadingStores = ref(true)
+const loadingLocation = ref(true)
 const location = ref(null)
 const apiService = getApiService()
 
 async function loadStores() {
   try {
+    loadingStores.value = true
     stores.value = await apiService.getStores()
-    loading.value = false
+    loadingStores.value = false
   } catch (error) {
     console.error('Error fetching stores:', error)
   }
 }
 
+function loading() {
+  return loadingStores.value || loadingLocation.value
+}
+
 function getUserLocation() {
+  loadingLocation.value = true
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       const options = {
@@ -29,14 +35,15 @@ function getUserLocation() {
         maximumAge: 600000,
       }
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           location.value = {
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
           }
+          loadingLocation.value = false
           resolve()
         },
-        (error) => {
+        error => {
           console.error('Error getting user location:', error)
           reject(error)
         },
@@ -50,19 +57,24 @@ function getUserLocation() {
 }
 
 const calculateDistance = (lat1, lng1, lat2, lng2) => {
-  return (Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2))) * 100;
-};
+  return Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2)) * 100
+}
 
 const storesWithDistance = computed(() => {
   return stores.value.map(store => {
-    const distance = calculateDistance(location.value.lat, location.value.lng, store.lat, store.lng)
+    const distance = calculateDistance(
+      location.value.lat,
+      location.value.lng,
+      store.lat,
+      store.lng,
+    )
     return { ...store, distance }
   })
 })
 
-
 onMounted(async () => {
   await getUserLocation()
+  console.log(toRaw(location))
   loadStores()
 })
 </script>
@@ -72,11 +84,25 @@ onMounted(async () => {
     <div class="store-list">
       <h1 v-if="storesWithDistance.length > 0">Locales</h1>
       <h1 v-else>No hay locales disponibles</h1>
-      <ul v-if="!loading">
-        <h1  v-if="storesWithDistance.some(store => store.distance < DISTANCE_THRESHOLD)">Cercanos a tu ubicación</h1>
+      <ul v-if="!loading()">
+        <h1
+          v-if="
+            storesWithDistance.some(
+              store => store.distance < DISTANCE_THRESHOLD,
+            )
+          "
+        >
+          Cercanos a tu ubicación
+        </h1>
         <template v-for="store in storesWithDistance">
           <li v-if="store.distance <= DISTANCE_THRESHOLD" :key="store.id">
-            <router-link :to="`/user/${store.id}`">
+            <router-link
+              :to="{
+                name: 'user-check-in',
+                params: { storeId: store.id },
+                state: { userLocation: location.value },
+              }"
+            >
               <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
               <span class="store-name">{{ store.name }}</span> -
               <span class="store-contact">{{ store.contact }}</span> -
@@ -84,9 +110,22 @@ onMounted(async () => {
             </router-link>
           </li>
         </template>
-        <h1 class="message" v-if="storesWithDistance.some(store => store.distance > DISTANCE_THRESHOLD)">Lejanos a tu ubicación</h1>
+        <h1
+          class="message"
+          v-if="
+            storesWithDistance.some(
+              store => store.distance > DISTANCE_THRESHOLD,
+            )
+          "
+        >
+          Lejanos a tu ubicación
+        </h1>
         <template v-for="store in storesWithDistance">
-          <li v-if="store.distance > DISTANCE_THRESHOLD" :key="store.id" class="gray-out">
+          <li
+            v-if="store.distance > DISTANCE_THRESHOLD"
+            :key="store.id"
+            class="gray-out"
+          >
             <div>
               <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
               <span class="store-name">{{ store.name }}</span> -
@@ -185,7 +224,6 @@ onMounted(async () => {
   margin-right: 15px;
   border-radius: 95%;
 }
-
 
 @media (max-width: 600px) {
   .store-list {

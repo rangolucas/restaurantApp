@@ -121,11 +121,19 @@ export const prodApiService = {
     // TODO
   },
 
-  async createOrder(storeId, order) {
-    // TODO
+  async createOrder(userLocation, storeId, order, takeaway) {
+    const payload = {
+      amountByItem: order,
+      userCoordinates: [userLocation.lat, userLocation.lng],
+      takeaway: takeaway,
+    }
+    await axios.post(`${PROD_URL}/stores/${storeId}/orders`, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
 
-  // no la probe
   async getOrderById(storeId, tableId) {
     const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
 
