@@ -48,7 +48,7 @@ menu_controller = MenuController.new(get_menu, add_item_to_menu, codec)
 
 error JsonFormatError do
   content_type :json
-  status 400
+  status :bad_request
   { error: env['sinatra.error'].message }.to_json
 end
 
@@ -61,7 +61,7 @@ post '/stores/:store_id/orders' do
     status :created
   else
     content_type :json
-    status 400
+    status :bad_request
     order_result
   end
 end
