@@ -64,8 +64,10 @@ onMounted(async () => {
 <template>
   <main>
     <div class="store-list">
-      <h1>Locales disponibles</h1>
+      <h1 v-if="storesWithDistance.length > 0">Locales</h1>
+      <h1 v-else>No hay locales disponibles</h1>
       <ul v-if="!loading">
+        <h1  v-if="storesWithDistance.some(store => store.distance < DISTANCE_THRESHOLD)">Cercanos a tu ubicación</h1>
         <template v-for="store in storesWithDistance">
           <li v-if="store.distance <= DISTANCE_THRESHOLD" :key="store.id">
             <router-link :to="`/user/${store.id}`">
@@ -76,9 +78,7 @@ onMounted(async () => {
             </router-link>
           </li>
         </template>
-        <div class="far-away-message" v-if="storesWithDistance.some(store => store.distance > DISTANCE_THRESHOLD)">
-          <h1>Lejanos a tu ubicación</h1>
-        </div>
+        <h1 class="message" v-if="storesWithDistance.some(store => store.distance > DISTANCE_THRESHOLD)">Lejanos a tu ubicación</h1>
         <template v-for="store in storesWithDistance">
           <li v-if="store.distance > DISTANCE_THRESHOLD" :key="store.id" class="gray-out">
             <div>
@@ -106,8 +106,7 @@ onMounted(async () => {
   opacity: 0.5;
 }
 
-.far-away-message {
-  font-weight: bold;
+.message {
   margin-top: 20px;
   margin-bottom: 10px;
   text-align: center;
