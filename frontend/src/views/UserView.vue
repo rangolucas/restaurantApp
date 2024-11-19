@@ -23,6 +23,11 @@ async function loadStores() {
 function getUserLocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
+      const options = {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 600000,
+      }
       navigator.geolocation.getCurrentPosition(
         (position) => {
           location.value = {
@@ -34,7 +39,8 @@ function getUserLocation() {
         (error) => {
           console.error('Error getting user location:', error)
           reject(error)
-        }
+        },
+        options,
       )
     } else {
       console.error('Geolocation is not supported by this browser.')
