@@ -2,13 +2,16 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getApiService } from '../services/getApiService'
-import LoadingSpinner from '../components/LoadingSpinner.vue'
+import { DISTANCE_THRESHOLD } from '../constants'
 
-const router = useRouter()
-const userLocation = useRoute().state?.userLocation
-const selectedItems = ref({})
+const route = useRoute()
 const apiService = getApiService()
+
+const storeId = ref(route.params.storeId)
+const location = ref(null)
+const selectedItems = ref({})
 const loadingSubmit = ref(false)
+const isCloseEnough = ref(false)
 
 const props = defineProps({
   menu: {
@@ -24,6 +27,55 @@ const props = defineProps({
     required: true,
   },
 })
+
+function getUserLocation() {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          location.value = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+          resolve()
+        },
+        (error) => {
+          console.error('Error getting user location:', error)
+          reject(error)
+        }
+      )
+    } else {
+      console.error('Geolocation is not supported by this browser.')
+      reject(new Error('Geolocation not supported'))
+    }
+  })
+}
+
+const calculateDistance = (lat1, lng1, lat2, lng2) => {
+  return (Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2))) * 100;
+}
+
+async function getStore(storeId) {
+  const stores = await apiService.getStores()
+  const storeToReturn = stores.find(s => s.id === storeId)
+  return storeToReturn
+}
+
+async function checkProximity() {
+  try {
+    await getUserLocation()
+    const store = await getStore(storeId.value)
+    const distance = calculateDistance(
+      location.value.lat,
+      location.value.lng,
+      store.lat,
+      store.lng
+    )
+    isCloseEnough.value = distance <= DISTANCE_THRESHOLD
+  } catch (error) {
+    console.error('Error checking proximity:', error)
+  }
+}
 
 function incrementQuantity(itemName) {
   selectedItems.value[itemName] = (selectedItems.value[itemName] || 0) + 1
@@ -48,6 +100,8 @@ async function handleSubmit() {
   loadingSubmit.value = false
   await props.checkIn()
 }
+
+onMounted(checkProximity)
 </script>
 
 <template>
@@ -68,6 +122,7 @@ async function handleSubmit() {
             <div class="d-flex align-items-center" style="flex: 2">
               <div class="input-group">
                 <button
+                  v-if="isCloseEnough"
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="decrementQuantity(item.itemId)"
@@ -83,6 +138,7 @@ async function handleSubmit() {
                   readonly
                 />
                 <button
+                  v-if="isCloseEnough"
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="incrementQuantity(item.itemId)"
@@ -94,7 +150,16 @@ async function handleSubmit() {
           </li>
         </ul>
         <div class="text-center mt-4">
-          <button type="submit" class="btn btn-primary">Enviar Pedido</button>
+          <button
+            v-if="isCloseEnough"
+            type="submit"
+            class="btn btn-primary"
+          >
+            Enviar Pedido
+          </button>
+          <p v-else class="text-danger">
+            Debes estar cerca para hacer un pedido.
+          </p>
         </div>
       </form>
     </div>
