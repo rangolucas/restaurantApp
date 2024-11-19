@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { getApiService } from '../services/getApiService'
 import { DISTANCE_THRESHOLD } from '../constants'
 
@@ -8,18 +8,14 @@ const route = useRoute()
 const apiService = getApiService()
 
 const storeId = ref(route.params.storeId)
-const location = ref(null)
 const selectedItems = ref({})
+const userLocation = ref(null)
 const loadingSubmit = ref(false)
 const isCloseEnough = ref(false)
 
 const props = defineProps({
   menu: {
     type: Array,
-    required: true,
-  },
-  storeId: {
-    type: String,
     required: true,
   },
   checkIn: {
@@ -33,7 +29,7 @@ function getUserLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          location.value = {
+          userLocation.value = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
@@ -66,8 +62,8 @@ async function checkProximity() {
     await getUserLocation()
     const store = await getStore(storeId.value)
     const distance = calculateDistance(
-      location.value.lat,
-      location.value.lng,
+      userLocation.value.lat,
+      userLocation.value.lng,
       store.lat,
       store.lng
     )
