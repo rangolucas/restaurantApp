@@ -109,8 +109,11 @@ post '/stores/:store_id/menu' do
   store_id = params['store_id']
   json_payload = JSON.parse(request.body.read)
   content_type :json
-  status :created
-  menu_controller.add_item(store_id, json_payload)
+  if menu_controller.add_item(store_id, json_payload)
+    status :created
+  else
+    status :bad_request
+  end
 end
 
 get '/stores/:store_id/menu' do

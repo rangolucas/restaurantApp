@@ -30,6 +30,10 @@ class Store
     @orders.values
   end
 
+  def has_item_in_menu?(item_name) 
+    @menu.has_item?(item_name)
+  end
+
   def validate_order(table_id, user_coordinates, amount_by_item)
     if !self.is_close_to(user_coordinates)
       :not_in_store_radius

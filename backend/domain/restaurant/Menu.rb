@@ -19,6 +19,12 @@ class Menu
     }
   end
 
+  def has_item?(item_name)
+    @items.any? { |_, (name, _)|
+      name == item_name
+    }
+  end
+
   def copy
     Menu.new(copy_items)
   end
