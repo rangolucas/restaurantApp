@@ -115,8 +115,8 @@ export const prodApiService = {
     // TODO
   },
 
-  async getOrderById(storeId, orderId) {
-    const url = `${PROD_URL}/stores/${storeId}/orders/${orderId}`
+  async getOrderById(storeId, tableId) {
+    const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
 
     try {
       const response = await axios.get(url)
@@ -127,15 +127,15 @@ export const prodApiService = {
     }
   },
 
-  async markOrderAsReady(storeId, orderId) {
+  async markOrderAsReady(storeId, tableId) {
     // TODO
   },
 
-  async acceptOrder(storeId, orderId) {
+  async acceptOrder(storeId, tableId) {
     // TODO
   },
 
-  async deleteOrder(storeId, orderId) {
+  async deleteOrder(storeId, tableId) {
     // TODO
   },
 }

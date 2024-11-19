@@ -18,15 +18,15 @@ const orders = ref([])
 const apiService = getApiService()
 
 function acceptOrder(order) {
-  runAndUpdateView(() => apiService.acceptOrder(storeId, order.orderId))
+  runAndUpdateView(() => apiService.acceptOrder(storeId, order.tableId))
 }
 
 function markOrderAsReady(order) {
-  runAndUpdateView(() => apiService.markOrderAsReady(storeId, order.orderId))
+  runAndUpdateView(() => apiService.markOrderAsReady(storeId, order.tableId))
 }
 
 function deleteOrder(order) {
-  runAndUpdateView(() => apiService.deleteOrder(storeId, order.orderId))
+  runAndUpdateView(() => apiService.deleteOrder(storeId, order.tableId))
 }
 
 function runAndUpdateView(action) {
