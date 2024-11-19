@@ -147,6 +147,14 @@ export const prodApiService = {
   },
 
   async deleteOrder(storeId, tableId) {
-    // TODO
+    const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
+
+    try {
+      const response = await axios.delete(url)
+      return response.data
+    } catch (error) {
+      console.error('Error deleting order:', error)
+      throw error
+    }
   },
 }
