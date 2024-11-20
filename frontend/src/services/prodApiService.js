@@ -16,6 +16,7 @@ function adaptStoreToBackend(store) {
   const backendStore = {
     name: store.name,
     contact: store.contact,
+    address: store.address,
     hours: store.hours,
     coordinates: [store.lat, store.lng],
     logo: store.logo,
@@ -28,6 +29,7 @@ function adaptStoreToFrontend(store) {
   const frontendStore = {
     id: store.id,
     name: store.name,
+    address: store.address,
     contact: store.contact,
     hours: store.hours,
     lat: store.coordinates[0],

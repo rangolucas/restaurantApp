@@ -11,7 +11,7 @@ class StoreController
 
   def create_store(encoded_request)
     decoded_request = @codec.decode_store_creation(encoded_request)
-    store_id = @create_store_action.invoke(decoded_request.coordinates, decoded_request.name, decoded_request.time_table, decoded_request.contact_info, decoded_request.logo)
+    store_id = @create_store_action.invoke(decoded_request.coordinates, decoded_request.name, decoded_request.address, decoded_request.time_table, decoded_request.contact_info, decoded_request.logo)
     @codec.encode_store_id(store_id)
   end
 

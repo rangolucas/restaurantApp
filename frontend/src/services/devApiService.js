@@ -18,34 +18,34 @@ const storesDB = [
   {
     id: 'store1',
     name: 'Guerrin',
+    address: 'Calle 124',
     contact: 'store1@test.com',
     lat: -34.58477,
     lng: -58.442846,
-    address: 'Calle 124',
   },
   {
     id: 'store2',
     name: 'Cuervo',
+    address: 'Avenida Corrientes 742',
     contact: 'store2@test.com',
     lat: -34.588254,
     lng: -58.434529,
-    address: 'Avenida Corrientes 742',
   },
   {
     id: 'store3',
     name: 'Panchitos',
+    address: 'Calle 456',
     contact: 'store3@test.com',
     lat: -34.62746,
     lng: -58.434038,
-    address: 'Calle 456',
   },
   {
     id: 'store4',
     name: 'Paellaza',
+    address: 'Avenida 9 de Julio 3243',
     contact: 'store4@test.com',
     lat: -34.569148,
     lng: -58.43393,
-    address: 'Avenida 9 de Julio 3243',
   },
 ]
 
