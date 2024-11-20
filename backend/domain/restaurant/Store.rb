@@ -24,10 +24,6 @@ class Store
     @menu.remove_item(item_id)
   end
 
-  def get_menu
-    @menu
-  end
-
   def get_orders
     @orders.values
   end

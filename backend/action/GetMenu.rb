@@ -5,6 +5,6 @@ class GetMenu
 
   def invoke(store_id)
     store = @store_repository.fetch_by_id(store_id)
-    store.get_menu
+    store.menu
   end
 end
