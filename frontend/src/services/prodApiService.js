@@ -122,7 +122,19 @@ export const prodApiService = {
   },
 
   async removeItemFromMenu(storeId, itemId) {
-    // TODO
+    const url = `${PROD_URL}/stores/${storeId}/menu/${itemId}`
+
+    try {
+      const response = await axios.delete(url)
+
+      return response.data
+    } catch (error) {
+      console.error(
+        'Error removing item from menu:',
+        error.response?.data || error.message,
+      )
+      throw error
+    }
   },
 
   async createOrder(userLocation, storeId, order, takeaway) {

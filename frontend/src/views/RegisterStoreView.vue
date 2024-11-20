@@ -78,6 +78,7 @@ onMounted(() => {
           id="storeName"
           class="form-control"
           placeholder="Example"
+          required
         />
       </div>
 
@@ -128,6 +129,7 @@ onMounted(() => {
           id="storeLogo"
           class="form-control"
           @change="handleFileChange"
+          required
         />
       </div>
 

@@ -21,7 +21,7 @@ class Store
   end
 
   def remove_item(item_id)
-    @menu.removeItem(item_id)
+    @menu.remove_item(item_id)
   end
 
   def get_menu
