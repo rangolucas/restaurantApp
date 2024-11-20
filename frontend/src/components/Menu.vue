@@ -87,12 +87,13 @@ function decrementQuantity(itemName) {
 
 async function handleSubmit() {
   loadingSubmit.value = true
-  await apiService.createOrder(
-    userLocation,
-    storeId.value,
-    selectedItems.value,
-    false,
-  )
+  const order = {
+    userLocation: userLocation.value,
+    selectedItems: selectedItems.value,
+    takeaway: false,
+  }
+
+  await apiService.createOrder(storeId.value, order)
   loadingSubmit.value = false
   await props.checkIn()
 }
