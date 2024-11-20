@@ -21,6 +21,10 @@ function acceptOrder(order) {
   runAndUpdateView(() => apiService.acceptOrder(storeId, order.tableId))
 }
 
+function rejectOrder(order) {
+  runAndUpdateView(() => apiService.rejectOrder(storeId, order.tableId))
+}
+
 function markOrderAsReady(order) {
   runAndUpdateView(() => apiService.markOrderAsReady(storeId, order.tableId))
 }
@@ -79,11 +83,11 @@ onMounted(updateView)
               </button>
               <button
                 v-if="order.state === STATES.PENDING"
-                @click="deleteOrder(order)"
+                @click="rejectOrder(order)"
                 class="btn btn-primary"
               >
                 <img
-                  src="@/assets/trash.svg"
+                  src="@/assets/thumbs-down.svg"
                   alt="icon"
                   style="width: 24px; height: auto"
                 />
@@ -100,7 +104,7 @@ onMounted(updateView)
                 />
               </button>
               <button
-                v-if="order.state === STATES.READY"
+                v-if="order.state === STATES.READY || order.state === STATES.REJECTED"
                 @click="deleteOrder(order)"
                 class="btn btn-primary"
               >

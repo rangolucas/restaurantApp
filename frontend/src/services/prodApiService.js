@@ -154,6 +154,10 @@ export const prodApiService = {
     modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/accept`)
   },
 
+  async rejectOrder(storeId, tableId) {
+    modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/reject`)
+  },
+
   async deleteOrder(storeId, tableId) {
     const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
 

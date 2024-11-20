@@ -103,6 +103,16 @@ export const devApiService = {
     }
   },
 
+  async rejectOrder(storeId, tableId) {
+    const order = ordersDB.find(order => order.tableId === tableId)
+
+    if (order) {
+      order.state = STATES.REJECTED
+    } else {
+      console.log('Order not found')
+    }
+  },
+
   async deleteOrder(storeId, tableId) {
     const order = ordersDB.find(order => order.tableId === tableId)
 
