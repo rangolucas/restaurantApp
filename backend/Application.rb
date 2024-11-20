@@ -25,6 +25,7 @@ disable :show_exceptions
 set :allow_origin, '*'
 set :allow_methods, 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS'
 set :allow_headers, 'content-type, authorization, accept'
+set :allow_credentials, true
 set :bind, '0.0.0.0'
 
 store_repository = MemoryStoreRepository.new

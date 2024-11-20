@@ -3,9 +3,13 @@ import { STATES } from '../constants'
 
 const PROD_URL = 'http://localhost:4567'
 
+const axiosClient = axios.create({
+  withCredentials: true,
+})
+
 async function getCollection(url) {
   try {
-    const response = await axios.get(url)
+    const response = await axiosClient.get(url)
     return response.data
   } catch (error) {
     console.error('Error while fetching:', error)
@@ -52,7 +56,7 @@ function adaptOrderToBackend(order) {
 }
 
 function adaptOrderToFrontend(order) {
-  const getStateValue = (order) => STATES[order.state]
+  const getStateValue = order => STATES[order.state]
 
   const frontendOrder = {
     selectedItems: order.amountByItem,
@@ -65,7 +69,7 @@ function adaptOrderToFrontend(order) {
 
 async function modifyOrderStatus(url) {
   try {
-    const response = await axios.put(url)
+    const response = await axiosClient.put(url)
     return response.data
   } catch (error) {
     console.error('Error updating order:', error)
@@ -75,8 +79,8 @@ async function modifyOrderStatus(url) {
 
 async function deleteResource(url) {
   try {
-    const response = await axios.delete(url)
-    
+    const response = await axiosClient.delete(url)
+
     return response.data
   } catch (error) {
     console.error(
@@ -119,7 +123,7 @@ export const prodApiService = {
     const storeObject = adaptStoreToBackend(store)
 
     try {
-      const response = await axios.post(url, storeObject, {
+      const response = await axiosClient.post(url, storeObject, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -144,7 +148,7 @@ export const prodApiService = {
     }
 
     try {
-      const response = await axios.post(url, itemObject, {
+      const response = await axiosClient.post(url, itemObject, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -168,11 +172,15 @@ export const prodApiService = {
     const orderObject = adaptOrderToBackend(order)
 
     try {
-      const response = await axios.post(`${PROD_URL}/stores/${storeId}/orders`, orderObject, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axiosClient.post(
+        `${PROD_URL}/stores/${storeId}/orders`,
+        orderObject,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       return response.data
     } catch (error) {
@@ -188,7 +196,7 @@ export const prodApiService = {
     const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
 
     try {
-      const response = await axios.get(url)
+      const response = await axiosClient.get(url)
       console.log(response.data)
       adaptOrderToFrontend(response.data)
       return response.data
@@ -199,15 +207,21 @@ export const prodApiService = {
   },
 
   async markOrderAsReady(storeId, tableId) {
-    await modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/ready`)
+    await modifyOrderStatus(
+      `${PROD_URL}/stores/${storeId}/orders/${tableId}/ready`,
+    )
   },
 
   async acceptOrder(storeId, tableId) {
-    await modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/accept`)
+    await modifyOrderStatus(
+      `${PROD_URL}/stores/${storeId}/orders/${tableId}/accept`,
+    )
   },
 
   async rejectOrder(storeId, tableId) {
-    await modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/reject`)
+    await modifyOrderStatus(
+      `${PROD_URL}/stores/${storeId}/orders/${tableId}/reject`,
+    )
   },
 
   async deleteOrder(storeId, tableId) {
