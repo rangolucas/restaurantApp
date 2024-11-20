@@ -2,7 +2,7 @@ require './domain/restaurant/Menu'
 require './domain/restaurant/Order'
 
 class Store
-  attr_accessor :id, :coordinates, :name, :address, :time_table, :contact_info, :menu, :orders, :logo
+  attr_reader :id, :coordinates, :name, :address, :time_table, :contact_info, :menu, :orders, :logo
 
   def initialize(id, coordinates, name, address, time_table, contact_info, logo, menu = Menu.new, orders = Hash.new)
     @id = id
