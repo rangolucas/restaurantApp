@@ -14,6 +14,7 @@ require './action/GetStores'
 require './action/MakeAnOrder'
 require './action/MarkOrderAsReady'
 require './action/RejectOrder'
+require './action/RemoveItemFromMenu'
 
 require 'json'
 require 'sinatra'
