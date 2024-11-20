@@ -73,6 +73,20 @@ async function modifyOrderStatus(url) {
   }
 }
 
+async function deleteResource(url) {
+  try {
+    const response = await axios.delete(url)
+    
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error deleting resource:',
+      error.response?.data || error.message,
+    )
+    throw error
+  }
+}
+
 export const prodApiService = {
   async checkIn(storeId) {
     const response = await getCollection(
@@ -147,19 +161,7 @@ export const prodApiService = {
   },
 
   async removeItemFromMenu(storeId, itemId) {
-    const url = `${PROD_URL}/stores/${storeId}/menu/${itemId}`
-
-    try {
-      const response = await axios.delete(url)
-
-      return response.data
-    } catch (error) {
-      console.error(
-        'Error removing item from menu:',
-        error.response?.data || error.message,
-      )
-      throw error
-    }
+    deleteResource(url)
   },
 
   async createOrder(storeId, order) {
@@ -209,14 +211,6 @@ export const prodApiService = {
   },
 
   async deleteOrder(storeId, tableId) {
-    const url = `${PROD_URL}/stores/${storeId}/orders/${tableId}`
-
-    try {
-      const response = await axios.delete(url)
-      return response.data
-    } catch (error) {
-      console.error('Error deleting order:', error)
-      throw error
-    }
+    deleteResource(`${PROD_URL}/stores/${storeId}/orders/${tableId}`)
   },
 }
