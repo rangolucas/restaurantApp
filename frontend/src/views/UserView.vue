@@ -82,7 +82,7 @@ const hasFarStores = computed(() => {
 
 onMounted(async () => {
   await getUserLocation()
-  console.log(toRaw(location))
+  //console.log(toRaw(location))
   loadStores()
 })
 </script>

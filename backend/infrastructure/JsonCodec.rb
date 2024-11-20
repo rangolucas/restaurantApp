@@ -11,7 +11,8 @@ class JsonCodec
     name = get_mandatory_field(request, "name")
     time_table = get_mandatory_field(request, "hours")
     contact_info = get_mandatory_field(request, "contact")
-    StoreCreationDto.new(coordinates, name, time_table, contact_info)
+    logo = get_mandatory_field(request, "logo")
+    StoreCreationDto.new(coordinates, name, time_table, contact_info, logo)
   end
   
   def decode_order_creation(request)
@@ -165,7 +166,8 @@ class JsonCodec
       "name": store.name,
       "contact": store.contact_info,
       "hours": store.time_table,
-      "coordinates": encode_coordinates(store.coordinates)
+      "coordinates": encode_coordinates(store.coordinates),
+      "logo": store.logo
     }
   end
 

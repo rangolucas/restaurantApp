@@ -18,6 +18,7 @@ function adaptStoreToBackend(store) {
     contact: store.contact,
     hours: store.hours,
     coordinates: [store.lat, store.lng],
+    logo: store.logo,
   }
 
   return backendStore
@@ -31,6 +32,7 @@ function adaptStoreToFrontend(store) {
     hours: store.hours,
     lat: store.coordinates[0],
     lng: store.coordinates[1],
+    logo: store.logo,
   }
 
   return frontendStore

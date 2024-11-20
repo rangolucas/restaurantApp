@@ -12,9 +12,9 @@ class MemoryStoreRepository
     @stores.values.map(&:copy)
   end
 
-  def create_store(coordinates, name, time_table, contact_info)
+  def create_store(coordinates, name, time_table, contact_info, logo)
     store_id = @next_id.to_s
-    new_store = Store.new(store_id, coordinates, name, time_table, contact_info)
+    new_store = Store.new(store_id, coordinates, name, time_table, contact_info, logo)
     @stores[store_id] = new_store
     @next_id += 1
     new_store.copy

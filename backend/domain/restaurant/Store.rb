@@ -2,14 +2,15 @@ require './domain/restaurant/Menu'
 require './domain/restaurant/Order'
 
 class Store
-  attr_accessor :id, :coordinates, :name, :time_table, :contact_info, :menu, :orders
+  attr_accessor :id, :coordinates, :name, :time_table, :contact_info, :menu, :orders, :logo
 
-  def initialize(id, coordinates, name, time_table, contact_info, menu = Menu.new, orders = Hash.new)
+  def initialize(id, coordinates, name, time_table, contact_info, logo, menu = Menu.new, orders = Hash.new)
     @id = id
     @coordinates = coordinates
     @name = name
     @time_table = time_table
     @contact_info = contact_info
+    @logo = logo
     @menu = menu
     @orders = orders
   end
@@ -86,7 +87,7 @@ class Store
   end
 
   def copy
-    Store.new(@id, @coordinates, @name, @time_table, @contact_info, @menu.copy, copy_orders)
+    Store.new(@id, @coordinates, @name, @time_table, @contact_info, @logo, @menu.copy, copy_orders)
   end
 
   private
