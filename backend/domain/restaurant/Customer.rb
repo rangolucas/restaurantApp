@@ -9,7 +9,7 @@ class Customer
     @tables[store_id]
   end
 
-  def acquire_table(store_id)
-    @tables[store_id] = SecureRandom.uuid
+  def acquire_table(store)
+    @tables[store.id] = store.assign_table(self)
   end
 end

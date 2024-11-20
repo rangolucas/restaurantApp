@@ -4,7 +4,7 @@ require './domain/restaurant/Order'
 class Store
   attr_reader :id, :coordinates, :name, :address, :time_table, :contact_info, :menu, :orders, :logo
 
-  def initialize(id, coordinates, name, address, time_table, contact_info, logo, menu = Menu.new, orders = Hash.new)
+  def initialize(id, coordinates, name, address, time_table, contact_info, logo, next_table_assigned = 1, menu = Menu.new, orders = Hash.new)
     @id = id
     @coordinates = coordinates
     @name = name
@@ -12,6 +12,7 @@ class Store
     @time_table = time_table
     @contact_info = contact_info
     @logo = logo
+    @next_table_assigned = next_table_assigned
     @menu = menu
     @orders = orders
   end
@@ -59,6 +60,12 @@ class Store
     end
   end
 
+  def assign_table(customer)
+    @next_table_assigned.tap {
+      @next_table_assigned += 1
+    }.to_s
+  end
+
   def accept_order(table_id)
     @orders[table_id].mark_as_accepted
   end
@@ -76,7 +83,7 @@ class Store
   end
 
   def is_close_to(coordinates)
-    @coordinates.distance_to(coordinates, units: :meters) < 50
+    @coordinates.distance_to(coordinates, units: :meters) < 1000
   end
 
   def accepts_order(amount_by_item)
@@ -84,7 +91,7 @@ class Store
   end
 
   def copy
-    Store.new(@id, @coordinates, @name, @address, @time_table, @contact_info, @logo, @menu.copy, copy_orders)
+    Store.new(@id, @coordinates, @name, @address, @time_table, @contact_info, @logo, @next_table_assigned, @menu.copy, copy_orders)
   end
 
   private
