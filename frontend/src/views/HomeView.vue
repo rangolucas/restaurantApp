@@ -40,9 +40,9 @@ onMounted(() => {})
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: #fff;
   padding: 2rem;
-  color: #ffffff;
+  color: #1a1a1a;
 }
 
 .header {
@@ -62,7 +62,7 @@ onMounted(() => {})
 .welcome-message {
   text-align: center;
   margin-bottom: 3rem;
-  color: #b3b3b3;
+  color: #666;
 }
 
 .buttons-container {
@@ -77,7 +77,7 @@ onMounted(() => {})
   padding: 2rem;
   border-radius: 12px;
   text-decoration: none;
-  color: #fff;
+  color: #1a1a1a;
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
   backdrop-filter: blur(10px);
