@@ -161,7 +161,7 @@ export const prodApiService = {
   },
 
   async removeItemFromMenu(storeId, itemId) {
-    deleteResource(url)
+    deleteResource(`${PROD_URL}/stores/${storeId}/menu/${itemId}`)
   },
 
   async createOrder(storeId, order) {
