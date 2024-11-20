@@ -127,8 +127,8 @@ onMounted(async () => {
             <div>
               <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
               <span class="store-name">{{ store.name }}</span> -
-              <span class="store-contact">{{ store.contact }}</span> -
-              <span class="store-contact">{{ store.address }}</span>
+              <span class="store-contact">{{ store.address }}</span> -
+              <span class="store-contact">{{ store.contact }}</span>
             </div>
           </li>
         </template>
