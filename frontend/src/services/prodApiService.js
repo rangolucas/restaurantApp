@@ -161,7 +161,7 @@ export const prodApiService = {
   },
 
   async removeItemFromMenu(storeId, itemId) {
-    deleteResource(`${PROD_URL}/stores/${storeId}/menu/${itemId}`)
+    await deleteResource(`${PROD_URL}/stores/${storeId}/menu/${itemId}`)
   },
 
   async createOrder(storeId, order) {
@@ -199,18 +199,18 @@ export const prodApiService = {
   },
 
   async markOrderAsReady(storeId, tableId) {
-    modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/ready`)
+    await modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/ready`)
   },
 
   async acceptOrder(storeId, tableId) {
-    modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/accept`)
+    await modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/accept`)
   },
 
   async rejectOrder(storeId, tableId) {
-    modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/reject`)
+    await modifyOrderStatus(`${PROD_URL}/stores/${storeId}/orders/${tableId}/reject`)
   },
 
   async deleteOrder(storeId, tableId) {
-    deleteResource(`${PROD_URL}/stores/${storeId}/orders/${tableId}`)
+    await deleteResource(`${PROD_URL}/stores/${storeId}/orders/${tableId}`)
   },
 }
