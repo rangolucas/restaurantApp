@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { STATES } from '../constants'
 
 const PROD_URL = 'http://localhost:4567'
 
@@ -40,6 +41,28 @@ function adaptStoreToFrontend(store) {
   return frontendStore
 }
 
+function adaptOrderToBackend(order) {
+  const backendOrder = {
+    amountByItem: order.selectedItems,
+    userCoordinates: [order.userLocation.lat, order.userLocation.lng],
+    takeaway: order.takeaway,
+  }
+
+  return backendOrder
+}
+
+function adaptOrderToFrontend(order) {
+  const getStateValue = (order) => STATES[order.state]
+
+  const frontendOrder = {
+    selectedItems: order.amountByItem,
+    state: getStateValue(order),
+    takeaway: order.toTakeAway,
+  }
+
+  return frontendOrder
+}
+
 async function modifyOrderStatus(url) {
   try {
     const response = await axios.put(url)
@@ -67,7 +90,9 @@ export const prodApiService = {
   },
 
   async getOrders(storeId) {
-    return getCollection(`${PROD_URL}/stores/${storeId}/orders`)
+    const orders = await getCollection(`${PROD_URL}/stores/${storeId}/orders`)
+    const adaptedOrders = orders.map(adaptOrderToFrontend)
+    return adaptedOrders
   },
 
   async getMenu(storeId) {
@@ -137,17 +162,24 @@ export const prodApiService = {
     }
   },
 
-  async createOrder(userLocation, storeId, order, takeaway) {
-    const payload = {
-      amountByItem: order,
-      userCoordinates: [userLocation.lat, userLocation.lng],
-      takeaway: takeaway,
+  async createOrder(storeId, order) {
+    const orderObject = adaptOrderToBackend(order)
+
+    try {
+      const response = await axios.post(`${PROD_URL}/stores/${storeId}/orders`, orderObject, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      console.error(
+        'Error creating order:',
+        error.response?.data || error.message,
+      )
+      throw error
     }
-    await axios.post(`${PROD_URL}/stores/${storeId}/orders`, payload, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
   },
 
   async getOrderById(storeId, tableId) {
@@ -155,6 +187,8 @@ export const prodApiService = {
 
     try {
       const response = await axios.get(url)
+      console.log(response.data)
+      adaptOrderToFrontend(response.data)
       return response.data
     } catch (error) {
       console.error('Error while fetching order:', error)

@@ -89,21 +89,21 @@ onMounted(() => {})
 }
 
 .user-button {
-  background-color: rgba(52, 152, 219, 0.2);
+  background-color: rgba(52, 152, 219, 0.6);
   border: 1px solid #3498db;
 }
 
 .user-button:hover {
-  background-color: rgba(52, 152, 219, 0.3);
+  background-color: rgba(52, 152, 219, 0.8);
 }
 
 .business-button {
-  background-color: rgba(46, 204, 113, 0.2);
+  background-color: rgba(46, 204, 113, 0.6);
   border: 1px solid #2ecc71;
 }
 
 .business-button:hover {
-  background-color: rgba(46, 204, 113, 0.3);
+  background-color: rgba(46, 204, 113, 0.8);
 }
 
 .button-icon {
