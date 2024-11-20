@@ -217,11 +217,14 @@ onMounted(async () => {
 }
 
 .store-logo {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   margin-right: 15px;
-  border-radius: 95%;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 
 @media (max-width: 600px) {
   .store-list {
