@@ -37,6 +37,7 @@ reject_order = RejectOrder.new(store_repository)
 mark_order_as_ready = MarkOrderAsReady.new(store_repository)
 delete_order = DeleteOrder.new(store_repository)
 add_item_to_menu = AddItemToMenu.new(store_repository)
+remove_item_from_menu = RemoveItemFromMenu.new(store_repository)
 
 # Customer actions
 get_stores = GetStores.new(store_repository)
@@ -46,7 +47,7 @@ get_menu = GetMenu.new(store_repository)
 
 order_controller = OrderController.new(make_an_order, accept_order, reject_order ,mark_order_as_ready, delete_order, get_order, get_store_orders, codec)
 store_controller = StoreController.new(create_store, get_stores, codec)
-menu_controller = MenuController.new(get_menu, add_item_to_menu, codec)
+menu_controller = MenuController.new(get_menu, add_item_to_menu, remove_item_from_menu, codec)
 
 error JsonFormatError do
   content_type :json
@@ -123,6 +124,14 @@ get '/stores/:store_id/menu' do
   content_type :json
   status :created
   menu_controller.get_menu(store_id)
+end
+
+delete '/stores/:store_id/menu/:item_id' do
+  store_id = params['store_id']
+  item_id = params['item_id']
+  content_type :json 
+  status :ok
+  menu_controller.remove_item(store_id, item_id)
 end
 
 put '/stores/:store_id/orders/:table_id/accept' do
