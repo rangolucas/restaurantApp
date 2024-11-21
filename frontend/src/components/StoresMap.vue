@@ -58,7 +58,10 @@ export default {
                 <p style="color:red;">¡Estás muy lejos <br> para hacer un pedido!</p>
               </div>` :
               `<div>
-                <h6><strong><a href="#/user/${store.id}">${store.name}</a></strong></h6>
+
+                <h6><strong>${store.name}</strong></h6>
+                <h6><strong><a href="#/user/${store.id}">¡Hacé tu pedido!</a></strong></h6>
+
                 <br>${store.address}
                 <br><p>Horarios: ${store.hours}</p>
                 <p>Distancia: ${distance.toFixed(2)} km</p>
@@ -140,6 +143,8 @@ export default {
   margin: 0 auto;
   padding: 20px;
 }
+
+
 
 #map {
   height: 100%;
