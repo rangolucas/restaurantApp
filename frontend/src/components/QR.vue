@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { defineProps } from 'vue'
-import { getApiService } from '../services/getApiService'
-import QRCode from "qrcode"
+import QRCode from 'qrcode'
 
 const props = defineProps({
   url: {
@@ -15,7 +14,7 @@ const qrCanvas = ref(null)
 
 const generateQrCode = async () => {
   if (qrCanvas.value) {
-    QRCode.toCanvas(qrCanvas.value, props.url, { width: 200 }, (error) => {
+    QRCode.toCanvas(qrCanvas.value, props.url, { width: 200 }, error => {
       if (error) {
         console.error('Error generating QR code:', error)
       }
@@ -32,5 +31,4 @@ onMounted(generateQrCode)
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
