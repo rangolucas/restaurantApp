@@ -23,7 +23,6 @@ class MemoryStoreRepository
   def update_store(store)
     if @stores.has_key?(store.id)
       @stores[store.id] = store
-      puts @stores.inspect
       nil
     else
       raise "Store with id '#{store_id}' not found"
