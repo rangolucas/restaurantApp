@@ -30,4 +30,8 @@ class MemoryStoreRepository
       raise "Store with id '#{store_id}' not found"
     end
   end
+
+  def clean
+    initialize
+  end
 end

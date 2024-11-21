@@ -1,5 +1,6 @@
 require './infrastructure/JsonCodec'
 require './infrastructure/controller/MenuController'
+require './infrastructure/controller/MiscController'
 require './infrastructure/controller/StoreController'
 require './infrastructure/controller/OrderController'
 require './infrastructure/memory/MemoryStoreRepository'
@@ -15,6 +16,7 @@ require './action/MakeAnOrder'
 require './action/MarkOrderAsReady'
 require './action/RejectOrder'
 require './action/RemoveItemFromMenu'
+require './action/Reset'
 
 require 'json'
 require 'sinatra'
@@ -32,6 +34,7 @@ store_repository = MemoryStoreRepository.new
 codec = JsonCodec.new
 
 # Admin actions
+reset = Reset.new(store_repository)
 create_store = CreateStore.new(store_repository)
 get_store_orders = GetStoreOrders.new(store_repository)
 accept_order = AcceptOrder.new(store_repository)
@@ -47,6 +50,7 @@ make_an_order = MakeAnOrder.new(store_repository)
 get_order = GetOrderOrMenu.new(store_repository)
 get_menu = GetMenu.new(store_repository)
 
+misc_controller = MiscController.new(reset)
 order_controller = OrderController.new(make_an_order, accept_order, reject_order ,mark_order_as_ready, delete_order, get_order, get_store_orders, codec)
 store_controller = StoreController.new(create_store, get_stores, codec)
 menu_controller = MenuController.new(get_menu, add_item_to_menu, remove_item_from_menu, codec)
@@ -166,4 +170,9 @@ delete '/stores/:store_id/orders/:table_id' do
   content_type :json
   status :ok
   order_controller.delete_order(store_id, table_id)
+end
+
+post '/reset' do
+  status :ok
+  misc_controller.reset
 end
