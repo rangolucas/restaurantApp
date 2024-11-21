@@ -30,6 +30,12 @@ set :allow_headers, 'content-type, authorization, accept'
 set :allow_credentials, true
 set :bind, ENV['SINATRA_HOST'] || '0.0.0.0'
 set :threaded, ENV['SINATRA_THREADED'] == 'true' ? true : false
+set :cookie_options do
+  {
+    :same_site => :none,
+    :secure => ENV['APP_ENV'] == 'production'
+  }
+end
 
 store_repository = MemoryStoreRepository.new
 codec = JsonCodec.new
