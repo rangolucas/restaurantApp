@@ -160,7 +160,7 @@ put '/stores/:store_id/orders/:table_id/ready' do
   order_controller.mark_order_as_ready(store_id, table_id)
 end
 
-delete 'stores/:store_id/orders/:table_id' do
+delete '/stores/:store_id/orders/:table_id' do
   store_id = params['store_id']
   table_id = params['table_id']
   content_type :json
