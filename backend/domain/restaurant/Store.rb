@@ -83,7 +83,7 @@ class Store
   end
 
   def is_close_to(coordinates)
-    @coordinates.distance_to(coordinates, units: :meters) < 1000
+    @coordinates.distance_to(coordinates, units: :meters) < 2000
   end
 
   def accepts_order(amount_by_item)
