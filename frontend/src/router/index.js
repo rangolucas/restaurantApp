@@ -1,9 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import CheckInView from '@/views/CheckInView.vue'
 import HomeView from '@/views/HomeView.vue'
+import RegisterStoreView from '@/views/RegisterStoreView.vue'
 import StoresView from '@/views/StoresView.vue'
+import StoreView from '@/views/StoreView.vue'
+import UserView from '@/views/UserView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -18,22 +22,22 @@ const router = createRouter({
     {
       path: '/stores/:id',
       name: 'store-details',
-      component: () => import('../views/StoreView.vue'),
+      component: StoreView,
     },
     {
       path: '/registerStore',
       name: 'store-register',
-      component: () => import('../views/RegisterStoreView.vue'),
+      component: RegisterStoreView,
     },
     {
       path: '/user',
       name: 'user',
-      component: () => import('../views/UserView.vue'),
+      component: UserView,
     },
     {
       path: '/user/:storeId',
       name: 'user-check-in',
-      component: () => import('../views/CheckInView.vue'),
+      component: CheckInView,
     },
   ],
 })

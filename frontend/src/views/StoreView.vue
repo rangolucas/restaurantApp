@@ -16,7 +16,7 @@ const activeTab = ref(TABS.ORDERS)
 
 const qrCodeUrl = computed(() => {
   const baseUrl = window.location.origin // Current base URL
-  return `${baseUrl}/user/${storeId.value}`
+  return `${baseUrl}/#/user/${storeId.value}`
 })
 
 function setActiveTab(tab) {
