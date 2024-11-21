@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { STATES } from '../constants'
 
-const PROD_URL = 'http://localhost:4567'
+const PROD_URL = process.env.VITE_APP_API_URL || 'http://localhost:4567'
 
 const axiosClient = axios.create({
   withCredentials: true,
