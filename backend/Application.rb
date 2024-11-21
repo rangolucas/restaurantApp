@@ -29,6 +29,7 @@ set :allow_methods, 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS'
 set :allow_headers, 'content-type, authorization, accept'
 set :allow_credentials, true
 set :bind, ENV['SINATRA_HOST'] || '0.0.0.0'
+set :threaded, ENV['SINATRA_THREADED'] == 'true' ? true : false
 
 store_repository = MemoryStoreRepository.new
 codec = JsonCodec.new
