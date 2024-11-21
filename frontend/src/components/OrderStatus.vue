@@ -1,5 +1,7 @@
 <script setup>
-import { STATES } from '../constants'
+import { computed } from 'vue'
+
+import { STATES_USER_MESSAGES } from '../constants'
 
 const props = defineProps({
   order: {
@@ -7,13 +9,27 @@ const props = defineProps({
     required: true,
   },
 })
+
+const chooseStateColor = computed(() => {
+  console.log(props.order.state)
+  switch (props.order.state) {
+    case 'REJECTED':
+      return 'danger'
+    case 'ACCEPTED':
+      return 'info'
+    case 'READY':
+      return 'success'
+    default:
+      return 'primary'
+  }
+})
 </script>
 
 <template>
   <main>
     <div class="order-status">
       <h1>Número de la orden: #{{ order.tableId }}</h1>
-      <h2 class="order-state">{{ STATES[order.state] }}</h2>
+      <h2 :class="['order-state', chooseStateColor]">{{ STATES_USER_MESSAGES[order.state] }}</h2>
     </div>
   </main>
 </template>
@@ -40,18 +56,32 @@ main {
 }
 
 .order-status h1 {
-  color: #333;
   font-size: 1.8em;
   margin-bottom: 15px;
 }
 
 .order-status h2 {
-  color: #4a90e2;
   font-size: 1.5em;
   margin-top: 0;
 }
 
 .order-state {
   font-weight: bold;
+}
+
+.danger {
+  color: #dc3545;
+}
+
+.info {
+  color: #17a2b8;
+}
+
+.success {
+  color: #28a745;
+}
+
+.primary {
+  color: #007bff;
 }
 </style>
