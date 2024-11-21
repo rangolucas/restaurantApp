@@ -160,7 +160,7 @@ onMounted(checkProximity)
             Enviar Pedido
           </button>
           <p v-else class="text-danger">
-            Debes estar cerca para hacer un pedido.
+            El restaurant está muy lejos de tu ubicación. Probá con uno más cerca
           </p>
         </div>
       </form>
