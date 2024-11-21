@@ -59,6 +59,7 @@ function adaptOrderToFrontend(order) {
   const getStateValue = order => STATES[order.state]
 
   const frontendOrder = {
+    tableId: order.tableId,
     selectedItems: order.amountByItem,
     state: getStateValue(order),
     takeaway: order.toTakeAway,

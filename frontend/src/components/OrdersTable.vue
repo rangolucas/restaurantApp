@@ -17,26 +17,26 @@ const storeId = props.storeId
 const orders = ref([])
 const apiService = getApiService()
 
-function acceptOrder(order) {
-  runAndUpdateView(() => apiService.acceptOrder(storeId, order.tableId))
+async function acceptOrder(order) {
+  runAndUpdateView(async () => await apiService.acceptOrder(storeId, order.tableId))
 }
 
-function rejectOrder(order) {
-  runAndUpdateView(() => apiService.rejectOrder(storeId, order.tableId))
+async function rejectOrder(order) {
+  runAndUpdateView(async () => await apiService.rejectOrder(storeId, order.tableId))
 }
 
-function markOrderAsReady(order) {
-  runAndUpdateView(() => apiService.markOrderAsReady(storeId, order.tableId))
+async function markOrderAsReady(order) {
+  runAndUpdateView(async () => await apiService.markOrderAsReady(storeId, order.tableId))
 }
 
-function deleteOrder(order) {
-  runAndUpdateView(() => apiService.deleteOrder(storeId, order.tableId))
+async function deleteOrder(order) {
+  runAndUpdateView(async () => await apiService.deleteOrder(storeId, order.tableId))
 }
 
-function runAndUpdateView(action) {
+async function runAndUpdateView(action) {
   loading.value = true
-  action()
-  updateView()
+  await action()
+  await updateView()
 }
 
 async function updateView() {

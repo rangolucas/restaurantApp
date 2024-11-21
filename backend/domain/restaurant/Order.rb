@@ -1,8 +1,8 @@
 class Order
   attr_reader :state, :table_id, :amount_by_item, :to_take_away
 
-  def initialize(table_id, amount_by_item, takeaway)
-    @state = :Pending
+  def initialize(table_id, amount_by_item, takeaway, state = :Pending)
+    @state = state
     @table_id = table_id
     @amount_by_item = amount_by_item
     @takeaway = takeaway
@@ -33,6 +33,6 @@ class Order
   end
 
   def copy
-    Order.new(@table_id, @amount_by_item, @takeaway)
+    Order.new(@table_id, @amount_by_item, @takeaway, @state)
   end
 end

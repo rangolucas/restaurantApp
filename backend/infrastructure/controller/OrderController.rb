@@ -7,7 +7,7 @@ class OrderController
     @get_store_orders_action = get_store_orders_action
     @accept_order_action = accept_order_action
     @reject_order_action = reject_order_action
-    @make_order_as_ready_action = mark_order_as_ready_action
+    @mark_order_as_ready_action = mark_order_as_ready_action
     @delete_order_action = delete_order_action
     @codec = codec
   end
