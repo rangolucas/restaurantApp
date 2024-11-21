@@ -33,7 +33,7 @@ set :threaded, ENV['SINATRA_THREADED'] == 'true' ? true : false
 set :cookie_options do
   {
     :same_site => :none,
-    :secure => ENV['APP_ENV'] == 'production'
+    :secure => true
   }
 end
 

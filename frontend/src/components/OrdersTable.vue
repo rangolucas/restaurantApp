@@ -58,6 +58,7 @@ onMounted(updateView)
         <LoadingSpinner />
       </div>
       <table v-if="!loading && orders.length > 0" class="orders-table">
+
         <thead>
           <tr>
             <th>Mesa</th>
@@ -118,6 +119,7 @@ onMounted(updateView)
           </tr>
         </tbody>
       </table>
+      <h3 v-else>No hay pedidos</h3>
     </div>
   </div>
 </template>
