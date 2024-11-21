@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getApiService } from '../services/getApiService'
 import { DISTANCE_THRESHOLD } from '../constants'
@@ -28,17 +28,17 @@ function getUserLocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           userLocation.value = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
           resolve()
         },
-        (error) => {
+        error => {
           console.error('Error getting user location:', error)
           reject(error)
-        }
+        },
       )
     } else {
       console.error('Geolocation is not supported by this browser.')
@@ -48,7 +48,7 @@ function getUserLocation() {
 }
 
 const calculateDistance = (lat1, lng1, lat2, lng2) => {
-  return (Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2))) * 100;
+  return Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2)) * 100
 }
 
 async function getStore(storeId) {
@@ -65,7 +65,7 @@ async function checkProximity() {
       userLocation.value.lat,
       userLocation.value.lng,
       store.lat,
-      store.lng
+      store.lng,
     )
     isCloseEnough.value = distance <= DISTANCE_THRESHOLD
   } catch (error) {
@@ -73,15 +73,15 @@ async function checkProximity() {
   }
 }
 
-function incrementQuantity(itemName) {
-  selectedItems.value[itemName] = (selectedItems.value[itemName] || 0) + 1
+function incrementQuantity(itemId) {
+  selectedItems.value[itemId] = (selectedItems.value[itemId] || 0) + 1
 }
 
-function decrementQuantity(itemName) {
-  if (selectedItems.value[itemName] > 0) {
-    selectedItems.value[itemName] -= 1
+function decrementQuantity(itemId) {
+  if (selectedItems.value[itemId] > 1) {
+    selectedItems.value[itemId] -= 1
   } else {
-    delete selectedItems.value[itemName]
+    delete selectedItems.value[itemId]
   }
 }
 
@@ -97,6 +97,10 @@ async function handleSubmit() {
   loadingSubmit.value = false
   await props.checkIn()
 }
+
+const anyItemsSelected = computed(() => {
+  return Object.keys(selectedItems.value).length === 0
+})
 
 onMounted(checkProximity)
 </script>
@@ -151,6 +155,7 @@ onMounted(checkProximity)
             v-if="isCloseEnough"
             type="submit"
             class="btn btn-primary"
+            :disabled="anyItemsSelected"
           >
             Enviar Pedido
           </button>
