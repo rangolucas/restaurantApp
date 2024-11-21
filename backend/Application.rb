@@ -177,3 +177,7 @@ post '/reset' do
   status :ok
   misc_controller.reset
 end
+
+get '/health' do
+  status :ok
+end
