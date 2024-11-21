@@ -20,7 +20,17 @@ class MemoryStoreRepository
     new_store.copy
   end
 
-  def update_store(store_id, update_store_action)
+  def update_store(store)
+    if @stores.has_key?(store.id)
+      @stores[store.id] = store
+      puts @stores.inspect
+      nil
+    else
+      raise "Store with id '#{store_id}' not found"
+    end
+  end
+
+  def update_store_with_id(store_id, update_store_action)
     if @stores.has_key?(store_id)
       store = fetch_by_id(store_id)
       update_store_action.call(store)

@@ -8,7 +8,7 @@ class AddItemToMenu
     if store.has_item_in_menu?(item_name)
       false
     else
-      @store_repository.update_store(
+      @store_repository.update_store_with_id(
         store_id,
         -> (store) { store.add_item(item_name, item_price) }
       )

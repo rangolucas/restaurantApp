@@ -18,7 +18,7 @@ class MakeAnOrder
   private
 
   def register_order(store_id, table_id, amount_by_item, takeaway)
-    @store_repository.update_store(
+    @store_repository.update_store_with_id(
         store_id,
         -> (saved_store) { saved_store.register_order(table_id, amount_by_item, takeaway) }
       )
