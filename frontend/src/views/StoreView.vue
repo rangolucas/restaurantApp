@@ -48,9 +48,12 @@ function setActiveTab(tab) {
     <OrdersTable v-if="activeTab === TABS.ORDERS" :storeId="storeId" />
     <MenuEditor v-if="activeTab === TABS.MENU" :storeId="storeId" />
 
+    <h4 class="qr-message">Escanea el QR para hacer un pedido</h4>
     <div class="qr-container">
       <QrCode :url="qrCodeUrl" class="qrcode" />
     </div>
+
+
   </div>
 </template>
 
@@ -101,8 +104,10 @@ body {
   margin-top: 20px;
 }
 
-.qrcode {
-  border: 2px solid #ddd;
-  padding: 10px;
+.qr-message {
+  padding-top: 20px;
+  text-align: center;
 }
+
+
 </style>

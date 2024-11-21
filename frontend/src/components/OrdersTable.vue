@@ -57,12 +57,12 @@ onMounted(updateView)
       <div v-if="loading" class="spinner-wrapper">
         <LoadingSpinner />
       </div>
-      <table v-if="!loading" class="orders-table">
+      <table v-if="!loading && orders.length > 0" class="orders-table">
         <thead>
           <tr>
             <th>Mesa</th>
             <th>Estado del pedido</th>
-            <th></th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +73,7 @@ onMounted(updateView)
               <button
                 v-if="order.state === STATES.PENDING"
                 @click="acceptOrder(order)"
-                class="btn btn-primary"
+                class="btn btn-success"
               >
                 <img
                   src="@/assets/thumbs-up.svg"
@@ -84,7 +84,7 @@ onMounted(updateView)
               <button
                 v-if="order.state === STATES.PENDING"
                 @click="rejectOrder(order)"
-                class="btn btn-primary"
+                class="btn btn-secondary"
               >
                 <img
                   src="@/assets/thumbs-down.svg"
@@ -95,7 +95,7 @@ onMounted(updateView)
               <button
                 v-if="order.state === STATES.ACCEPTED"
                 @click="markOrderAsReady(order)"
-                class="btn btn-primary"
+                class="btn btn-info"
               >
                 <img
                   src="@/assets/delivered.svg"
@@ -106,7 +106,7 @@ onMounted(updateView)
               <button
                 v-if="order.state === STATES.READY || order.state === STATES.REJECTED"
                 @click="deleteOrder(order)"
-                class="btn btn-primary"
+                class="btn btn-danger"
               >
                 <img
                   src="@/assets/trash.svg"

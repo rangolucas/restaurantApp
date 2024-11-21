@@ -77,10 +77,10 @@ onMounted(updateView)
         </li>
       </ul>
 
-      <form @submit.prevent="addItem" class="mb-4">
+      <form @submit.prevent="addItem" class="mb-4" id="agregarProducto">
         <h4>Agregar un producto</h4>
         <div class="mb-3">
-          <label for="itemName" class="form-label">Nombre del producto</label>
+          <label for="itemName" class="form-label">Nombre</label>
           <input
             v-model="itemName"
             type="text"
@@ -106,6 +106,10 @@ onMounted(updateView)
 </template>
 
 <style scoped>
+
+#agregarProducto {
+  padding: 10px;
+}
 .menu-view {
   padding: 20px;
   font-size: 16px;

@@ -1,10 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 
-const router = useRoute()
-
-onMounted(() => {})
 </script>
 
 <template>

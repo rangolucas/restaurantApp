@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { getApiService } from '../services/getApiService'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
 import Menu from '../components/Menu.vue'

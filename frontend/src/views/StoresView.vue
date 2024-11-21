@@ -28,18 +28,21 @@ onMounted(loadStores)
 <template>
   <div class="stores">
     <div class="store-list">
-      <h1>Seleccionar local</h1>
-      <ul v-if="!loading">
-        <li v-for="store in stores" :key="store.id">
-          <router-link :to="`/stores/${store.id}`">
-            <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
-            <span class="store-name">{{ store.name }}</span> -
-            <span class="store-contact">{{ store.address }}</span> -
-            <span class="store-contact">{{ store.contact }}</span>
+      <div v-if="!loading">
+        <h1 v-if="stores.length > 0">Seleccionar local</h1>
+        <h1 v-else>No hay locales registrados</h1>
+        <ul>
+          <li v-for="store in stores" :key="store.id">
+            <router-link :to="`/stores/${store.id}`">
+              <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
+              <span class="store-name">{{ store.name }}</span> -
+              <span class="store-contact">{{ store.address }}</span> -
+              <span class="store-contact">{{ store.contact }}</span>
 
-          </router-link>
-        </li>
-      </ul>
+            </router-link>
+          </li>
+        </ul>
+      </div>
       <LoadingSpinner v-else />
     </div>
     <button class="buttonRegisterStore" v-on:click="goToRegisterStore">

@@ -1,5 +1,5 @@
 <script setup>
-import { toRaw, ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { getApiService } from '../services/getApiService'
 import StoresMap from '@/components/StoresMap.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
@@ -82,7 +82,6 @@ const hasFarStores = computed(() => {
 
 onMounted(async () => {
   await getUserLocation()
-  //console.log(toRaw(location))
   loadStores()
 })
 </script>
@@ -108,8 +107,8 @@ onMounted(async () => {
             >
               <img :src="`${store.logo}`" alt="Logo" class="store-logo" />
               <span class="store-name">{{ store.name }}</span> -
-              <span class="store-contact">{{ store.contact }}</span> -
-              <span class="store-contact">{{ store.address }}</span>
+              <span class="store-contact">{{ store.address }}</span> -
+              <span class="store-contact">{{ store.contact }}</span>
             </router-link>
           </li>
         </template>

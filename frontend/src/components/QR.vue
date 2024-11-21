@@ -14,7 +14,7 @@ const qrCanvas = ref(null)
 
 const generateQrCode = async () => {
   if (qrCanvas.value) {
-    QRCode.toCanvas(qrCanvas.value, props.url, { width: 200 }, error => {
+    QRCode.toCanvas(qrCanvas.value, props.url, { width: 300 }, error => {
       if (error) {
         console.error('Error generating QR code:', error)
       }
