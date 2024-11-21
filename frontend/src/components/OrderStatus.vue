@@ -11,7 +11,6 @@ const props = defineProps({
 })
 
 const chooseStateColor = computed(() => {
-  console.log(props.order.state)
   switch (props.order.state) {
     case 'REJECTED':
       return 'danger'
