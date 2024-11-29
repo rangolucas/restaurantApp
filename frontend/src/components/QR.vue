@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { defineProps } from 'vue'
 import QRCode from 'qrcode'
 
 const props = defineProps({

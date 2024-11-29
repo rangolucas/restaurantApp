@@ -42,7 +42,7 @@ function handleFileChange(event) {
 
 onMounted(() => {
   const loader = new Loader({
-    apiKey: 'AIzaSyDgRY5NQGY3JwSGdpM8HMzLKBuZc9OqI2E',
+    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
     version: 'weekly',
     libraries: ['places', 'marker'],
   })
